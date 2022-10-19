@@ -14,4 +14,7 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: crisboard
+    shield: crisboard_left
+    
+  - board: nice_nano_v2
+    shield: crisboard_right
