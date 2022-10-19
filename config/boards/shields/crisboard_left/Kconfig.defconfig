@@ -1,0 +1,26 @@
+if SHIELD_CRISBOARD_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Crisboard Left"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+
+
+if SHIELD_CRISBOARD_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Crisboard Right"
+
+endif
+
+
+if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif
