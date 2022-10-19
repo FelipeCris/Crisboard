@@ -1,6 +1,6 @@
 / {
 
-    model = "Crisboard"
+    model = "Crisboard";
 
     chosen {
         zmk,kscan = &kscan0;
