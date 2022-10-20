@@ -3,3 +3,21 @@
     ch0-pin = <1>;
     /* ch0-inverted; */
 };
+
+/ {
+    backlight: pwmleds {
+        compatible = "pwm-leds";
+        label = "Backlight LEDs";
+        pwm_led_0 {
+            pwms = <&pwm0 1>;
+            label = "Backlight LED 0";
+        };
+    };
+};
+
+
+/ {
+    chosen {
+        zmk,backlight = &backlight;
+    };
+};
