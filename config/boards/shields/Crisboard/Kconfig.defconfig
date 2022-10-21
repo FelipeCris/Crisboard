@@ -23,6 +23,17 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
 config ZMK_SPLIT
     default y
 
+config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
+    default y
+config ZMK_RGB_UNDERGLOW_HUE_STEP
+    default 5
+config ZMK_RGB_UNDERGLOW_BRT_STEP
+    default 5
+config ZMK_RGB_UNDERGLOW_HUE_START
+    default 127
+CONFIG_ZMK_RGB_UNDERGLOW_BRT_START
+    default 50
+
 if ZMK_DISPLAY
 
 config I2C
