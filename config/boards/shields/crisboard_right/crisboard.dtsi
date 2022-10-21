@@ -9,7 +9,7 @@
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
-        zmk,backlight = &backlight;
+        zmk,underglow = &led_strip;
     };
 
 
@@ -53,22 +53,6 @@ RC(4,0)  RC(4,1)  RC(4,2)  RC(4,3)  RC(4,4)  RC(4,5)  RC(4,6)       RC(4,7)  RC(
     };
 
 
-    backlight: pwmleds {
-        compatible = "pwm-leds";
-        label = "Backlight LEDs";
-        pwm_led_0 {
-            pwms = <&pwm0 6>;
-            label = "Backlight LED 0";
-        };
-    };
-
-};
-
-
-&pwm0 {
-    status = "okay";
-    ch0-pin = <6>;
-    /* ch0-inverted; */
 };
 
 
