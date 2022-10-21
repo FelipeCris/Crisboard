@@ -1,97 +1,99 @@
 if SHIELD_CRISBOARD_LEFT
 
-config ZMK_KEYBOARD_NAME
-    default "Crisboard Custom"
+    config ZMK_SPLIT
+        default y
 
-config ZMK_SPLIT_ROLE_CENTRAL
-    default y
+    config ZMK_KEYBOARD_NAME
+        default "Crisboard Custom"
 
-config ZMK_RGB_UNDERGLOW_ON_START
-    default y
-
-endif
-
-
-
-if SHIELD_CRISBOARD_RIGHT
-
-config ZMK_KEYBOARD_NAME
-    default "Crisboard Right"
-
-config ZMK_SPLIT_ROLE_CENTRAL
-    default y
-
-config ZMK_RGB_UNDERGLOW_ON_START
-    default y    
+    config ZMK_SPLIT_ROLE_CENTRAL
+        default y
 
 endif
+
+
 
 
 if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
+    
 
-config ZMK_SPLIT
-    default y
-
-config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
-    default y
-config ZMK_RGB_UNDERGLOW_HUE_STEP
-    default 5
-config ZMK_RGB_UNDERGLOW_BRT_STEP
-    default 5
-config ZMK_RGB_UNDERGLOW_HUE_START
-    default 127
-config ZMK_RGB_UNDERGLOW_BRT_START
-    default 100
-config ZMK_RGB_UNDERGLOW_SPD_START
-    default 2
-config ZMK_RGB_UNDERGLOW_EFF_START
-    default 0
+    config ZMK_SPLIT
+        default y
 
 
-config ZMK_IDLE_TIMEOUT
-    default 250000
 
-config ZMK_SLEEP
-    default Y
+    config ZMK_RGB_UNDERGLOW_ON_START
+        default y
 
-config ZMK_IDLE_SLEEP_TIMEOUT
-    default 900000
+    config ZMK_RGB_UNDERGLOW_EXT_POWER
+        default n
+
+    config ZMK_RGB_UNDERGLOW_AUTO_OFF_USB
+        default n
+
+    config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
+        default n
+
+    config ZMK_RGB_UNDERGLOW_HUE_STEP
+        default 5
+
+    config ZMK_RGB_UNDERGLOW_BRT_STEP
+        default 5
+
+    config ZMK_RGB_UNDERGLOW_HUE_START
+        default 127
+
+    config ZMK_RGB_UNDERGLOW_BRT_START
+        default 100
+
+    config ZMK_RGB_UNDERGLOW_SPD_START
+        default 3
+
+    config ZMK_RGB_UNDERGLOW_EFF_START
+        default 2
+
+    config ZMK_IDLE_TIMEOUT
+        default 10000
 
 
-if ZMK_DISPLAY
+    config ZMK_IDLE_SLEEP_TIMEOUT
+        default 200000    
 
-config I2C
-    default y
 
-config SSD1306
-    default y
+    if ZMK_DISPLAY
 
-config SSD1306_REVERSE_MODE
-    default y
+        config I2C
+            default y
 
-endif # ZMK_DISPLAY
+        config SSD1306
+            default y
 
-if LVGL
+        config SSD1306_REVERSE_MODE
+            default y
 
-config LVGL_HOR_RES_MAX
-    default 128
+    endif # ZMK_DISPLAY
 
-config LVGL_VER_RES_MAX
-    default 32
+    if LVGL
 
-config LVGL_VDB_SIZE
-    default 64
+        config LVGL_HOR_RES_MAX
+            default 128
 
-config LVGL_DPI
-    default 148
+        config LVGL_VER_RES_MAX
+            default 32
 
-config LVGL_BITS_PER_PIXEL
-    default 1
+        config LVGL_VDB_SIZE
+            default 64
 
-choice LVGL_COLOR_DEPTH
-    default LVGL_COLOR_DEPTH_1
-endchoice
+        config LVGL_DPI
+            default 148
 
-endif # LVGL
+        config LVGL_BITS_PER_PIXEL
+            default 1
+
+        choice LVGL_COLOR_DEPTH
+            default LVGL_COLOR_DEPTH_1
+        endchoice
+
+    endif # LVGL
 
 endif
