@@ -30,7 +30,7 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
         default y
 
     config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
-        default y
+        default n
     config ZMK_RGB_UNDERGLOW_HUE_STEP
         default 5
     config ZMK_RGB_UNDERGLOW_BRT_STEP
@@ -49,7 +49,7 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
 
 
     config ZMK_IDLE_SLEEP_TIMEOUT
-        default 100000
+        default 200000
 
 
     if ZMK_DISPLAY
