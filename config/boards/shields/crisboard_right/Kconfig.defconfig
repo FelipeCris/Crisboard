@@ -9,6 +9,19 @@ if SHIELD_CRISBOARD_LEFT
     config ZMK_SPLIT_ROLE_CENTRAL
         default y
 
+endif
+
+
+
+
+if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
+    
+
+    config ZMK_SPLIT
+        default y
+
+
+
     config ZMK_RGB_UNDERGLOW_ON_START
         default y
 
@@ -45,32 +58,6 @@ if SHIELD_CRISBOARD_LEFT
 
     config ZMK_IDLE_SLEEP_TIMEOUT
         default 200000    
-
-endif
-
-
-
-if SHIELD_CRISBOARD_RIGHT
-    
-    config ZMK_SPLIT
-        default y
-
-    config ZMK_KEYBOARD_NAME
-        default "Crisboard Right"
-
-    config ZMK_RGB_UNDERGLOW_ON_START
-        default y  
-
-    config ZMK_SPLIT_ROLE_CENTRAL
-        default n  
-
-endif
-
-
-if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
-    config ZMK_SPLIT
-        default y
-
 
 
     if ZMK_DISPLAY
