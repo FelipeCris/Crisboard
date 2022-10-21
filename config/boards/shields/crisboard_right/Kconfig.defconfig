@@ -42,7 +42,7 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
     config ZMK_RGB_UNDERGLOW_SPD_START
         default 2
     config ZMK_RGB_UNDERGLOW_EFF_START
-        default 0
+        default 2
 
     config ZMK_IDLE_TIMEOUT
         default 10000
