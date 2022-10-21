@@ -6,9 +6,6 @@ if SHIELD_CRISBOARD_LEFT
     config ZMK_SPLIT_ROLE_CENTRAL
         default y
 
-    config ZMK_RGB_UNDERGLOW_ON_START
-        default y
-
 endif
 
 
@@ -16,10 +13,7 @@ endif
 if SHIELD_CRISBOARD_RIGHT
 
     config ZMK_KEYBOARD_NAME
-        default "Crisboard Right"
-
-    config ZMK_RGB_UNDERGLOW_ON_START
-        default y    
+        default "Crisboard Right"   
 
 endif
 
