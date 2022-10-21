@@ -53,7 +53,10 @@ if SHIELD_CRISBOARD_RIGHT
         default "Crisboard Right"
 
     config ZMK_RGB_UNDERGLOW_ON_START
-        default y    
+        default y  
+
+    config ZMK_SPLIT_ROLE_CENTRAL
+        default n  
 
 endif
 
