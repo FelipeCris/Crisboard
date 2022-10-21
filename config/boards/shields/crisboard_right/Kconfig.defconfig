@@ -6,6 +6,9 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
+config ZMK_RGB_UNDERGLOW_ON_START
+    default y
+
 endif
 
 
@@ -14,6 +17,9 @@ if SHIELD_CRISBOARD_RIGHT
 
 config ZMK_KEYBOARD_NAME
     default "Crisboard Right"
+
+config ZMK_RGB_UNDERGLOW_ON_START
+    default y    
 
 endif
 
@@ -36,9 +42,7 @@ config ZMK_RGB_UNDERGLOW_BRT_START
 config ZMK_RGB_UNDERGLOW_SPD_START
     default 2
 config ZMK_RGB_UNDERGLOW_EFF_START
-    default 1
-config ZMK_RGB_UNDERGLOW_ON_START
-    default y
+    default 0
 
 
 config ZMK_IDLE_TIMEOUT
