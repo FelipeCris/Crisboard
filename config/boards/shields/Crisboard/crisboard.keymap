@@ -19,16 +19,17 @@
                 compatible = "zmk,keymap";
 
                 default_layer {
- //
- // QWERTY
+
+//
+ // COLEMAK
  // ,-----------------------------------------.                    ,----------------------------------------.
  // | ESC  |   1  |   2  |   3  |   4  |   5  |                   |   6  |   7  |   8  |   9  |   0  |  DEL |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // | CAPS |   Q  |   W  |   E  |   R  |   T  |  |°  |    |  +*   |   Y  |   U  |   I  |   O  |   P  | BSPC |
+ // | CAPS |   Q  |   W  |   F  |   P  |   G  |      |    |  +*   |   J  |   L  |   U  |   Y  |   Ñ  | BSPC |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // | Tab  |   A  |   S  |   D  |   F  |   G  |      |    |  RAlt |   H  |   J  |   K  |   L  |   Ñ  |  ´   |
+ // | Tab  |   A  |   R  |   S  |   T  |   D  |      |    |       |   H  |   N  |   E  |   I  |   O  |  ´   |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // |LShift|  <>  |   Z  |   X  |   C  |   V  |  :.  |    | ENTER |   B  |   N  |   M  |   -  |  UP  |  '?  |
+ // |LShift|  <>  |   Z  |   X  |   C  |   V  |  :.  |    | ENTER |   B  |   K  |   M  |   -  |  UP  |  '?  |
  // |-----------------------------------------|-------    --------|-----------------------------------------|
  // | LCTR |  WIN | KC_NO| LALT |  ,;  |  SPC | HOME |    |  END  |  SPC |   {  |   }  | LEFT | DOWN | RIGHT|
  //  -------------------------------------------------    ---------------------------------------------------
@@ -37,10 +38,11 @@
 
                         bindings = <
     &kp ESC        &kp N1      &kp N2      &kp N3      &kp N4     &kp N5                                &kp N6    &kp N7     &kp N8      &kp N9     &kp N0     &kp DEL
-    &kp CAPS       &kp Q       &kp W       &kp E       &kp R      &kp T       &kp GRAVE       &kp RBKT  &kp Y     &kp U      &kp I       &kp O      &kp P      &kp BSPC
-    &kp TAB        &kp A       &kp S       &kp D       &kp F      &kp G       &trans          &kp RALT  &kp H     &kp J      &kp K       &kp L      &kp SEMI   &kp LBKT
-    &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp N      &kp M       &kp FSLH   &kp UP     &kp MINUS
+    &kp CAPS       &kp Q       &kp W       &kp F       &kp P      &kp G       &kp GRAVE       &kp RBKT  &kp J     &kp L      &kp U       &kp Y      &kp SEMI   &kp BSPC
+    &kp TAB        &kp A       &kp R       &kp S       &kp T      &kp D       &trans          &kp RALT  &kp H     &kp N      &kp E       &kp I      &kp O      &kp LBKT
+    &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp K      &kp M       &kp FSLH   &kp UP     &kp MINUS
     &kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp DOT    &kp COMMA   &kp HOME        &kp END   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
+
                         >;
                 };
 
@@ -79,15 +81,15 @@
 
                 rise_layer {
  //
- // COLEMAK
+ // QWERTY
  // ,-----------------------------------------.                    ,----------------------------------------.
  // | ESC  |   1  |   2  |   3  |   4  |   5  |                   |   6  |   7  |   8  |   9  |   0  |  DEL |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // | CAPS |   Q  |   W  |   F  |   P  |   G  |      |    |  +*   |   J  |   L  |   U  |   Y  |   Ñ  | BSPC |
+ // | CAPS |   Q  |   W  |   E  |   R  |   T  |  |°  |    |  +*   |   Y  |   U  |   I  |   O  |   P  | BSPC |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // | Tab  |   A  |   R  |   S  |   T  |   D  |      |    |       |   H  |   N  |   E  |   I  |   O  |  ´   |
+ // | Tab  |   A  |   S  |   D  |   F  |   G  |      |    |  RAlt |   H  |   J  |   K  |   L  |   Ñ  |  ´   |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // |LShift|  <>  |   Z  |   X  |   C  |   V  |  :.  |    | ENTER |   B  |   K  |   M  |   -  |  UP  |  '?  |
+ // |LShift|  <>  |   Z  |   X  |   C  |   V  |  :.  |    | ENTER |   B  |   N  |   M  |   -  |  UP  |  '?  |
  // |-----------------------------------------|-------    --------|-----------------------------------------|
  // | LCTR |  WIN | KC_NO| LALT |  ,;  |  SPC | HOME |    |  END  |  SPC |   {  |   }  | LEFT | DOWN | RIGHT|
  //  -------------------------------------------------    ---------------------------------------------------
@@ -96,9 +98,9 @@
 
                         bindings = <
     &kp ESC        &kp N1      &kp N2      &kp N3      &kp N4     &kp N5                                &kp N6    &kp N7     &kp N8      &kp N9     &kp N0     &kp DEL
-    &kp CAPS       &kp Q       &kp W       &kp F       &kp P      &kp G       &kp GRAVE       &kp RBKT  &kp J     &kp L      &kp U       &kp Y      &kp SEMI   &kp BSPC
-    &kp TAB        &kp A       &kp R       &kp S       &kp T      &kp D       &trans          &kp RALT  &kp H     &kp N      &kp E       &kp I      &kp O      &kp LBKT
-    &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp K      &kp M       &kp FSLH   &kp UP     &kp MINUS
+    &kp CAPS       &kp Q       &kp W       &kp E       &kp R      &kp T       &kp GRAVE       &kp RBKT  &kp Y     &kp U      &kp I       &kp O      &kp P      &kp BSPC
+    &kp TAB        &kp A       &kp S       &kp D       &kp F      &kp G       &trans          &kp RALT  &kp H     &kp J      &kp K       &kp L      &kp SEMI   &kp LBKT
+    &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp N      &kp M       &kp FSLH   &kp UP     &kp MINUS
     &kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp DOT    &kp COMMA   &kp HOME        &kp END   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
                         >;
                 };
