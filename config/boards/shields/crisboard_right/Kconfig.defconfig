@@ -59,8 +59,6 @@ endchoice
 
 endif # LVGL
 
-endif
-
 
 if ZMK_BACKLIGHT
 
@@ -71,3 +69,6 @@ config LED_PWM
     default y
 
 endif # ZMK_BACKLIGHT
+
+endif
+
