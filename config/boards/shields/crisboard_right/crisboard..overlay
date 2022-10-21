@@ -53,3 +53,8 @@ RC(4,1)  RC(4,2)  RC(4,3)  RC(4,4)  RC(4,5)  RC(4,6)  RC(4,7)       RC(4,8)  RC(
 
 };
 
+&pwm0 {
+    status = "okay";
+    ch0-pin = <06>;
+    /* ch0-inverted; */
+};
