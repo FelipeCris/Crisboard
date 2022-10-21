@@ -49,7 +49,7 @@ config ZMK_RGB_UNDERGLOW_EFF_START
 
 
 config ZMK_IDLE_TIMEOUT
-    default 250000
+    default 500000
 
 config ZMK_SLEEP
     default Y
