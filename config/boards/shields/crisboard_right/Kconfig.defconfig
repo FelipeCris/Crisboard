@@ -9,19 +9,30 @@ if SHIELD_CRISBOARD_LEFT
     config ZMK_RGB_UNDERGLOW_ON_START
         default y
 
+    config ZMK_RGB_UNDERGLOW_EXT_POWER
+        default n
+
+    config ZMK_RGB_UNDERGLOW_AUTO_OFF_USB
+        default n
 
     config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
         default n
+
     config ZMK_RGB_UNDERGLOW_HUE_STEP
         default 5
+
     config ZMK_RGB_UNDERGLOW_BRT_STEP
         default 5
+
     config ZMK_RGB_UNDERGLOW_HUE_START
         default 127
+
     config ZMK_RGB_UNDERGLOW_BRT_START
         default 100
+
     config ZMK_RGB_UNDERGLOW_SPD_START
         default 3
+
     config ZMK_RGB_UNDERGLOW_EFF_START
         default 2
 
