@@ -32,7 +32,7 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
         default n
 
     config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
-        default y
+        default n
 
     config ZMK_RGB_UNDERGLOW_HUE_STEP
         default 5
