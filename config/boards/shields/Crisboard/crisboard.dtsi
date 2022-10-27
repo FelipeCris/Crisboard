@@ -62,7 +62,7 @@ RC(4,0)  RC(4,1)  RC(4,2)  RC(4,3)  RC(4,4)  RC(4,5)  RC(4,6)       RC(4,7)  RC(
     status = "okay";
 
     ssd1306: oled@3c{
-        compatible = "solomon,ssd1306fb-i2c";
+        compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
         label = "DISPLAY";
         width = <128>;
