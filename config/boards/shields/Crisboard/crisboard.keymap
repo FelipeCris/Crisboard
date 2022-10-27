@@ -43,6 +43,8 @@
     &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp K      &kp M       &kp FSLH   &kp UP     &kp MINUS
     &kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp COMMA  &kp LBKT   &kp HOME         &mo 1   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
 
+    //&kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp COMMA  &kp LBKT   &kp HOME         &mo 1   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
+
                         >;
                 };
 
