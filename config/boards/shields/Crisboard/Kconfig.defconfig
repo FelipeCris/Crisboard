@@ -54,10 +54,10 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
         default 127
 
     config ZMK_RGB_UNDERGLOW_BRT_START
-        default 80
+        default 60
 
     config ZMK_RGB_UNDERGLOW_BRT_MAX
-        default 80
+        default 60
 
     config ZMK_RGB_UNDERGLOW_SPD_START
         default 3
