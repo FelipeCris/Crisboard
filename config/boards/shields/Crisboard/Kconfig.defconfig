@@ -65,12 +65,8 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
     config ZMK_RGB_UNDERGLOW_EFF_START
         default 2
 
-    config ZMK_IDLE_TIMEOUT
-        default 10000
 
 
-    config ZMK_IDLE_SLEEP_TIMEOUT
-        default 200000    
 
 
     if ZMK_DISPLAY
