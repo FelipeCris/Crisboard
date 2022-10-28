@@ -1,11 +1,13 @@
-manifest:
+    manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: okke-formsma
+      url-base: https://github.com/Xoffio/
   projects:
     - name: zmk
-      remote: zmkfirmware
-      revision: main
+      remote: okke-formsma
+      revision: xo-status-fx
       import: app/west.yml
   self:
     path: config
