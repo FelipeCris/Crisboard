@@ -33,7 +33,7 @@ if SHIELD_CRISBOARD_LEFT || SHIELD_CRISBOARD_RIGHT
 
 
     config ZMK_RGB_UNDERGLOW_ON_START
-        default n
+        default y
 
     config ZMK_RGB_UNDERGLOW_EXT_POWER
         default n
