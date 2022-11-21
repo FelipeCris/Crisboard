@@ -27,11 +27,11 @@
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
  // | CAPS |   Q  |   W  |   F  |   P  |   G  |      |    |  +*   |   J  |   L  |   U  |   Y  |   Ñ  | BSPC |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
- // | Tab  |   A  |   R  |   S  |   T  |   D  |      |    |       |   H  |   N  |   E  |   I  |   O  |  ´   |
+ // | Tab  |   A  |   R  |   S  |   T  |   D  |      |    |       |   H  |   N  |   E  |   I  |   O  |  .:  |
  // |------+------+------+------+------+------|-------    --------|------+------+------+------+------+------|
  // |LShift|  <>  |   Z  |   X  |   C  |   V  |  SPC |    | ENTER |   B  |   K  |   M  |   -  |  UP  |  '?  |
  // |-----------------------------------------|-------    --------|-----------------------------------------|
- // | LCTR |  FN  | WIN  | LALT |  ,;  |  .:  | HOME |    |  END  |  SPC |   {  |   }  | LEFT | DOWN | RIGHT|
+ // | LCTR |  FN  | WIN  | LALT |  ´¨  |  ,;  | HOME |    |  END  |  SPC |   {  |   }  | LEFT | DOWN | RIGHT|
  //  -------------------------------------------------    ---------------------------------------------------
  //
 
@@ -41,7 +41,7 @@
     &kp CAPS       &kp Q       &kp W       &kp F       &kp P      &kp G       &kp GRAVE       &kp RBKT  &kp J     &kp L      &kp U       &kp Y      &kp SEMI   &kp BSPC
     &kp TAB        &kp A       &kp R       &kp S       &kp T      &kp D       &trans          &kp RALT  &kp H     &kp N      &kp E       &kp I      &kp O      &kp DOT
     &kp LSHFT      &kp NUBS    &kp Z       &kp X       &kp C      &kp V       &kp SPACE       &kp ENTER &kp B     &kp K      &kp M       &kp FSLH   &kp UP     &kp MINUS
-    &kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp COMMA  &kp LBKT    &kp HOME        &kp END   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
+    &kp LCTRL      &mo 1       &kp LWIN    &kp LALT    &kp LBKT   &kp COMMA   &kp HOME        &kp END   &kp SPACE &kp APOS   &kp BSLH    &kp LEFT   &kp DOWN   &kp RIGHT
 
                         >;
                 };
