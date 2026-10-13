@@ -1,9 +1,6 @@
 name: QMK USB
 
 on:
-  push:
-    branches: [archive/qmk-usb]
-    paths: [qmk/**, .github/workflows/qmk-usb.yml]
   pull_request:
     paths: [qmk/**, .github/workflows/qmk-usb.yml]
   workflow_dispatch:
@@ -14,7 +11,7 @@ permissions:
 jobs:
   compile:
     runs-on: ubuntu-22.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -40,6 +37,21 @@ jobs:
           mkdir -p "$RUNNER_TEMP/avr83"
           tar xfj "$RUNNER_TEMP/avr83.tar.bz2" --strip-components=1 -C "$RUNNER_TEMP/avr83"
           echo "$RUNNER_TEMP/avr83/bin" >> "$GITHUB_PATH"
+      - name: Reproduce AVR GCC 8.5 from historical QMK MSYS
+        run: |
+          trap 'tail -n 60 "$RUNNER_TEMP/gcc85-build.log" 2>/dev/null || true' ERR
+          sudo apt-get install -y libgmp-dev libmpfr-dev libmpc-dev libisl-dev flex bison
+          curl --fail --location --retry 3 https://ftp.gnu.org/gnu/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz -o "$RUNNER_TEMP/gcc85.tar.xz"
+          echo "d308841a511bb830a6100397b0042db24ce11f642dab6ea6ee44842e5325ed50  $RUNNER_TEMP/gcc85.tar.xz" | sha256sum --check
+          tar xf "$RUNNER_TEMP/gcc85.tar.xz" -C "$RUNNER_TEMP"
+          mkdir -p "$RUNNER_TEMP/gcc85-build"
+          cd "$RUNNER_TEMP/gcc85-build"
+          "$RUNNER_TEMP/gcc-8.5.0/configure" --target=avr --prefix="$RUNNER_TEMP/avr83" --enable-languages=c --disable-nls --disable-libssp --disable-shared --disable-threads --disable-libgomp --disable-libada --with-dwarf2
+          make -j2 all-gcc > "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          make install-gcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          make -j2 all-target-libgcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          make install-target-libgcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          avr-gcc --version
       - name: Compile and verify recovered USB map
         run: bash qmk/tools/build_usb.sh "$GITHUB_WORKSPACE/qmk_firmware" "$GITHUB_WORKSPACE/usb-build"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
