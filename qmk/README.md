@@ -98,6 +98,27 @@ La guía oficial para AVR recomienda evaluar `LTO_ENABLE = yes` para reducir
 el tamaño: [optimización de flash](https://docs.qmk.fm/squeezing_avr).
 No se ha medido cuánto ahorraría en este teclado.
 
+## Copia de trabajo: optimización de flash
+
+`keyboards/crisboard/` es una copia de `legacy/crisboard/` con solo dos
+opciones modificadas a petición del propietario:
+
+- `config.h`: se desactiva `ENABLE_RGB_MATRIX_CYCLE_SPIRAL`, la espiral
+  multicolor. `ENABLE_RGB_MATRIX_BAND_SPIRAL_VAL` sigue habilitada.
+- `rules.mk`: se activa `LTO_ENABLE = yes`.
+
+El código y los fotogramas del perrito, OLED, WPM y las demás opciones
+permanecen iguales a la copia histórica. Esta copia no incorpora todavía
+el mapa recuperado del firmware real ni resuelve el rol `MASTER_RIGHT`.
+No se debe programar directamente como sustituto del firmware instalado.
+
+Validación realizada: integridad SHA256 de los diez archivos históricos,
+comparación completa de ambas carpetas (solo difieren `config.h` y
+`rules.mk`) y comprobación de las opciones activas. No se dispone de
+un compilador AVR/QMK en este entorno: no se generó un `.hex` ni se
+midió el ahorro. La compilación y la verificación del mapa/rol quedan
+pendientes antes de programar ambas mitades.
+
 ## Reproducir la recuperación del mapa
 
 Con Python 3 y el respaldo local de cualquiera de las dos mitades:

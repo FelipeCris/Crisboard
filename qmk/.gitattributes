@@ -2,3 +2,5 @@
 legacy/crisboard/** -text
 recovered/** text eol=lf
 tools/** text eol=lf
+# Keep the working copy comparable with the historical snapshot.
+keyboards/crisboard/** -text

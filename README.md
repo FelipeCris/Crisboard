@@ -13,6 +13,10 @@ En [`qmk/README.md`](qmk/README.md) están los fuentes históricos, el mapa
 recuperado de las dos mitades y el procedimiento de programación. Los fuentes
 encontrados no reproducen todavía exactamente el firmware instalado.
 
+La copia de trabajo `qmk/keyboards/crisboard/` desactiva `CYCLE_SPIRAL`
+y activa LTO; conserva el perrito. Falta compilar y verificar el mapa
+y el rol de cada mitad antes de programar.
+
 ## Inalámbrico
 
 La configuración ya existente utiliza ZMK:
