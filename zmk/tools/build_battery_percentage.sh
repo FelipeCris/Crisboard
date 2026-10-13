@@ -15,9 +15,11 @@ for path in Path(sys.argv[1]).rglob('crisboard_*.conf'):
     path.write_bytes(data)
 PY
 west build -d build-icon -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG="$baseline" -DSHIELD="crisboard_${side}"
+python3 "$repo/zmk/tools/stabilize_handles.py" build-icon
 git -C zmk apply --check "$repo/zmk/patches/battery-percentage.patch"
 git -C zmk apply "$repo/zmk/patches/battery-percentage.patch"
 west build -d build-percentage -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG="$repo/config" -DSHIELD="crisboard_${side}"
+python3 "$repo/zmk/tools/stabilize_handles.py" build-percentage
 for variant in icon percentage; do
     mkdir -p "results/$variant"
     for file in zmk.uf2 zmk.hex zmk.elf zmk.map zephyr.dts .config; do
