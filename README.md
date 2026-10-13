@@ -27,7 +27,8 @@ El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se con
 La rama `feature/rgb-presets` contiene [tres presets RGB guardables](qmk/changes/rgb-presets.md)
 con Fn + J/L/U en Colemak. Guardan la configuración base, sin capturar las
 indicaciones temporales de Fn. La compilación y las pruebas del módulo C pasaron;
-la carga y prueba física están pendientes. Añade 542 bytes de flash y 6 bytes
+ambas mitades están cargadas y verificadas por lectura completa.
+La prueba de uso de los presets está pendiente de confirmación. Añade 542 bytes de flash y 6 bytes
 de RAM estática por mitad, con 30 bytes de EEPROM para los tres presets.
 Colemak y QWERTY se conservan intactos.
 

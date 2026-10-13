@@ -3,7 +3,8 @@
 ## Estado del teclado
 
 La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
-compilados y verificados, pendientes de carga y prueba física. Solo añade tres teclas Fn y el módulo
+compilados y cargados en ambas mitades, con lectura completa verificada.
+EEPROM y bootloader se conservaron; la prueba de uso está pendiente. Solo añade tres teclas Fn y el módulo
 aislado de persistencia; los indicadores Fn, bordes inversos, OLED, perrito
 y las tablas Colemak/QWERTY se conservan.
 

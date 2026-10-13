@@ -1,7 +1,10 @@
 # Tres presets RGB guardables desde el teclado
 
 Rama `feature/rgb-presets`, basada en el PR #1 ya fusionado. Estado:
-compilación y verificaciones completas; carga y prueba física pendientes.
+compilación y verificaciones completas; ambas mitades cargadas el 13 de
+octubre de 2026. La lectura completa de cada flash coincide con su imagen
+prevista; se conservaron los 4096 bytes de bootloader y los 1024 bytes de EEPROM
+de cada mitad. La prueba de uso está pendiente de confirmación del propietario.
 
 Fuentes compilados: `4f9f83c6db5dcc1c17b7652df10688713a15539d`.
 [Compilación QMK USB](https://github.com/FelipeCris/Crisboard/actions/runs/38433183294).
@@ -51,7 +54,7 @@ cargada. Los presets se guardan en la mitad maestra: el USB habitual sigue
 en la izquierda. No se replica el almacenamiento personalizado entre mitades.
 
 No se inicializan ni borran las ranuras al arrancar. La carga del firmware
-conservará EEPROM y bootloader, como en las verificaciones anteriores.
+conservó EEPROM y bootloader, verificados por lectura completa.
 Si en el futuro se activa VIA, se cambian los efectos compilados o se cambia
 QMK, debe revisarse esta distribución de EEPROM, los códigos y su versión.
 
@@ -82,5 +85,5 @@ alterar ninguna posición de Colemak o QWERTY.
 Tamaños en bytes: el aumento es de 542 bytes de flash y 6 bytes de RAM estática
 por mitad respecto a la distribución Fn instalada y probada en Windows y macOS.
 Los 30 bytes de presets se almacenan en EEPROM, una memoria distinta. La RAM
-restante no incluye el consumo dinámico de la pila; la prueba física de esta
-función sigue pendiente.
+restante no incluye el consumo dinámico de la pila; la prueba de uso de esta
+función está pendiente de confirmación del propietario.

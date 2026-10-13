@@ -1,7 +1,7 @@
 {
   "source_commit": "4f9f83c6db5dcc1c17b7652df10688713a15539d",
   "workflow_run": 38433183294,
-  "hardware_installation": "pending",
+  "hardware_installation": "both halves flashed and independently readback verified on 2026-10-13",
   "actual_c_module_native_tests": "passed in the source workflow",
   "halves": {
     "izquierda": {
@@ -21,7 +21,13 @@
       "application_sha256": "3c37eb04b0d53d2c225b2ff2d2731eb37a6c33c4620337562f98a7a9d7ee63cf",
       "expected_flash_sha256": "93a356f286e25a77ded3833256a6eb95e9c53a566550fba875e8abe09fea036f",
       "hex_sha256": "f48009053db22042dff4131c2e9119c2d8f7afc3e02859fdcc8facfdfff231b3",
-      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6"
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "eeprom_unchanged_during_flash": true,
+        "preset_slots_empty_before_flash": true
+      }
     },
     "derecha": {
       "original_application_reproduced_exactly": true,
@@ -40,7 +46,13 @@
       "application_sha256": "42a3d53a563e60e388f1bd6dcc7e39eb51e33f1530bb878a0e9216af58632344",
       "expected_flash_sha256": "761e21eb2bd9fa2b535936d225561de7bf7ffaa9f0d204ece46f4887219d2b1a",
       "hex_sha256": "20793fa08fb5a660c777a6a9b6aa16e10c915153db9b3ccfdf063add57ad4cd4",
-      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6"
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "eeprom_unchanged_during_flash": true,
+        "preset_slots_empty_before_flash": true
+      }
     }
   },
   "artifact_zip_sha256": "92aa4d46b987c02216a3f238f61cd815021091860247e758c01c1744b3bc9b32",
