@@ -1,0 +1,44 @@
+name: QMK USB
+
+on:
+  push:
+    branches: [archive/qmk-usb]
+    paths: [qmk/**, .github/workflows/qmk-usb.yml]
+  pull_request:
+    paths: [qmk/**, .github/workflows/qmk-usb.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: qmk/qmk_firmware
+          ref: 0a3f7e48690bb2b7b008300a54554979a55be19a # 0.18.0
+          path: qmk_firmware
+          persist-credentials: false
+      - name: Install AVR build tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gcc-avr avr-libc binutils-avr make python3-venv libhidapi-hidraw0 libusb-1.0-0
+          python3 -m venv "$RUNNER_TEMP/qmk-venv"
+          "$RUNNER_TEMP/qmk-venv/bin/pip" install qmk==1.1.1 milc==1.6.6 jsonschema==4.17.3
+          "$RUNNER_TEMP/qmk-venv/bin/pip" install -r qmk_firmware/requirements.txt
+          echo "$RUNNER_TEMP/qmk-venv/bin" >> "$GITHUB_PATH"
+      - name: Compile and verify recovered USB map
+        run: bash qmk/tools/build_usb.sh "$GITHUB_WORKSPACE/qmk_firmware" "$GITHUB_WORKSPACE/usb-build"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: crisboard-usb
+          path: usb-build/
+          if-no-files-found: error
+          retention-days: 30

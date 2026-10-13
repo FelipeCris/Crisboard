@@ -19,7 +19,7 @@
 #pragma once
 #include "config_common.h"
 
-#define MASTER_RIGHT
+#define MASTER_LEFT
 // Key matrix size
 // Rows are doubled-up.
 #define MATRIX_ROWS  10
