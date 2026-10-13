@@ -47,8 +47,12 @@ compatible aplica únicamente la mejora oficial del widget de porcentaje.
 Las cuatro compilaciones y verificaciones pasaron: la base derecha coincide
 con todos los bytes de aplicación leídos; la izquierda solo difiere en
 cuatro bytes del orden de dos conjuntos internos de dependencias con los
-mismos miembros. Todos los demás bytes coinciden. Carga y prueba física
-del porcentaje pendientes. [Resultados](zmk/verification/battery-percentage.json).
+mismos miembros. Todos los demás bytes coinciden. El 13 de octubre de 2026
+se cargaron ambas mitades y una lectura posterior a RESET verificó todos
+los bytes del programa nuevo y las zonas legibles fuera de las páginas
+de carga. Los archivos excluyen ajustes y bootloader; estas zonas no
+son legibles mediante CURRENT.UF2. La prueba funcional del propietario
+sigue pendiente. [Resultados](zmk/verification/battery-percentage.json).
 
 `Kconfig.defconfig` conserva su segundo bloque que repite
 `if SHIELD_CRISBOARD_LEFT`; ese detalle histórico no se modifica como parte
