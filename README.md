@@ -28,7 +28,8 @@ El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se con
 
 La configuración ya existente utiliza ZMK:
 
-- `config/west.yml` obtiene ZMK desde `zmkfirmware/zmk`, revisión `main`.
+- `config/west.yml` fija ZMK `c7fdce8` y Zephyr 3.0 `3861c95`, compatibles
+  con las lecturas del teclado nice!nano v2.
 - `build.yaml` contiene `crisboard_left`, `crisboard_right` y `settings_reset`
   para `nice_nano_v2`.
 - `config/boards/shields/Crisboard/crisboard.keymap` contiene las capas del
@@ -36,14 +37,22 @@ La configuración ya existente utiliza ZMK:
 - `Firmware Oled 34rgb stable.zip` conserva tres imágenes `.uf2`: izquierda,
   derecha y reinicio de ajustes.
 
-La presencia de esos archivos identifica la configuración conservada, no
-confirma qué imagen está actualmente instalada en las placas inalámbricas.
+El mapa central leído de la placa coincide con las 204 asignaciones del
+repositorio. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
+carece de las correcciones USB/HID identificadas en lo instalado.
 
-La configuración y el workflow ZMK se conservan sin cambios. No se ha
-verificado una compilación actual: ambos siguen `main` y la configuración
-es histórica. Además, `Kconfig.defconfig` repite `if SHIELD_CRISBOARD_LEFT`
-en un segundo bloque que declara nombre/rol de la derecha; debe revisarse
-antes de atribuirle un fallo o preparar una actualización.
+Esta rama prepara el porcentaje de batería local en ambas pantallas,
+conservando el símbolo USB, mapas, RGB, Bluetooth y reposo. La compilación
+compatible aplica únicamente la mejora oficial del widget de porcentaje.
+Las cuatro compilaciones y verificaciones pasaron: la base derecha coincide
+con todos los bytes de aplicación leídos; la izquierda solo difiere en
+cuatro bytes del orden de dos conjuntos internos de dependencias con los
+mismos miembros. Todos los demás bytes coinciden. Carga y prueba física
+del porcentaje pendientes. [Resultados](zmk/verification/battery-percentage.json).
+
+`Kconfig.defconfig` conserva su segundo bloque que repite
+`if SHIELD_CRISBOARD_LEFT`; ese detalle histórico no se modifica como parte
+del cambio de porcentaje.
 
 ## Organización recomendada
 
