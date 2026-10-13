@@ -117,5 +117,14 @@
       "bytes_saved": 3192
     }
   },
-  "hardware_installation": "pending physical RESET; originals remain installed until guarded flashing succeeds"
+  "hardware_installation": {
+    "date": "2026-10-13",
+    "source_commit": "275b0fec6170437e83958c9cc11c238cf5b69c4a",
+    "both_halves_flashed": true,
+    "original_verified_before_write": true,
+    "full_flash_readback_matches_expected": true,
+    "both_bootloaders_unchanged": true,
+    "eeprom_unchanged_during_each_flash": true,
+    "owner_functional_verification": "pending"
+  }
 }

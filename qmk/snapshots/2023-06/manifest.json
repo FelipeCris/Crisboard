@@ -12,5 +12,5 @@
     "Makefile": "c49190ef7724ae3f8f0ac6c9205d63086ccda309a4d818f40f0c7cfaf6f09abd",
     "rules.mk": "dfb10290aea8566fdbe12ebb4782346ce57d41c327825e0ce50c4ece98dae988"
   },
-  "installed_firmware_equivalence": "pending whole-program comparison"
+  "installed_firmware_equivalence": "verified whole-application reproduction: right unchanged; left with its original WPM OLED block difference restored"
 }

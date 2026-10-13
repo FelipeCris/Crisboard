@@ -10,13 +10,14 @@ Configuraciones personales de dos variantes del teclado Crisboard.
 ## Cableado USB
 
 En [`qmk/README.md`](qmk/README.md) están los fuentes históricos, el mapa
-recuperado de las dos mitades y el procedimiento de programación. Los fuentes
-encontrados no reproducen todavía exactamente el firmware instalado.
+recuperado de las dos mitades y el procedimiento de programación. Las bases
+recuperadas reproducen byte por byte los programas originales de ambas mitades.
 
 La copia de trabajo `qmk/keyboards/crisboard/` parte del RAR de junio de 2023
-y solo desactiva `CYCLE_SPIRAL` y activa LTO. La validaci?n exige reproducir
-primero cada backup completo. El teclado conserva sus programas originales
-restaurados; la primera reconstrucci?n se descart?.
+y solo desactiva `CYCLE_SPIRAL` y activa LTO. Ambos firmwares se cargaron el
+13 de octubre de 2026 y se verificaron mediante lectura completa, conservando
+el bootloader y los ajustes de cada mitad. La prueba de uso del propietario
+está pendiente. La primera reconstrucción se descartó.
 
 ## Inalámbrico
 
