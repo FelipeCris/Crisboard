@@ -54,7 +54,7 @@ for variant in ('icon','percentage'):
         actual = [[cstring(pointer),param1,param2] for pointer,param1,param2 in struct.iter_unpack('<III',raw)]
         assert actual == reference['bindings'], 'Installed 204-key map changed'
         maps[variant] = 'all 204 bindings match the installed map'
-report = {'side':side, 'zmk_commit':'2364960f842f34d3c552cca358b7be62fbbf9988',
+report = {'side':side, 'zmk_commit':'c7fdce863ac2f03bc70495f9904b127f2d99d85c',
     'zephyr_commit':'3861c95d11e95d35a63afca67c39e578e32ce81e',
     'percentage_backport_from':'58eb7a3305b11e465505e60657479346bec32f53',
     'only_compiled_config_change':changes, 'hardware_devicetree_identical':True, 'map_verification':maps,

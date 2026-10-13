@@ -44,7 +44,7 @@ jobs:
           west config manifest.path config-repo/config
           west update --narrow -o=--depth=1
           west zephyr-export
-          test "$(git -C zmk rev-parse HEAD)" = 2364960f842f34d3c552cca358b7be62fbbf9988
+          test "$(git -C zmk rev-parse HEAD)" = c7fdce863ac2f03bc70495f9904b127f2d99d85c
           test "$(git -C zephyr rev-parse HEAD)" = 3861c95d11e95d35a63afca67c39e578e32ce81e
           mkdir -p results
           python3 -c "import json; from west.manifest import Manifest; m=Manifest.from_file(); print(json.dumps([{'name':p.name,'url':p.url,'path':p.path,'revision':p.sha('HEAD')} for p in m.projects if p.name != 'manifest' and p.is_cloned()],indent=2))" > results/dependencies.json

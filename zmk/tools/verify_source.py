@@ -20,7 +20,7 @@ for path in paths:
             b'CONFIG_ZMK_WIDGET_BATTERY_STATUS=y\nCONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE=y')
     elif path == 'config/west.yml':
         assert b'revision: main' not in after
-        assert b'revision: 2364960f842f34d3c552cca358b7be62fbbf9988' in after
+        assert b'revision: c7fdce863ac2f03bc70495f9904b127f2d99d85c' in after
         assert b'revision: 3861c95d11e95d35a63afca67c39e578e32ce81e' in after
         continue
     assert before.rstrip(b'\n') == after.rstrip(b'\n'), path
