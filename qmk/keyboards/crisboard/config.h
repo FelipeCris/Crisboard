@@ -41,7 +41,7 @@
 
 // OLED settings
 #define OLED_TIMEOUT    80000
-#define OLED_BRIGHTNESS 90
+#define OLED_BRIGHTNESS 255
 
 #define SPLIT_WPM_ENABLE
 #define SPLIT_OLED_ENABLE
@@ -54,8 +54,8 @@
 #ifdef RGB_MATRIX_ENABLE
 #    define RGB_DI_PIN D3
 #    define RGBLED_NUM 68
-#    define RGBLIGHT_LIMIT_VAL 100 // LED Brightness, high power draw may exceed the USB limitations of 0.6A and cause a crash.
-#    define RGBLIGHT_HUE_STEP  5
+#    define RGBLIGHT_LIMIT_VAL 255 // LED Brightness, high power draw may exceed the USB limitations of 0.6A and cause a crash.
+#    define RGBLIGHT_HUE_STEP  3
 #    define RGBLIGHT_SAT_STEP  10
 #    define RGBLIGHT_VAL_STEP  10
 #    define RGBLIGHT_LAYERS //Enable layer light indicators. Not required as updates are done in layer_state_set_user and led_update_user (+588).
@@ -72,7 +72,7 @@
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 #define DYNAMIC_KEYMAP_MACRO_COUNT 5
 
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 100
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 255
 
 #define OLED_FONT_H "keyboards/crisboard/lib/crislogo.c"
 #define NO_ACTION_ONESHOT
@@ -86,7 +86,7 @@
  #  define ENABLE_RGB_MATRIX_BAND_SPIRAL_VAL             // Single hue spinning spiral fades brightness
  #  define ENABLE_RGB_MATRIX_CYCLE_UP_DOWN               // Full gradient scrolling top to bottom
 // #  define ENABLE_RGB_MATRIX_CYCLE_OUT_IN                // Full gradient scrolling out to in
-// #  define ENABLE_RGB_MATRIX_CYCLE_SPIRAL                // Disabled to reduce firmware size
+// #  define ENABLE_RGB_MATRIX_CYCLE_SPIRAL                // Full gradient spinning spiral around center of keyboard
 // #  define ENABLE_RGB_MATRIX_RAINBOW_PINWHEELS           // Full dual gradients spinning two halfs of keyboard
 // #  define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE         // Hue & value pulse near a single key hit then fades value out
  //#  define RGB_MATRIX_FRAMEBUFFER_EFFECTS // Required for the following two effects

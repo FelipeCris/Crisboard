@@ -68,5 +68,6 @@ RGB_MATRIX_DRIVER = WS2812
 
 
 OLED_ENABLE ?= yes
-# Link-time optimization to reduce firmware size
+
+# Link-time optimization
 LTO_ENABLE = yes
