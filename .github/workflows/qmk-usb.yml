@@ -23,6 +23,11 @@ jobs:
         run: |
           cc -std=c11 -Wall -Wextra -Werror -Wpedantic -I qmk/tests/stubs qmk/tests/test_rgb_presets.c qmk/keyboards/crisboard/keymaps/default/rgb_presets.c -o "$RUNNER_TEMP/test-rgb-presets"
           "$RUNNER_TEMP/test-rgb-presets"
+      - name: Test actual RGB indicators and Uniform mode
+        run: |
+          python3 qmk/tools/extract_rgb_indicators.py "$RUNNER_TEMP/crisboard_indicators_under_test.inc"
+          cc -std=c11 -Wall -Wextra -Werror -Wpedantic -I qmk/tests/stubs -I "$RUNNER_TEMP" qmk/tests/test_rgb_indicators.c -o "$RUNNER_TEMP/test-rgb-indicators"
+          "$RUNNER_TEMP/test-rgb-indicators"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: qmk/qmk_firmware

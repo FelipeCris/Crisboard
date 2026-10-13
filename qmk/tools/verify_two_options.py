@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from preset_mapping import apply_source, MODULE_FILES, RULES_APPEND
+from uniform_mode import apply_source, MODULE_FILES, RULES_APPEND
 
 qmk = Path(__file__).resolve().parents[1]
 snapshot = qmk / "snapshots/2023-06/crisboard"
@@ -38,4 +38,4 @@ for name, digest in manifest["source_files_sha256"].items():
         expected = apply_source(original)
     if (working / name).read_bytes() != expected:
         raise ValueError(f"Unexpected source change outside approved Fn/preset integration: {name}")
-print("PASS: approved Fn/preset integration only; Colemak, QWERTY, RGB indicators, brightness, OLED and puppy unchanged.")
+print("PASS: approved Fn/presets plus Uniform mode only; all key positions, normal RGB indicators, brightness, OLED and puppy preserved.")

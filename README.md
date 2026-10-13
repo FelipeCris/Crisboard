@@ -33,6 +33,11 @@ reconectar y el resto del teclado sigue funcionando como antes. Añade 542 bytes
 de RAM estática por mitad, con 30 bytes de EEPROM para los tres presets.
 Colemak y QWERTY se conservan intactos.
 
+La copia de trabajo añade un [modo RGB Uniforme](qmk/changes/uniform-mode.md),
+seleccionable con Fn + Tab y guardable en los mismos presets. En ese modo,
+Colemak ilumina también los bordes con el color base; los modos anteriores
+conservan el color inverso. Esta ampliación está pendiente de compilación y carga.
+
 ## Inalámbrico
 
 La configuración ya existente utiliza ZMK:

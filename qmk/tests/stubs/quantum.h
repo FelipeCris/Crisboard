@@ -4,8 +4,15 @@
 #include <stddef.h>
 #include <stdint.h>
 #define SAFE_RANGE 0x5DB2
-#define RGB_MATRIX_EFFECT_MAX 8
+#define RGB_MATRIX_SOLID_COLOR 1
+#define RGB_MATRIX_GRADIENT_UP_DOWN 2
+#define RGB_MATRIX_BREATHING 3
+#define RGB_MATRIX_BAND_SPIRAL_VAL 4
+#define RGB_MATRIX_CYCLE_UP_DOWN 5
+#define RGB_MATRIX_CUSTOM_CRISBOARD_UNIFORM 6
+#define RGB_MATRIX_EFFECT_MAX 7
 typedef struct { uint8_t h, s, v; } HSV;
+typedef struct { uint8_t r, g, b; } RGB;
 typedef struct { uint8_t row, col; } keypos_t;
 typedef struct { keypos_t key; bool pressed; } keyevent_t;
 typedef struct { keyevent_t event; } keyrecord_t;

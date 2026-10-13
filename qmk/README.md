@@ -2,6 +2,11 @@
 
 ## Estado del teclado
 
+La copia de trabajo añade el [modo RGB Uniforme](changes/uniform-mode.md),
+seleccionable con Fn + Tab y guardable en los tres presets existentes. Solo
+ese modo omite la inversión de los bordes en Colemak; los modos anteriores y
+los indicadores temporales de Fn se conservan. Compilación y carga pendientes.
+
 La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
 compilados y cargados en ambas mitades, con lectura completa verificada.
 EEPROM y bootloader se conservaron. El propietario confirmó los tres
@@ -50,6 +55,7 @@ ajustes; el propietario confirmó bordes inversos, play/pause y brillo.
 - `keyboards/crisboard/`: copia de ese RAR con CYCLE_SPIRAL desactivado,
   `LTO_ENABLE = yes`, la distribución Fn aprobada y el módulo de presets
   (dos archivos adicionales). Tres posiciones Fn ahora seleccionan presets.
+  Un tercer archivo añade el modo RGB Uniforme reutilizando el renderer sólido.
 - `recovered/keymap-only.c` y `keymap.json`: tabla leída de los dos programas
   originales, con códigos numéricos y posiciones físicas.
 - `recovered/june-2023-comparison.json`: evidencia y límites de la comparación.
@@ -76,10 +82,11 @@ compilador y registra herramientas/dependencias en el artefacto. La referencia
 para AVR GCC 8.5 es el
 [paquete histórico de MSYS2 mantenido por fauxpark](https://github.com/msys2/MINGW-packages/blob/6561e2269487ec2f86935be588af48275b4c215e/mingw-w64-avr-gcc/PKGBUILD).
 
-`tools/verify_two_options.py` exige los diez archivos originales y los dos
-del módulo de presets, con las opciones de tamaño y la integración aprobada.
-Rechaza cambios en Colemak/QWERTY, otras teclas Fn, indicadores RGB, brillo,
-fuente OLED y animación del perrito. `tools/preset_mapping.py` extiende la
+`tools/verify_two_options.py` exige los diez archivos originales, los dos
+del módulo de presets y el archivo del modo Uniforme, con las opciones de tamaño
+y la integración aprobada. Rechaza cambios en todas las teclas, indicadores RGB
+de los modos anteriores, brillo, fuente OLED y animación del perrito.
+`tools/preset_mapping.py` extiende la
 distribución anterior de `tools/fn_mapping.py` con solo las tres posiciones
 elegidas y genera la tabla completa para verificar el binario compilado.
 

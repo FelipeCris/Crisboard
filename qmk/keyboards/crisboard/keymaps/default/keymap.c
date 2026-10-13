@@ -558,6 +558,11 @@ void rgb_matrix_indicators_user(void) {
             break;
         case _COLEMAK:
 
+            // Uniform is a separate selectable mode; other modes keep their borders.
+            if (rgb_matrix_get_mode() == RGB_MATRIX_CUSTOM_CRISBOARD_UNIFORM) {
+                break;
+            }
+
             hsv2 = rgb_matrix_get_hsv();
             hsv2.h = (hsv2.h+coloroffset2)%255;
             RGB   rgb = hsv_to_rgb(hsv2);

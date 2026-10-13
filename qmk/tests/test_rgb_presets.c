@@ -185,6 +185,11 @@ int main(void) {
     for (unsigned i=74;i<94;++i) assert(memory[i]==0xFF);
     lighting=b; tap(0); assert(same(lighting,a));
 
+    // The appended Uniform mode uses the existing record and persistence path.
+    const lighting_t uniform = {{83,217,99},RGB_MATRIX_CUSTOM_CRISBOARD_UNIFORM,72,1};
+    lighting=uniform; save(2);
+    lighting=b; tap(2); assert(same(lighting,uniform));
+
     keyrecord_t other={.event={.key={.row=0,.col=0},.pressed=true}};
     assert(crisboard_process_rgb_presets(4,&other));
     puts("PASS: actual preset module; base color excludes Fn indicators; three slots; hold/tap; disabled RGB; EEPROM bounds; corrupt/interrupted saves; timer wrap; Fn-first release.");
