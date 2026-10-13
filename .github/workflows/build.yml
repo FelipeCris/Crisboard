@@ -30,6 +30,7 @@ jobs:
       - name: Verify the limited configuration change
         run: python3 config-repo/zmk/tools/verify_source.py
       - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        id: westcache
         with:
           path: |
             modules/
@@ -46,10 +47,19 @@ jobs:
           test "$(git -C zmk rev-parse HEAD)" = 2364960f842f34d3c552cca358b7be62fbbf9988
           test "$(git -C zephyr rev-parse HEAD)" = 3861c95d11e95d35a63afca67c39e578e32ce81e
           mkdir -p results
-          west manifest --freeze > results/manifest-frozen.yml
+          python3 -c "import json; from west.manifest import Manifest; m=Manifest.from_file(); print(json.dumps([{'name':p.name,'url':p.url,'path':p.path,'revision':p.sha('HEAD')} for p in m.projects if p.name != 'manifest' and p.is_cloned()],indent=2))" > results/dependencies.json
           python3 --version > results/toolchain.txt
           west --version >> results/toolchain.txt
           cmake --version >> results/toolchain.txt
+      - name: Cache fetched dependencies
+        if: steps.westcache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: |
+            modules/
+            tools/
+            bootloader/
+          key: zmk-zephyr3-2364960-3861c95-${{ runner.os }}
       - name: Build icon baseline and percentage firmware
         run: bash config-repo/zmk/tools/build_battery_percentage.sh '${{ matrix.side }}'
       - name: Verify compiled configuration, matrix and actual keymap
