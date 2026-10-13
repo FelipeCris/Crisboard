@@ -1,4 +1,4 @@
-"""Require exactly the two requested source changes against the June 2023 RAR.
+"""Require the two size options and the fourteen requested Fn changes.
 
 SPDX-License-Identifier: GPL-2.0-or-later
 """
@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-2.0-or-later
 import hashlib
 import json
 from pathlib import Path
+
+from fn_mapping import apply_source
 
 qmk = Path(__file__).resolve().parents[1]
 snapshot = qmk / "snapshots/2023-06/crisboard"
@@ -30,6 +32,8 @@ for name, digest in manifest["source_files_sha256"].items():
         if b"LTO_ENABLE" in original:
             raise ValueError("Archive already declares LTO")
         expected += b"\r\n# Link-time optimization\r\nLTO_ENABLE = yes\r\n"
+    elif name == "keymaps/default/keymap.c":
+        expected = apply_source(original)
     if (working / name).read_bytes() != expected:
-        raise ValueError(f"Additional change beyond the two requested options: {name}")
-print("PASS: only CYCLE_SPIRAL and LTO differ; keymap, RGB, brightness, OLED and puppy sources are identical.")
+        raise ValueError(f"Change beyond the two size options and fourteen Fn keys: {name}")
+print("PASS: only CYCLE_SPIRAL, LTO and fourteen Fn keys differ; base layers, RGB logic, brightness, OLED and puppy are identical.")

@@ -1,4 +1,4 @@
-# Crisboard USB: recuperación y dos opciones de tamaño
+# Crisboard USB: recuperación y distribución Fn
 
 ## Estado del teclado
 
@@ -27,8 +27,8 @@ ajustes; el propietario confirmó bordes inversos, play/pause y brillo.
 - `snapshots/2023-06/crisboard/`: copia sin modificar del archivo aportado
   `Crisboard 2023 jun.rar`; el manifiesto conserva el SHA256 del RAR y de cada
   archivo extraído. No contiene binarios ni la versión de QMK del propietario.
-- `keyboards/crisboard/`: copia de ese RAR con solo CYCLE_SPIRAL desactivado
-  en `config.h` y `LTO_ENABLE = yes` en `rules.mk`.
+- `keyboards/crisboard/`: copia de ese RAR con CYCLE_SPIRAL desactivado,
+  `LTO_ENABLE = yes` y las 14 posiciones Fn solicitadas posteriormente.
 - `recovered/keymap-only.c` y `keymap.json`: tabla leída de los dos programas
   originales, con códigos numéricos y posiciones físicas.
 - `recovered/june-2023-comparison.json`: evidencia y límites de la comparación.
@@ -56,8 +56,10 @@ para AVR GCC 8.5 es el
 [paquete histórico de MSYS2 mantenido por fauxpark](https://github.com/msys2/MINGW-packages/blob/6561e2269487ec2f86935be588af48275b4c215e/mingw-w64-avr-gcc/PKGBUILD).
 
 `tools/verify_two_options.py` exige que la copia de trabajo conserve los diez
-archivos y solo contenga las dos diferencias solicitadas. Rechaza cambios en
-mapa, indicadores RGB, brillo, fuente OLED y animación del perrito.
+archivos y solo contenga las dos opciones de tamaño y las 14 posiciones Fn
+solicitadas. Rechaza cambios en Colemak/QWERTY, otras teclas Fn, indicadores
+RGB, brillo, fuente OLED y animación del perrito. `tools/fn_mapping.py`
+genera la tabla esperada completa para verificar el binario compilado.
 
 `tools/reconstruct_baseline.py` recupera la diferencia OLED del izquierdo y
 exige SHA256 idéntico del área completa de aplicación original (28672 bytes,
@@ -97,6 +99,11 @@ con sus ELF, HEX, registros, tamaños y verificaciones. Los respaldos originales
 y la EEPROM permanecen locales y no se suben al repositorio.
 
 ## Mapa instalado
+
+La [nueva distribución Fn](changes/2026-10-13-fn-rgb-media.md) está preparada
+en los fuentes de trabajo y pendiente de compilación e instalación. El estado
+verificado anteriormente corresponde al mapa original con las dos opciones
+de tamaño. Los mapas Colemak y QWERTY se conservan idénticos en esta revisión.
 
 Colemak (0), QWERTY (1) y Lower/Fn (2). Mantener Fn activa Lower. Las dos
 teclas interiores de la segunda fila seleccionan QWERTY (izquierda) y Colemak

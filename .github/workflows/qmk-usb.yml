@@ -30,7 +30,14 @@ jobs:
           "$RUNNER_TEMP/qmk-venv/bin/pip" install qmk==1.1.1 milc==1.6.6 jsonschema==4.17.3
           "$RUNNER_TEMP/qmk-venv/bin/pip" install -r qmk_firmware/requirements.txt
           echo "$RUNNER_TEMP/qmk-venv/bin" >> "$GITHUB_PATH"
+      - name: Cache verified AVR GCC 8.5 toolchain
+        id: avr-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ runner.temp }}/avr83
+          key: crisboard-avr85-ubuntu22-${{ runner.arch }}-binutils232-libc20-v1
       - name: Use historical QMK AVR compiler
+        if: steps.avr-cache.outputs.cache-hit != 'true'
         run: |
           curl --fail --location --retry 3 https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-linux.tar.bz2 -o "$RUNNER_TEMP/avr83.tar.bz2"
           echo "22aed0041ba93cba3aea76dcdfb388608e1ce2d701f50119acc79c27a2a58451  $RUNNER_TEMP/avr83.tar.bz2" | sha256sum --check
@@ -38,6 +45,7 @@ jobs:
           tar xfj "$RUNNER_TEMP/avr83.tar.bz2" --strip-components=1 -C "$RUNNER_TEMP/avr83"
           echo "$RUNNER_TEMP/avr83/bin" >> "$GITHUB_PATH"
       - name: Reproduce AVR GCC 8.5 from historical QMK MSYS
+        if: steps.avr-cache.outputs.cache-hit != 'true'
         run: |
           trap 'tail -n 60 "$RUNNER_TEMP/gcc85-build.log" 2>/dev/null || true' ERR
           sudo apt-get install -y libgmp-dev libmpfr-dev libmpc-dev libisl-dev flex bison
@@ -47,11 +55,15 @@ jobs:
           mkdir -p "$RUNNER_TEMP/gcc85-build"
           cd "$RUNNER_TEMP/gcc85-build"
           "$RUNNER_TEMP/gcc-8.5.0/configure" --target=avr --prefix="$RUNNER_TEMP/avr83" --enable-languages=c --disable-nls --disable-libssp --disable-shared --disable-threads --disable-libgomp --disable-libada --with-dwarf2
-          make -j2 all-gcc > "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          make -j"$(nproc)" all-gcc > "$RUNNER_TEMP/gcc85-build.log" 2>&1
           make install-gcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
-          make -j2 all-target-libgcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
+          make -j"$(nproc)" all-target-libgcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
           make install-target-libgcc >> "$RUNNER_TEMP/gcc85-build.log" 2>&1
           avr-gcc --version
+      - name: Select verified AVR GCC 8.5 toolchain
+        run: |
+          echo "$RUNNER_TEMP/avr83/bin" >> "$GITHUB_PATH"
+          test "$("$RUNNER_TEMP/avr83/bin/avr-gcc" -dumpfullversion)" = 8.5.0
       - name: Compile and verify recovered USB map
         run: bash qmk/tools/build_usb.sh "$GITHUB_WORKSPACE/qmk_firmware" "$GITHUB_WORKSPACE/usb-build"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

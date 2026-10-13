@@ -56,7 +56,7 @@ def verify(hex_path, symbols_path, recovered_path):
     recovered = json.loads(recovered_path.read_text(encoding="utf-8"))
     expected = b"".join(struct.pack("<70H", *layer["raw_u16"]) for layer in recovered["layers"])
     if actual != expected:
-        raise ValueError("Compiled table differs from the keyboard's recovered map")
+        raise ValueError("Compiled table differs from the expected complete map")
     return {
         "hex_sha256": hashlib.sha256(hex_path.read_bytes()).hexdigest(),
         "application_end": max(memory) + 1,
@@ -64,7 +64,8 @@ def verify(hex_path, symbols_path, recovered_path):
         "free_application_bytes": 0x7000 - max(memory) - 1,
         "keymap_offset": offset,
         "keymap_sha256": hashlib.sha256(actual).hexdigest(),
-        "recovered_keymap_matches": True,
+        "expected_keymap_matches": True,
+        "requested_fn_changes": recovered.get("requested_fn_changes", 0),
     }
 
 
