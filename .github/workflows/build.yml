@@ -39,6 +39,8 @@ jobs:
       - name: Fetch pinned sources and record toolchain
         run: |
           west init -l config-repo/config
+          mv config-repo/.west .west
+          west config manifest.path config-repo/config
           west update --narrow -o=--depth=1
           west zephyr-export
           test "$(git -C zmk rev-parse HEAD)" = 2364960f842f34d3c552cca358b7be62fbbf9988
