@@ -18,14 +18,12 @@ cd "$qmk_root"
 } > "$output/toolchain.txt"
 for variant in baseline optimized; do
     source="$repo_root/qmk/keyboards/crisboard"
-    lto=yes
     if [ "$variant" = baseline ]; then
         source="$repo_root/qmk/snapshots/2023-06/crisboard"
-        lto=no
     fi
     cp -a "$source" keyboards/
     make clean > "$output/$variant-clean.log" 2>&1
-    make crisboard:default -j2 LTO_ENABLE="$lto" 2>&1 | tee "$output/$variant-build.log"
+    make crisboard:default -j2 2>&1 | tee "$output/$variant-build.log"
     cp crisboard_default.hex "$output/$variant.hex"
     cp .build/crisboard_default.elf "$output/$variant.elf"
     avr-size -A .build/crisboard_default.elf > "$output/$variant-size.txt"
