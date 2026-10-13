@@ -7,7 +7,14 @@ CYCLE_SPIRAL y activan LTO en ambas mitades. Antes de escribir se verificó
 el programa original de cada mitad y se respaldaron su flash y EEPROM.
 La lectura completa posterior coincide exactamente con cada imagen prevista;
 los bootloaders y los 1024 bytes de ajustes de cada mitad se conservaron.
-La prueba de uso del propietario está pendiente.
+El propietario confirmó la prueba de uso: escritura con ambas mitades,
+Fn/play-pause, colores inversos de los bordes, brillo, modos RGB y perrito
+funcionan como antes, con CYCLE_SPIRAL eliminado.
+
+Durante la prueba se reportó un fallo momentáneo de Play/Pause. El monitor
+de teclas multimedia de Windows registró sus pulsaciones y liberaciones; el
+propietario confirmó después que volvió a funcionar sin otra carga ni cambios
+de mapa. La causa del fallo momentáneo no se ha determinado.
 
 La primera reconstrucción, que alteró comportamiento RGB, queda descartada.
 Antes de esta carga se habían restaurado y verificado ambos originales y sus

@@ -125,6 +125,11 @@
     "full_flash_readback_matches_expected": true,
     "both_bootloaders_unchanged": true,
     "eeprom_unchanged_during_each_flash": true,
-    "owner_functional_verification": "pending"
+    "owner_functional_verification": "passed: both halves, Fn/play-pause, inverse border colors, brightness, RGB modes and puppy confirmed by owner",
+    "media_diagnostic": {
+      "windows_play_pause_press_and_release_received": true,
+      "owner_confirmed_working_without_further_firmware_changes": true,
+      "transient_failure_cause": "not determined"
+    }
   }
 }

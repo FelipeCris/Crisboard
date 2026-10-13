@@ -16,8 +16,8 @@ recuperadas reproducen byte por byte los programas originales de ambas mitades.
 La copia de trabajo `qmk/keyboards/crisboard/` parte del RAR de junio de 2023
 y solo desactiva `CYCLE_SPIRAL` y activa LTO. Ambos firmwares se cargaron el
 13 de octubre de 2026 y se verificaron mediante lectura completa, conservando
-el bootloader y los ajustes de cada mitad. La prueba de uso del propietario
-está pendiente. La primera reconstrucción se descartó.
+el bootloader y los ajustes de cada mitad. El propietario confirmó que ambas
+mitades, Fn/play-pause, colores, brillo, modos RGB y perrito funcionan como antes. La primera reconstrucción se descartó.
 
 ## Inalámbrico
 
