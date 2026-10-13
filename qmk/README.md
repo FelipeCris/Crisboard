@@ -2,6 +2,11 @@
 
 ## Estado del teclado
 
+La rama `feature/rgb-presets` prepara [tres presets guardables desde el teclado](changes/rgb-presets.md),
+pendientes de compilación y carga. Solo añade tres teclas Fn y el módulo
+aislado de persistencia; los indicadores Fn, bordes inversos, OLED, perrito
+y las tablas Colemak/QWERTY se conservan.
+
 La nueva distribución Fn se cargó en ambas mitades el 13 de octubre de 2026.
 Se verificaron los 32768 bytes de cada flash y se conservaron EEPROM y bootloader.
 Solo cambian 24 bytes de las 14 posiciones Fn; Colemak y QWERTY y todos los bytes
@@ -36,7 +41,8 @@ ajustes; el propietario confirmó bordes inversos, play/pause y brillo.
   `Crisboard 2023 jun.rar`; el manifiesto conserva el SHA256 del RAR y de cada
   archivo extraído. No contiene binarios ni la versión de QMK del propietario.
 - `keyboards/crisboard/`: copia de ese RAR con CYCLE_SPIRAL desactivado,
-  `LTO_ENABLE = yes` y las 14 posiciones Fn solicitadas posteriormente.
+  `LTO_ENABLE = yes`, la distribución Fn aprobada y el módulo de presets
+  (dos archivos adicionales). Tres posiciones Fn ahora seleccionan presets.
 - `recovered/keymap-only.c` y `keymap.json`: tabla leída de los dos programas
   originales, con códigos numéricos y posiciones físicas.
 - `recovered/june-2023-comparison.json`: evidencia y límites de la comparación.
@@ -63,11 +69,12 @@ compilador y registra herramientas/dependencias en el artefacto. La referencia
 para AVR GCC 8.5 es el
 [paquete histórico de MSYS2 mantenido por fauxpark](https://github.com/msys2/MINGW-packages/blob/6561e2269487ec2f86935be588af48275b4c215e/mingw-w64-avr-gcc/PKGBUILD).
 
-`tools/verify_two_options.py` exige que la copia de trabajo conserve los diez
-archivos y solo contenga las dos opciones de tamaño y las 14 posiciones Fn
-solicitadas. Rechaza cambios en Colemak/QWERTY, otras teclas Fn, indicadores
-RGB, brillo, fuente OLED y animación del perrito. `tools/fn_mapping.py`
-genera la tabla esperada completa para verificar el binario compilado.
+`tools/verify_two_options.py` exige los diez archivos originales y los dos
+del módulo de presets, con las opciones de tamaño y la integración aprobada.
+Rechaza cambios en Colemak/QWERTY, otras teclas Fn, indicadores RGB, brillo,
+fuente OLED y animación del perrito. `tools/preset_mapping.py` extiende la
+distribución anterior de `tools/fn_mapping.py` con solo las tres posiciones
+elegidas y genera la tabla completa para verificar el binario compilado.
 
 `tools/reconstruct_baseline.py` recupera la diferencia OLED del izquierdo y
 exige SHA256 idéntico del área completa de aplicación original (28672 bytes,

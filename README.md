@@ -24,6 +24,11 @@ se conservan íntegros. Esta revisión se compiló y cargó en ambas mitades;
 la lectura completa confirma que solo cambiaron 24 bytes del mapa por mitad.
 El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se conservaron.
 
+La rama `feature/rgb-presets` prepara [tres presets RGB guardables](qmk/changes/rgb-presets.md)
+con Fn + J/L/U en Colemak. Guardan la configuración base, sin capturar las
+indicaciones temporales de Fn. La compilación y carga de esta función están
+pendientes; Colemak y QWERTY se conservan intactos.
+
 ## Inalámbrico
 
 La configuración ya existente utiliza ZMK:

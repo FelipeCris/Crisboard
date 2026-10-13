@@ -66,6 +66,7 @@ def verify(hex_path, symbols_path, recovered_path):
         "keymap_sha256": hashlib.sha256(actual).hexdigest(),
         "expected_keymap_matches": True,
         "requested_fn_changes": recovered.get("requested_fn_changes", 0),
+        "preset_keys_added": recovered.get("preset_keys_added", 0),
     }
 
 

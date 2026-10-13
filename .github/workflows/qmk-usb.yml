@@ -1,6 +1,9 @@
 name: QMK USB
 
 on:
+  push:
+    branches: [master]
+    paths: [qmk/**, .github/workflows/qmk-usb.yml]
   pull_request:
     paths: [qmk/**, .github/workflows/qmk-usb.yml]
   workflow_dispatch:
@@ -16,6 +19,10 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+      - name: Test actual RGB preset module
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror -Wpedantic -I qmk/tests/stubs qmk/tests/test_rgb_presets.c qmk/keyboards/crisboard/keymaps/default/rgb_presets.c -o "$RUNNER_TEMP/test-rgb-presets"
+          "$RUNNER_TEMP/test-rgb-presets"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: qmk/qmk_firmware

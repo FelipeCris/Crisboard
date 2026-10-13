@@ -71,3 +71,5 @@ OLED_ENABLE ?= yes
 
 # Link-time optimization
 LTO_ENABLE = yes
+
+SRC += keyboards/crisboard/keymaps/default/rgb_presets.c
