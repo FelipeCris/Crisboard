@@ -4,7 +4,9 @@ Rama `feature/rgb-presets`, basada en el PR #1 ya fusionado. Estado:
 compilación y verificaciones completas; ambas mitades cargadas el 13 de
 octubre de 2026. La lectura completa de cada flash coincide con su imagen
 prevista; se conservaron los 4096 bytes de bootloader y los 1024 bytes de EEPROM
-de cada mitad. La prueba de uso está pendiente de confirmación del propietario.
+de cada mitad. El propietario confirmó que los tres presets se guardan y cargan, sobreviven
+a la reconexión USB y que indicadores, multimedia, escritura y perrito
+siguen funcionando como antes.
 
 Fuentes compilados: `4f9f83c6db5dcc1c17b7652df10688713a15539d`.
 [Compilación QMK USB](https://github.com/FelipeCris/Crisboard/actions/runs/38433183294).
@@ -86,4 +88,4 @@ Tamaños en bytes: el aumento es de 542 bytes de flash y 6 bytes de RAM estátic
 por mitad respecto a la distribución Fn instalada y probada en Windows y macOS.
 Los 30 bytes de presets se almacenan en EEPROM, una memoria distinta. La RAM
 restante no incluye el consumo dinámico de la pila; la prueba de uso de esta
-función está pendiente de confirmación del propietario.
+función fue confirmada por el propietario el 13 de octubre de 2026.

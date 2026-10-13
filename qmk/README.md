@@ -4,7 +4,8 @@
 
 La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
 compilados y cargados en ambas mitades, con lectura completa verificada.
-EEPROM y bootloader se conservaron; la prueba de uso está pendiente. Solo añade tres teclas Fn y el módulo
+EEPROM y bootloader se conservaron. El propietario confirmó los tres
+presets, su persistencia al reconectar y el funcionamiento del resto del teclado. Solo añade tres teclas Fn y el módulo
 aislado de persistencia; los indicadores Fn, bordes inversos, OLED, perrito
 y las tablas Colemak/QWERTY se conservan.
 

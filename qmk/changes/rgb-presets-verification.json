@@ -58,5 +58,6 @@
   "artifact_zip_sha256": "92aa4d46b987c02216a3f238f61cd815021091860247e758c01c1744b3bc9b32",
   "qmk_commit": "0a3f7e48690bb2b7b008300a54554979a55be19a",
   "avr_gcc": "8.5.0",
-  "owner_functional_verification": "pending"
+  "owner_functional_verification": "passed: owner confirmed all three presets save/load and survive USB reconnection; indicators, media, typing and puppy work as before",
+  "owner_functional_verification_date": "2026-10-13"
 }
