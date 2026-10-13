@@ -30,4 +30,22 @@ Uniforme en la cuarta y verifican que escribir las dos nuevas no cambia
 ningún byte de los tres registros anteriores. Se mantienen las pruebas de
 interrupciones, corrupción, tiempos, límites y callbacks RGB completos.
 
-Estado: preparado; compilación, medición de memoria y carga pendientes.
+Estado: compilación y verificaciones completas; carga y prueba física pendientes.
+
+Fuentes `4105d7d3631dc1cb1ba07cac17a079039837f222`.
+[Compilación USB](https://github.com/FelipeCris/Crisboard/actions/runs/38447300670).
+[Resultados](five-rgb-presets-verification.json).
+
+Frente al firmware Uniforme instalado cambian exactamente cinco bytes de cada
+aplicación: cuatro en las dos posiciones Fn añadidas y uno en el límite de
+presets admitidos (de tres a cinco). Todos los demás bytes de aplicación son
+idénticos, incluidos los gráficos. No aumenta la flash ni la RAM estática.
+
+| Mitad | Flash de aplicación | Flash libre | RAM estática | RAM restante antes de pila |
+| --- | ---: | ---: | ---: | ---: |
+| Izquierda | 25584 | 3088 | 1752 | 808 |
+| Derecha | 25656 | 3016 | 1756 | 804 |
+
+Tamaños en bytes. La EEPROM de presets pasa de 30 a 50 bytes. Las pruebas
+nativas de las cinco ranuras, conservación de los tres registros y callbacks
+RGB, las cuatro compilaciones AVR y las comparaciones de mapa/gráficos pasaron.

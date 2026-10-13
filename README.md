@@ -44,7 +44,9 @@ ni EEPROM.
 La rama `feature/rgb-presets` amplía ahora a [cinco presets](qmk/changes/five-rgb-presets.md):
 añade Fn + Y y Fn + Ñ en Colemak como ranuras 4 y 5 (O/P en QWERTY).
 Los tres guardados anteriores conservan sus direcciones y datos. Esta ampliación
-está pendiente de compilación y carga; añade 20 bytes de EEPROM, hasta 50 en total.
+está compilada y verificada, pendiente de carga; añade 20 bytes de EEPROM,
+hasta 50 en total, sin aumentar flash ni RAM estática. Solo cambian cinco bytes
+del programa por mitad: las dos teclas Fn y el límite de ranuras.
 
 ## Inalámbrico
 

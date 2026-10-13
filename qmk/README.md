@@ -5,7 +5,9 @@
 La copia de trabajo amplía a [cinco presets](changes/five-rgb-presets.md),
 añadiendo Fn + Y/Ñ en Colemak (O/P en QWERTY) como ranuras 4/5. Los tres
 guardados anteriores conservan formato y direcciones. Esta ampliación está
-pendiente de compilación y carga; solo reasigna esas dos posiciones de Fn.
+compilada y verificada, pendiente de carga; solo reasigna esas dos posiciones de Fn.
+Cambian cinco bytes del programa por mitad, sin aumentar flash ni RAM estática.
+Los cinco presets ocupan 50 bytes de EEPROM, 20 más que los tres anteriores.
 
 La copia de trabajo añade el [modo RGB Uniforme](changes/uniform-mode.md),
 seleccionable con Fn + Tab y guardable en los tres presets existentes. Solo
