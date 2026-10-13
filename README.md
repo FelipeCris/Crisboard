@@ -36,7 +36,9 @@ Colemak y QWERTY se conservan intactos.
 La copia de trabajo añade un [modo RGB Uniforme](qmk/changes/uniform-mode.md),
 seleccionable con Fn + Tab y guardable en los mismos presets. En ese modo,
 Colemak ilumina también los bordes con el color base; los modos anteriores
-conservan el color inverso. Esta ampliación está pendiente de compilación y carga.
+conservan el color inverso. Esta ampliación está compilada y verificada, pendiente
+de carga. Añade 40/42 bytes de flash en izquierda/derecha, sin aumentar RAM estática
+ni EEPROM.
 
 ## Inalámbrico
 

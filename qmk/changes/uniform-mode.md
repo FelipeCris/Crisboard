@@ -22,4 +22,18 @@ fuentes de trabajo y del archivo histórico, para comparar los 68 LED en todos
 los modos anteriores, ambas mitades, las dos capas base y con/sin Fn. También
 comprueban Uniforme con/sin Fn y su guardado/carga por el módulo C real.
 
-Estado: preparado; compilación AVR, medición de memoria y carga pendientes.
+Estado: compilación AVR y verificaciones completas; carga y prueba física pendientes.
+
+Fuentes `fe546ad12c69cca40d2e1faefa4f2fa32b84b69e`.
+[Compilación USB](https://github.com/FelipeCris/Crisboard/actions/runs/38438373255).
+[Resultados](uniform-mode-verification.json).
+
+| Mitad | Flash de aplicación | Flash libre | Aumento de flash | RAM estática |
+| --- | ---: | ---: | ---: | ---: |
+| Izquierda | 25584 | 3088 | 40 | 1752 |
+| Derecha | 25656 | 3016 | 42 | 1756 |
+
+Tamaños en bytes respecto al firmware de tres presets instalado. No aumenta
+la RAM estática ni la EEPROM: los tres presets siguen ocupando 30 bytes.
+Pasaron las pruebas de callbacks/presets reales, las cuatro compilaciones AVR,
+la reproducción exacta de ambas bases, el mapa completo y todos los gráficos.
