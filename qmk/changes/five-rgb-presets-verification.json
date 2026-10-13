@@ -1,7 +1,7 @@
 {
   "source_commit": "4105d7d3631dc1cb1ba07cac17a079039837f222",
   "workflow_run": 38447300670,
-  "hardware_installation": "pending",
+  "hardware_installation": "both halves flashed and independently readback verified on 2026-10-13",
   "native_actual_preset_and_rgb_callback_tests": "passed in source workflow",
   "colemak_and_qwerty_unchanged": true,
   "only_two_new_fn_positions": true,
@@ -35,7 +35,14 @@
       "application_sha256": "fcce652f05bd896200445274fcfb31e52a5c18de0388945d01384697969a0722",
       "expected_flash_sha256": "5d24ae5cc5782339f4b1d623fac87b5dfcc6674e45820859a6bd380a226b1635",
       "hex_sha256": "1d13543635684303e32ecbc8afa7de553cc22a121aa00ded5502e9cf1b0bd77c",
-      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6"
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "all_1024_eeprom_bytes_unchanged": true,
+        "valid_preexisting_presets_preserved": 3,
+        "new_preset_addresses_empty_before_owner_saves": true
+      }
     },
     "derecha": {
       "original_application_reproduced_exactly": true,
@@ -56,11 +63,30 @@
       "application_sha256": "cae90f0f0f2d52ce8bdd9af8951db78df64511fe771576fd8563da61577600c9",
       "expected_flash_sha256": "4bf0741b7694ca888629d586e2aa9b732a1848437c78553615323dbbda0c86a7",
       "hex_sha256": "635c98af14e7093c588a8a8d2325b431aff8b110f8b1a0a94364816c7ddde040",
-      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6"
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "all_1024_eeprom_bytes_unchanged": true,
+        "valid_preexisting_presets_preserved": 0,
+        "new_preset_addresses_empty_before_owner_saves": true
+      }
     }
   },
   "artifact_zip_sha256": "d04c0d2ba06b5cb020dad78ef0619b9ae69c1e6fdfb2e1c1595cfde3b4258e0c",
   "qmk_commit": "0a3f7e48690bb2b7b008300a54554979a55be19a",
   "avr_gcc": "8.5.0",
-  "owner_functional_verification": "pending"
+  "owner_functional_verification": {
+    "previous_three_presets_save": "confirmed",
+    "new_y_and_enye_presets_save": "confirmed after initial unsuccessful attempts",
+    "additional_firmware_changes_or_flashes_after_installation": false,
+    "cause_of_initial_unsuccessful_attempts": "undetermined; initial hold duration was not measured",
+    "new_two_presets_persist_after_reconnect": "pending owner confirmation"
+  },
+  "diagnostic_before_owner_success_report": {
+    "left_full_flash_matches_installed_five_preset_image": true,
+    "existing_three_records_valid": true,
+    "new_two_records_empty_at_read_time": true,
+    "device_memory_written_by_diagnostic": false
+  }
 }

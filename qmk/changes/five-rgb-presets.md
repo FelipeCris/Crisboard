@@ -30,7 +30,19 @@ Uniforme en la cuarta y verifican que escribir las dos nuevas no cambia
 ningún byte de los tres registros anteriores. Se mantienen las pruebas de
 interrupciones, corrupción, tiempos, límites y callbacks RGB completos.
 
-Estado: compilación y verificaciones completas; carga y prueba física pendientes.
+Estado: cargado en ambas mitades el 13 de octubre de 2026. Los 32768 bytes
+leídos de cada flash coinciden con su imagen prevista; bootloader y los 1024
+bytes de EEPROM de cada mitad se conservaron durante la carga, incluidos los
+tres presets válidos de la izquierda.
+
+El propietario reportó inicialmente que Y y Ñ no guardaban. La lectura de
+diagnóstico confirmó el firmware correcto y ambas ranuras todavía vacías.
+Después confirmó que ya guardan, sin otra carga ni cambios de firmware.
+El gesto exige mantener Fn y la tecla durante dos segundos completos, contados
+desde la pulsación de la tecla del preset; soltar antes carga en vez de guardar.
+La duración de las primeras pulsaciones no se midió, por lo que no se atribuye
+una causa definitiva. Falta confirmar la persistencia de las dos ranuras nuevas
+tras desconectar y reconectar; la de los tres presets anteriores ya fue confirmada.
 
 Fuentes `4105d7d3631dc1cb1ba07cac17a079039837f222`.
 [Compilación USB](https://github.com/FelipeCris/Crisboard/actions/runs/38447300670).

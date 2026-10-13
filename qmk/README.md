@@ -5,7 +5,10 @@
 La copia de trabajo amplía a [cinco presets](changes/five-rgb-presets.md),
 añadiendo Fn + Y/Ñ en Colemak (O/P en QWERTY) como ranuras 4/5. Los tres
 guardados anteriores conservan formato y direcciones. Esta ampliación está
-compilada y verificada, pendiente de carga; solo reasigna esas dos posiciones de Fn.
+compilada y cargada en ambas mitades, con lectura completa verificada y EEPROM
+y bootloader conservados; solo reasigna esas dos posiciones de Fn. El propietario
+confirmó que Y y Ñ ya guardan, sin otra carga ni cambios durante el diagnóstico.
+Falta confirmar la persistencia de esas dos ranuras nuevas tras reconectar.
 Cambian cinco bytes del programa por mitad, sin aumentar flash ni RAM estática.
 Los cinco presets ocupan 50 bytes de EEPROM, 20 más que los tres anteriores.
 
