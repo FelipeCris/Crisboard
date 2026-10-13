@@ -2,10 +2,15 @@
 
 ## Estado del teclado
 
-La rama `feature/rgb-presets` prepara [tres presets guardables desde el teclado](changes/rgb-presets.md),
-pendientes de compilación y carga. Solo añade tres teclas Fn y el módulo
+La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
+compilados y verificados, pendientes de carga y prueba física. Solo añade tres teclas Fn y el módulo
 aislado de persistencia; los indicadores Fn, bordes inversos, OLED, perrito
 y las tablas Colemak/QWERTY se conservan.
+
+Esta función añade 542 bytes de flash y 6 bytes de RAM estática por mitad,
+además de 30 bytes de EEPROM para las tres ranuras. Quedan 3128/3058 bytes
+de flash libres en izquierda/derecha. Las pruebas nativas del módulo C y las
+verificaciones AVR pasaron en la [compilación de presets](https://github.com/FelipeCris/Crisboard/actions/runs/38433183294).
 
 La nueva distribución Fn se cargó en ambas mitades el 13 de octubre de 2026.
 Se verificaron los 32768 bytes de cada flash y se conservaron EEPROM y bootloader.

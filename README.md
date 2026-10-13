@@ -24,10 +24,12 @@ se conservan íntegros. Esta revisión se compiló y cargó en ambas mitades;
 la lectura completa confirma que solo cambiaron 24 bytes del mapa por mitad.
 El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se conservaron.
 
-La rama `feature/rgb-presets` prepara [tres presets RGB guardables](qmk/changes/rgb-presets.md)
+La rama `feature/rgb-presets` contiene [tres presets RGB guardables](qmk/changes/rgb-presets.md)
 con Fn + J/L/U en Colemak. Guardan la configuración base, sin capturar las
-indicaciones temporales de Fn. La compilación y carga de esta función están
-pendientes; Colemak y QWERTY se conservan intactos.
+indicaciones temporales de Fn. La compilación y las pruebas del módulo C pasaron;
+la carga y prueba física están pendientes. Añade 542 bytes de flash y 6 bytes
+de RAM estática por mitad, con 30 bytes de EEPROM para los tres presets.
+Colemak y QWERTY se conservan intactos.
 
 ## Inalámbrico
 

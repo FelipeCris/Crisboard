@@ -1,7 +1,11 @@
 # Tres presets RGB guardables desde el teclado
 
-Rama `feature/rgb-presets`, basada en el PR #1 ya fusionado. Estado inicial:
-implementación preparada, pendiente de compilación y carga en el teclado.
+Rama `feature/rgb-presets`, basada en el PR #1 ya fusionado. Estado:
+compilación y verificaciones completas; carga y prueba física pendientes.
+
+Fuentes compilados: `4f9f83c6db5dcc1c17b7652df10688713a15539d`.
+[Compilación QMK USB](https://github.com/FelipeCris/Crisboard/actions/runs/38433183294).
+[Resultados verificados](rgb-presets-verification.json).
 
 ## Uso
 
@@ -64,4 +68,19 @@ Compara los 420 bytes del mapa esperado, los 1344 bytes de fuente OLED y los
 864 bytes del perrito. El guard de fuentes exige que las capas base y la lógica
 original de indicadores, OLED y perrito sigan intactas.
 
-El aumento de flash y RAM se medirá con los resultados reales de compilación.
+Las pruebas nativas del módulo C real y las cuatro compilaciones AVR pasaron.
+Las bases completas reproducen los respaldos originales; las dos aplicaciones
+nuevas contienen el mapa esperado y todos los gráficos originales. Frente al
+firmware Fn anterior cambian exactamente las tres posiciones de presets, sin
+alterar ninguna posición de Colemak o QWERTY.
+
+| Mitad | Flash de aplicación | Flash libre | RAM estática | RAM restante antes de pila |
+| --- | ---: | ---: | ---: | ---: |
+| Izquierda | 25544 | 3128 | 1752 | 808 |
+| Derecha | 25614 | 3058 | 1756 | 804 |
+
+Tamaños en bytes: el aumento es de 542 bytes de flash y 6 bytes de RAM estática
+por mitad respecto a la distribución Fn instalada y probada en Windows y macOS.
+Los 30 bytes de presets se almacenan en EEPROM, una memoria distinta. La RAM
+restante no incluye el consumo dinámico de la pila; la prueba física de esta
+función sigue pendiente.
