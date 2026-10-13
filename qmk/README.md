@@ -1,135 +1,111 @@
-# Crisboard cableado: fuentes históricos y mapa instalado
+# Crisboard USB: recuperaci?n y dos opciones de tama?o
 
-El Crisboard cableado utiliza QMK sobre ATmega32U4. Se leyeron ambas mitades
-mediante Caterina, sin escribir en el teclado. Cada flash se leyó dos veces y
-las dos copias coincidieron. El mapa de teclas y el bootloader son idénticos
-entre mitades; el programa compilado y la EEPROM difieren.
+## Estado del teclado
 
-## Contenido
+El 13 de octubre de 2026 se restauraron el programa y los ajustes originales
+de ambas mitades despu?s de una reconstrucci?n que alter? comportamiento RGB.
+Se verificaron por lectura completa; el propietario confirm? que volvieron
+los bordes de color inverso, play/pause y el brillo anterior. Esa reconstrucci?n
+queda descartada. El teclado no tiene todav?a aplicados LTO ni la eliminaci?n
+de CYCLE_SPIRAL.
 
-- `legacy/crisboard/`: copia sin cambios de los diez archivos de la carpeta
-  histórica del propietario. No es una reconstrucción del programa instalado.
-- `legacy/source-manifest.json`: SHA256 de cada archivo histórico copiado.
-- `recovered/keymap-only.c`: tabla de teclas reconstruida de la flash real.
-  No incluye las implementaciones instaladas de OLED, RGB o transporte split.
-- `recovered/keymap.json`: códigos numéricos originales, matriz y posiciones
-  físicas de las tres capas.
-- `tools/decode_keymap.py`: decodificador de los dos respaldos verificados.
+## Fuentes conservados
 
-Los binarios de respaldo y la EEPROM se conservaron localmente. Sus huellas:
+- `legacy/crisboard/`: los diez archivos de la primera carpeta encontrada,
+  preservados byte por byte y con su manifiesto SHA256. Difieren del instalado.
+- `snapshots/2023-06/crisboard/`: copia sin modificar del archivo aportado
+  `Crisboard 2023 jun.rar`; el manifiesto conserva el SHA256 del RAR y de cada
+  archivo extra?do. No contiene binarios ni la versi?n de QMK del propietario.
+- `keyboards/crisboard/`: copia de ese RAR con solo CYCLE_SPIRAL desactivado
+  en `config.h` y `LTO_ENABLE = yes` en `rules.mk`.
+- `recovered/keymap-only.c` y `keymap.json`: tabla le?da de los dos programas
+  originales, con c?digos num?ricos y posiciones f?sicas.
+- `recovered/june-2023-comparison.json`: evidencia y l?mites de la comparaci?n.
 
-| Mitad | SHA256 de flash completa, 32768 bytes |
-| --- | --- |
-| Izquierda | `069eae24b773643071d7ad368c4b63536e603040775edea4b1e86a19c22b935d` |
-| Derecha | `32347d004cb6d5b779809a92848d4117994e7b0a412bd19088aaed46d8d6c90f` |
+El RAR coincide con los 420 bytes del mapa de ambas mitades: 210 posiciones,
+68 switches y dos huecos por capa. Coinciden tambi?n los 1344 bytes de la
+fuente OLED, los 864 bytes del perrito, los rangos RGB de bordes/Fn y los
+principales descriptores USB.
 
-No se identificó la versión exacta de QMK en el binario. La tabla usa los
-valores históricos de keycodes documentados en
-[`quantum_keycodes.h` de QMK 0.18.0](https://github.com/qmk/qmk_firmware/blob/0.18.0/quantum/quantum_keycodes.h).
-Esa referencia permite decodificarla; **no prueba que se compilara con 0.18.0**.
-La disposición matriz→teclas se tomó del `LAYOUT` en `legacy/crisboard/crisboard.h`.
+Frente a la primera carpeta, el RAR declara MASTER_LEFT, brillo OLED y RGB
+m?ximo 255, textos Clmk/Base/Lower y los rangos sim?tricos de color inverso.
+El respaldo izquierdo carece del bloque de apagado OLED por WPM que s?
+aparece en el derecho y en el RAR. Esta diferencia se conserva al recuperar
+la base de cada mitad; no se aplica como nueva funci?n al izquierdo.
 
-## Lo comprobado del mapa instalado
+## Compilaci?n y l?mites
 
-Las capas son Colemak (0), QWERTY (1) y Lower/Fn (2). La tabla común ocupa
-420 bytes en `0x047e..0x0621`. Contiene 68 switches físicos y dos posiciones
-sin switch por capa.
+Se usa como referencia compatible QMK 0.18.0, commit
+`0a3f7e48690bb2b7b008300a54554979a55be19a`. No se ha identificado todav?a
+la revisi?n exacta del checkout original del propietario.
 
-El mapa no coincide exactamente con `Estable.zip`, `Estable2.zip`,
-`Final Entrega.zip` ni con el `keymap.c` histórico suelto. Por eso se conservan
-separados los fuentes encontrados y la tabla recuperada.
+El workflow `QMK USB` fija las acciones por commit, verifica los paquetes de
+compilador y registra herramientas/dependencias en el artefacto. La referencia
+para AVR GCC 8.5 es el
+[paquete hist?rico de MSYS2 mantenido por fauxpark](https://github.com/msys2/MINGW-packages/blob/6561e2269487ec2f86935be588af48275b4c215e/mingw-w64-avr-gcc/PKGBUILD).
 
-Mantener Fn entra en Lower. Las dos teclas interiores de la segunda fila
-seleccionan QWERTY (izquierda) y Colemak (derecha) mediante `DF(layer)`.
-Esto cambia la capa base de la sesión; no la guarda en EEPROM.
+`tools/verify_two_options.py` exige que la copia de trabajo conserve los diez
+archivos y solo contenga las dos diferencias solicitadas. Rechaza cambios en
+mapa, indicadores RGB, brillo, fuente OLED y animaci?n del perrito.
 
-Las etiquetas de puntuación en C son posiciones USB/HID, no una distribución
-de idioma. Los caracteres resultantes dependen de la distribución de Windows.
+`tools/reconstruct_baseline.py` recupera la diferencia OLED del izquierdo y
+exige SHA256 id?ntico del ?rea completa de aplicaci?n original (28672 bytes,
+completando el final con 0xff). La comprobaci?n se ejecuta antes de compilar
+la optimizaci?n de cada mitad. Los dos hashes originales son:
 
-## Cómo se programa el cableado
+- Izquierda: `01f934c4a40a9653e146a1cb1c0652e5a50bdb072af15a3f960c276f8daee1e5`.
+- Derecha: `a9d131153a88eada4022603b994662ae9a67eafd35e4bf1d4b0ce5ac990e7abb`.
 
-1. Se edita `keymap.c` para las teclas/capas, `config.h` para pines y opciones,
-   y el código de OLED/RGB cuando corresponde.
-2. Se compila con QMK para obtener un `.hex` de aplicación. Debe elegirse una
-   revisión de QMK y una herramienta de compilación concretas.
-3. Con un firmware ya validado, QMK Toolbox permite seleccionar ATmega32U4 y
-   programar por Caterina tras pulsar RESET. Se trata cada mitad por separado.
+El verificador del `.hex` comprueba registros/checksums, l?mite de Caterina
+`0x7000`, s?mbolo keymaps y coincidencia de los 420 bytes del mapa real.
+**Compilar correctamente no basta para afirmar equivalencia con el instalado.**
+No cargar un resultado que no haya superado la comparaci?n completa de su base.
 
-**Estos fuentes todavía no constituyen un firmware actualizado y validado.**
-Antes de compilar con QMK actual hay que portar las definiciones antiguas,
-integrar el mapa recuperado y verificar RGB, OLED, pines y rol de cada mitad.
-No se ha compilado ni programado ningún firmware nuevo en esta recuperación.
+La comparaci?n completa pas? con AVR GCC 8.5.0: las dos bases reproducen
+exactamente los 28672 bytes de aplicaci?n de sus respectivos respaldos.
+[Compilaci?n verificada](https://github.com/FelipeCris/Crisboard/actions/runs/38362814984),
+fuentes `275b0fec6170437e83958c9cc11c238cf5b69c4a`.
 
-En particular, los fuentes históricos declaran `MASTER_RIGHT`, mientras la
-conexión habitual observada fue por la izquierda. Esto no basta para deducir
-cómo se compiló cada programa instalado.
+| Mitad | Original | Solo espiral/LTO | Libre | Ahorro |
+| --- | ---: | ---: | ---: | ---: |
+| Izquierda | 28186 | 25002 | 3670 | 3184 |
+| Derecha | 28264 | 25072 | 3600 | 3192 |
 
-El ATmega32U4 tiene 32768 bytes de flash; Caterina ocupa los últimos 4096.
-En las imágenes leídas quedan 486 bytes (izquierda) y 408 (derecha) de `0xff`
-al final del área de aplicación. Es una observación del binario, no un informe
-de tamaño del enlazador; hay poco margen y habrá que medir cada compilación.
+Tama?os en bytes de aplicaci?n. La comparaci?n incluye tambi?n mapa y todos
+los fotogramas/fuente OLED en los binarios optimizados. La instalaci?n f?sica
+es un paso separado que exige verificar la imagen anterior y leer lo escrito.
 
-Documentación: [compilación QMK](https://docs.qmk.fm/newbs_building_firmware),
-[Caterina](https://docs.qmk.fm/flashing#caterina),
-[capas](https://docs.qmk.fm/feature_layers).
-
-## Mejoras que conviene evaluar
-
-Consultado el 13 de octubre de 2026. Son opciones de QMK actual, no funciones
-que se hayan incorporado al teclado durante esta recuperación:
-
-- [Layer Lock](https://docs.qmk.fm/features/layer_lock): mantener Fn activo
-  sin sostener la tecla. Sería útil para F1–F12 y ajustes RGB prolongados.
-- [Repeat Key](https://docs.qmk.fm/features/repeat_key): repetir la última
-  tecla o combinación; puede resultar cómodo al escribir en Colemak.
-- [Caps Word](https://docs.qmk.fm/features/caps_word): escribir una palabra
-  en mayúsculas y salir automáticamente al terminarla. No es necesariamente
-  una novedad posterior a este firmware, cuya versión exacta desconocemos.
-- [Chordal Hold y Flow Tap](https://docs.qmk.fm/tap_hold): evaluar solo si
-  se decide convertir letras en modificadores al mantenerlas. El mapa actual
-  utiliza modificadores dedicados.
-
-Primero conviene portar y medir. Por ejemplo, los fuentes históricos incluyen
-`config_common.h`, `RGB_DI_PIN` y un callback RGB que devuelve `void`; QMK
-ha cambiado esas interfaces. Véanse los cambios de
-[noviembre de 2022](https://docs.qmk.fm/ChangeLog/20221126) y
-[mayo de 2023](https://docs.qmk.fm/ChangeLog/20230528).
-La guía oficial para AVR recomienda evaluar `LTO_ENABLE = yes` para reducir
-el tamaño: [optimización de flash](https://docs.qmk.fm/squeezing_avr).
-No se ha medido cuánto ahorraría en este teclado.
-
-## Copia de trabajo: optimización de flash
-
-`keyboards/crisboard/` es una copia de `legacy/crisboard/` con solo dos
-opciones modificadas a petición del propietario:
-
-- `config.h`: se desactiva `ENABLE_RGB_MATRIX_CYCLE_SPIRAL`, la espiral
-  multicolor. `ENABLE_RGB_MATRIX_BAND_SPIRAL_VAL` sigue habilitada.
-- `rules.mk`: se activa `LTO_ENABLE = yes`.
-
-El código y los fotogramas del perrito, OLED, WPM y las demás opciones
-permanecen iguales a la copia histórica. Esta copia no incorpora todavía
-el mapa recuperado del firmware real ni resuelve el rol `MASTER_RIGHT`.
-No se debe programar directamente como sustituto del firmware instalado.
-
-Validación realizada: integridad SHA256 de los diez archivos históricos,
-comparación completa de ambas carpetas (solo difieren `config.h` y
-`rules.mk`) y comprobación de las opciones activas. No se dispone de
-un compilador AVR/QMK en este entorno: no se generó un `.hex` ni se
-midió el ahorro. La compilación y la verificación del mapa/rol quedan
-pendientes antes de programar ambas mitades.
-
-## Reproducir la recuperación del mapa
-
-Con Python 3 y el respaldo local de cualquiera de las dos mitades:
+Desde un checkout QMK en la revisi?n fijada y con el toolchain preparado:
 
 ```text
-python qmk/tools/decode_keymap.py RUTA_A_FIRMWARE.bin --json-out mapa.json --c-out keymap-only.c
+bash qmk/tools/build_usb.sh RUTA_QMK RUTA_RESULTADOS
 ```
 
-El programa rechaza imágenes con otra huella. Solo lee archivos y genera
-los resultados solicitados; no accede al teclado.
+El script produce resultados separados para izquierda/derecha, base/optimizado,
+con sus ELF, HEX, registros, tama?os y verificaciones. Los respaldos originales
+y la EEPROM permanecen locales y no se suben al repositorio.
 
-Los encabezados de licencia de los fuentes históricos se preservan. El
-decodificador y el mapa recuperado se publican como GPL-2.0-or-later, en
-concordancia con esos fuentes. Esto no cambia la licencia del resto del repo.
+## Mapa instalado
+
+Colemak (0), QWERTY (1) y Lower/Fn (2). Mantener Fn activa Lower. Las dos
+teclas interiores de la segunda fila seleccionan QWERTY (izquierda) y Colemak
+(derecha) mediante DF(layer), para la sesi?n. El idioma de Windows determina
+los caracteres de puntuaci?n; los c?digos son posiciones USB/HID.
+
+Para repetir ?nicamente la extracci?n del mapa de uno de los backups conocidos:
+
+```text
+python qmk/tools/decode_keymap.py FIRMWARE.bin --json-out mapa.json --c-out keymap-only.c
+```
+
+## Programaci?n
+
+ATmega32U4, 16 MHz, Caterina/AVR109, USB por la izquierda. Cada mitad se
+programa por separado despu?s de RESET y con su resultado verificado.
+Conservar el bootloader de 4096 bytes, respaldar los ajustes y verificar lo
+escrito por lectura completa. El firmware original de cada mitad y sus ajustes
+pueden restaurarse exactamente desde los respaldos locales ya verificados.
+
+La configuraci?n ZMK del inal?mbrico y su workflow se conservan independientes.
+Los encabezados de licencia hist?ricos se mantienen; los scripts de recuperaci?n
+son GPL-2.0-or-later.

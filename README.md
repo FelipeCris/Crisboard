@@ -13,9 +13,10 @@ En [`qmk/README.md`](qmk/README.md) están los fuentes históricos, el mapa
 recuperado de las dos mitades y el procedimiento de programación. Los fuentes
 encontrados no reproducen todavía exactamente el firmware instalado.
 
-La copia de trabajo `qmk/keyboards/crisboard/` desactiva `CYCLE_SPIRAL`
-y activa LTO; conserva el perrito. Falta compilar y verificar el mapa
-y el rol de cada mitad antes de programar.
+La copia de trabajo `qmk/keyboards/crisboard/` parte del RAR de junio de 2023
+y solo desactiva `CYCLE_SPIRAL` y activa LTO. La validaci?n exige reproducir
+primero cada backup completo. El teclado conserva sus programas originales
+restaurados; la primera reconstrucci?n se descart?.
 
 ## Inalámbrico
 
