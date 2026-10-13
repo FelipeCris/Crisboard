@@ -1,5 +1,59 @@
-on: [push, pull_request, workflow_dispatch]
+name: ZMK battery percentage
+
+on:
+  push:
+    branches: [master]
+    paths: [config/**, zmk/**, build.yaml, .github/workflows/build.yml]
+  pull_request:
+    paths: [config/**, zmk/**, build.yaml, .github/workflows/build.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    container:
+      image: zmkfirmware/zmk-build-arm@sha256:e0472ca01a1f96ac1255a4955eff8081190b0587f7432de06f8f01968fa3a76f
+    strategy:
+      fail-fast: false
+      matrix:
+        side: [left, right]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          path: config-repo
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify the limited configuration change
+        run: python3 config-repo/zmk/tools/verify_source.py
+      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: |
+            modules/
+            tools/
+            bootloader/
+          key: zmk-zephyr3-2364960-3861c95-${{ runner.os }}
+      - name: Fetch pinned sources and record toolchain
+        run: |
+          west init -l config-repo/config
+          west update --narrow -o=--depth=1
+          west zephyr-export
+          test "$(git -C zmk rev-parse HEAD)" = 2364960f842f34d3c552cca358b7be62fbbf9988
+          test "$(git -C zephyr rev-parse HEAD)" = 3861c95d11e95d35a63afca67c39e578e32ce81e
+          mkdir -p results
+          west manifest --freeze > results/manifest-frozen.yml
+          python3 --version > results/toolchain.txt
+          west --version >> results/toolchain.txt
+          cmake --version >> results/toolchain.txt
+      - name: Build icon baseline and percentage firmware
+        run: bash config-repo/zmk/tools/build_battery_percentage.sh '${{ matrix.side }}'
+      - name: Verify compiled configuration, matrix and actual keymap
+        run: python3 config-repo/zmk/tools/verify_build.py '${{ matrix.side }}'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: zmk-battery-percentage-${{ matrix.side }}
+          path: results/
+          if-no-files-found: error
