@@ -6,7 +6,8 @@ La copia de trabajo añade el [modo RGB Uniforme](changes/uniform-mode.md),
 seleccionable con Fn + Tab y guardable en los tres presets existentes. Solo
 ese modo omite la inversión de los bordes en Colemak; los modos anteriores y
 los indicadores temporales de Fn se conservan. Compilación y verificaciones
-completas; carga y prueba física pendientes. Añade 40/42 bytes de flash en
+completas; ambas mitades cargadas y verificadas por lectura completa.
+EEPROM, presets y bootloader se conservaron. La prueba de uso está pendiente. Añade 40/42 bytes de flash en
 izquierda/derecha, sin aumentar RAM estática ni EEPROM.
 
 La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),

@@ -22,7 +22,10 @@ fuentes de trabajo y del archivo histórico, para comparar los 68 LED en todos
 los modos anteriores, ambas mitades, las dos capas base y con/sin Fn. También
 comprueban Uniforme con/sin Fn y su guardado/carga por el módulo C real.
 
-Estado: compilación AVR y verificaciones completas; carga y prueba física pendientes.
+Estado: compilación AVR y verificaciones completas; ambas mitades cargadas
+el 13 de octubre de 2026. La lectura completa de cada flash coincide con su
+imagen prevista; EEPROM, presets y bootloader se conservaron.
+La prueba de uso está pendiente de confirmación del propietario.
 
 Fuentes `fe546ad12c69cca40d2e1faefa4f2fa32b84b69e`.
 [Compilación USB](https://github.com/FelipeCris/Crisboard/actions/runs/38438373255).
