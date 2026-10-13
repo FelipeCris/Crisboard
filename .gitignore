@@ -1,0 +1,6 @@
+# Local firmware/configuration backups are kept outside the public repository.
+*.bin
+*.hex
+*.eep
+__pycache__/
+*.py[cod]

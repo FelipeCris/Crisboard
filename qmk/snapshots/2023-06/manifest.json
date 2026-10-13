@@ -1,0 +1,16 @@
+{
+  "archive_sha256": "5f45b961b98020421c733bc654b3ca4f7606919c7d8798d5c02afaa34c18330e",
+  "source_files_sha256": {
+    "config.h": "ea4f724da2cbaac554b2a9dea4b8aa1f0e17bc7028a74020ef7b2ad36e295cea",
+    "crisboard.c": "fd7f8e471bf51d717198c35ef932a3b38f871d00096b2ae817da912709f78ceb",
+    "crisboard.h": "4150e67782f24918dd9baa4e007389610c2f3f5b235c7bc983361c976118d805",
+    "info.json": "21b6d5616f4b978b1f045134736c20e371e1bca64166203bca383c510dd52fce",
+    "keymaps/default/config.h": "ce468209ae239c6094c186b9b035384632375c11b55d1b832d91b7dfd466d519",
+    "keymaps/default/keymap.c": "8bf8386d49e3e5d39a1880f62842d867aed615328a398a8f1665baa6540bbc12",
+    "keymaps/default/sdf.ino": "068b51c475c51352ed39bdd1912fdd3bb5791d191a55764edb6eaa4ec187fa58",
+    "lib/crislogo.c": "a68a036e412e8189b22706b9716ba702d2c7324eb47ec12eb10094999e2cb4da",
+    "Makefile": "c49190ef7724ae3f8f0ac6c9205d63086ccda309a4d818f40f0c7cfaf6f09abd",
+    "rules.mk": "dfb10290aea8566fdbe12ebb4782346ce57d41c327825e0ce50c4ece98dae988"
+  },
+  "installed_firmware_equivalence": "verified whole-application reproduction: right unchanged; left with its original WPM OLED block difference restored"
+}

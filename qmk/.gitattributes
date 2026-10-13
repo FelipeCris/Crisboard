@@ -1,0 +1,7 @@
+# Preserve the owner-provided historical files byte for byte.
+legacy/crisboard/** -text
+recovered/** text eol=lf
+tools/** text eol=lf
+# Keep the working copy comparable with the historical snapshot.
+keyboards/crisboard/** -text
+snapshots/2023-06/crisboard/** -text
