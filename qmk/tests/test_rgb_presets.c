@@ -8,6 +8,8 @@
 #include <string.h>
 
 typedef struct { HSV hsv; uint8_t mode, speed, enabled; } lighting_t;
+#define PRESET_BYTES (CB_RGB_PRESET_COUNT * 10)
+#define PRESET_END (CB_RGB_PRESET_EEPROM_BASE + PRESET_BYTES)
 static lighting_t lighting;
 static uint8_t memory[1024];
 static unsigned writes[1024], write_count, native_commits;
@@ -92,7 +94,7 @@ static void save(uint8_t slot) {
 }
 static void assert_save_region_only(void) {
     for (size_t i = 0; i < sizeof(writes)/sizeof(writes[0]); ++i)
-        if (i < 64 || i >= 94) assert(writes[i] == 0);
+        if (i < CB_RGB_PRESET_EEPROM_BASE || i >= PRESET_END) assert(writes[i] == 0);
     assert(native_commits == 0);
 }
 
@@ -103,7 +105,7 @@ int main(void) {
     memset(memory, 0xFF, sizeof(memory));
     lighting = a;
     clear_counts();
-    for (uint8_t slot = 0; slot < 3; ++slot) tap(slot);
+    for (uint8_t slot = 0; slot < CB_RGB_PRESET_COUNT; ++slot) tap(slot);
     assert(same(lighting,a) && write_count == 0 && native_commits == 0);
 
     // Fn and border HSV copies differ: saving while Fn is held must capture a.
@@ -121,13 +123,13 @@ int main(void) {
     assert(write_count == once);
     key(0,false,CB_RGB_PRESET_1);
     assert(native_commits == 0); // A long hold must not load on release.
-    uint8_t slots[30]; memcpy(slots,memory+64,sizeof(slots));
+    uint8_t slots[PRESET_BYTES]; memcpy(slots,memory+64,sizeof(slots));
     lighting = b;
     clear_counts();
     tap(0);
     assert(same(lighting,a) && native_commits == 1);
     assert(memcmp(slots,memory+64,sizeof(slots)) == 0);
-    for (unsigned i=64; i<94; ++i) assert(writes[i] == 0);
+    for (unsigned i=64; i<PRESET_END; ++i) assert(writes[i] == 0);
     clear_counts();
     save(0);
     assert(write_count == 0); // Identical saves avoid unnecessary EEPROM writes.
@@ -140,6 +142,21 @@ int main(void) {
     assert(same(lighting,off)); // Off presets still restore HSV/mode/speed.
     lighting = b; tap(0);
     assert(same(lighting,a)); // Independent slots, no lighting cache.
+
+    // Appending two slots preserves all 30 bytes of the existing three records.
+    const lighting_t fourth = {{83,217,99},RGB_MATRIX_CUSTOM_CRISBOARD_UNIFORM,72,1};
+    const lighting_t fifth = {{199,87,181},RGB_MATRIX_SOLID_COLOR,91,1};
+    uint8_t existing[30]; memcpy(existing,memory+64,sizeof(existing));
+    clear_counts(); lighting=fourth; save(3);
+    lighting=fifth; save(4);
+    assert_save_region_only();
+    assert(memcmp(existing,memory+64,sizeof(existing)) == 0);
+    for (unsigned i=64; i<94; ++i) assert(writes[i] == 0);
+    lighting=a; tap(3); assert(same(lighting,fourth));
+    lighting=b; tap(4); assert(same(lighting,fifth));
+    lighting=b; tap(0); assert(same(lighting,a));
+    lighting=a; tap(1); assert(same(lighting,b));
+    lighting=a; tap(2); assert(same(lighting,off));
 
     // Fn release first must not leave a pending key or accidentally save.
     clear_counts(); lighting = b;
@@ -179,10 +196,10 @@ int main(void) {
     }
 
     // Simultaneous preset keys: only the first held key can save.
-    memset(memory+64,0xFF,30); clear_counts(); lighting=a;
+    memset(memory+64,0xFF,PRESET_BYTES); clear_counts(); lighting=a;
     key(0,true,CB_RGB_PRESET_1); key(1,true,CB_RGB_PRESET_2);
     advance(2000); key(1,false,CB_RGB_PRESET_2); key(0,false,CB_RGB_PRESET_1);
-    for (unsigned i=74;i<94;++i) assert(memory[i]==0xFF);
+    for (unsigned i=74;i<PRESET_END;++i) assert(memory[i]==0xFF);
     lighting=b; tap(0); assert(same(lighting,a));
 
     // The appended Uniform mode uses the existing record and persistence path.
@@ -192,6 +209,6 @@ int main(void) {
 
     keyrecord_t other={.event={.key={.row=0,.col=0},.pressed=true}};
     assert(crisboard_process_rgb_presets(4,&other));
-    puts("PASS: actual preset module; base color excludes Fn indicators; three slots; hold/tap; disabled RGB; EEPROM bounds; corrupt/interrupted saves; timer wrap; Fn-first release.");
+    puts("PASS: actual preset module; five independent slots; existing three records preserved; Uniform saved in slot four; base excludes Fn indicators; hold/tap; disabled RGB; EEPROM bounds; corrupt/interrupted saves; timer wrap; Fn-first release.");
     return 0;
 }

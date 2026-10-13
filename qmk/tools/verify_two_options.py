@@ -38,4 +38,4 @@ for name, digest in manifest["source_files_sha256"].items():
         expected = apply_source(original)
     if (working / name).read_bytes() != expected:
         raise ValueError(f"Unexpected source change outside approved Fn/preset integration: {name}")
-print("PASS: approved Fn/presets plus Uniform mode only; all key positions, normal RGB indicators, brightness, OLED and puppy preserved.")
+print("PASS: approved Fn/preset table plus Uniform only; Colemak/QWERTY, normal RGB indicators, brightness, OLED and puppy preserved.")

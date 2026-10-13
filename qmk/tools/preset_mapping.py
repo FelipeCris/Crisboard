@@ -1,4 +1,4 @@
-"""Add only the three owner-selected Fn preset keys and their integration hooks.
+"""Add only the five owner-selected Fn preset keys and their integration hooks.
 
 SPDX-License-Identifier: GPL-2.0-or-later
 """
@@ -16,6 +16,8 @@ PRESETS = (
     (6, 5, "KC_NO", 0, "CB_RGB_PRESET_1", 0x5DB4),
     (6, 4, "KC_TRNS", 1, "CB_RGB_PRESET_2", 0x5DB5),
     (6, 3, "KC_TRNS", 1, "CB_RGB_PRESET_3", 0x5DB6),
+    (6, 2, "KC_O", 0x12, "CB_RGB_PRESET_4", 0x5DB7),
+    (6, 1, "KC_P", 0x13, "CB_RGB_PRESET_5", 0x5DB8),
 )
 MODULE_FILES = {"keymaps/default/rgb_presets.c", "keymaps/default/rgb_presets.h"}
 RULES_APPEND = b"\r\nSRC += keyboards/crisboard/keymaps/default/rgb_presets.c\r\n"
@@ -57,7 +59,7 @@ def expected_map(recovered):
     original=[v for layer in recovered["layers"] for v in layer["raw_u16"]]
     actual=[v for layer in result["layers"] for v in layer["raw_u16"]]
     result["requested_fn_changes"]=sum(a!=b for a,b in zip(original,actual))
-    result["preset_keys_added"]=3
+    result["preset_keys_added"]=len(PRESETS)
     result["keymap_sha256"]=hashlib.sha256(table).hexdigest()
     return result
 

@@ -2,12 +2,18 @@
 
 ## Estado del teclado
 
+La copia de trabajo amplía a [cinco presets](changes/five-rgb-presets.md),
+añadiendo Fn + Y/Ñ en Colemak (O/P en QWERTY) como ranuras 4/5. Los tres
+guardados anteriores conservan formato y direcciones. Esta ampliación está
+pendiente de compilación y carga; solo reasigna esas dos posiciones de Fn.
+
 La copia de trabajo añade el [modo RGB Uniforme](changes/uniform-mode.md),
 seleccionable con Fn + Tab y guardable en los tres presets existentes. Solo
 ese modo omite la inversión de los bordes en Colemak; los modos anteriores y
 los indicadores temporales de Fn se conservan. Compilación y verificaciones
 completas; ambas mitades cargadas y verificadas por lectura completa.
-EEPROM, presets y bootloader se conservaron. La prueba de uso está pendiente. Añade 40/42 bytes de flash en
+EEPROM, presets y bootloader se conservaron. El propietario confirmó Uniforme,
+los modos anteriores y la conservación de sus presets. Añade 40/42 bytes de flash en
 izquierda/derecha, sin aumentar RAM estática ni EEPROM.
 
 La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
@@ -57,7 +63,7 @@ ajustes; el propietario confirmó bordes inversos, play/pause y brillo.
   archivo extraído. No contiene binarios ni la versión de QMK del propietario.
 - `keyboards/crisboard/`: copia de ese RAR con CYCLE_SPIRAL desactivado,
   `LTO_ENABLE = yes`, la distribución Fn aprobada y el módulo de presets
-  (dos archivos adicionales). Tres posiciones Fn ahora seleccionan presets.
+  (dos archivos adicionales). Cinco posiciones Fn seleccionan presets.
   Un tercer archivo añade el modo RGB Uniforme reutilizando el renderer sólido.
 - `recovered/keymap-only.c` y `keymap.json`: tabla leída de los dos programas
   originales, con códigos numéricos y posiciones físicas.
@@ -90,7 +96,7 @@ del módulo de presets y el archivo del modo Uniforme, con las opciones de tama�
 y la integración aprobada. Rechaza cambios en todas las teclas, indicadores RGB
 de los modos anteriores, brillo, fuente OLED y animación del perrito.
 `tools/preset_mapping.py` extiende la
-distribución anterior de `tools/fn_mapping.py` con solo las tres posiciones
+distribución anterior de `tools/fn_mapping.py` con las cinco posiciones
 elegidas y genera la tabla completa para verificar el binario compilado.
 
 `tools/reconstruct_baseline.py` recupera la diferencia OLED del izquierdo y

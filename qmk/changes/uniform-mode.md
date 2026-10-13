@@ -25,7 +25,9 @@ comprueban Uniforme con/sin Fn y su guardado/carga por el módulo C real.
 Estado: compilación AVR y verificaciones completas; ambas mitades cargadas
 el 13 de octubre de 2026. La lectura completa de cada flash coincide con su
 imagen prevista; EEPROM, presets y bootloader se conservaron.
-La prueba de uso está pendiente de confirmación del propietario.
+El propietario confirmó Uniforme, los modos anteriores y la conservación de
+sus presets. La ampliación posterior a cinco ranuras se documenta en
+[Cinco presets RGB](five-rgb-presets.md).
 
 Fuentes `fe546ad12c69cca40d2e1faefa4f2fa32b84b69e`.
 [Compilación USB](https://github.com/FelipeCris/Crisboard/actions/runs/38438373255).

@@ -67,5 +67,6 @@
   "artifact_zip_sha256": "7bcabdce37bcf82fdfabd2f49f46123f92a253d45fa17c3b02f3d5becc504bd9",
   "qmk_commit": "0a3f7e48690bb2b7b008300a54554979a55be19a",
   "avr_gcc": "8.5.0",
-  "owner_functional_verification": "pending"
+  "owner_functional_verification": "passed: owner confirmed Uniform and previous modes work; existing presets preserved",
+  "owner_functional_verification_date": "2026-10-13"
 }

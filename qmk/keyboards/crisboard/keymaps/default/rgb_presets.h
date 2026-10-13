@@ -7,9 +7,11 @@ enum crisboard_preset_keycodes {
     CB_RGB_PRESET_1 = SAFE_RANGE + 2,
     CB_RGB_PRESET_2,
     CB_RGB_PRESET_3,
+    CB_RGB_PRESET_4,
+    CB_RGB_PRESET_5,
 };
 
-#define CB_RGB_PRESET_COUNT 3
+#define CB_RGB_PRESET_COUNT 5
 #define CB_RGB_PRESET_EEPROM_BASE 64
 #define CB_RGB_PRESET_HOLD_MS 2000
 

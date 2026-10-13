@@ -24,7 +24,7 @@ se conservan íntegros. Esta revisión se compiló y cargó en ambas mitades;
 la lectura completa confirma que solo cambiaron 24 bytes del mapa por mitad.
 El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se conservaron.
 
-La rama `feature/rgb-presets` contiene [tres presets RGB guardables](qmk/changes/rgb-presets.md)
+La versión instalada contiene [tres presets RGB guardables](qmk/changes/rgb-presets.md)
 con Fn + J/L/U en Colemak. Guardan la configuración base, sin capturar las
 indicaciones temporales de Fn. La compilación y las pruebas del módulo C pasaron;
 ambas mitades están cargadas y verificadas por lectura completa.
@@ -37,8 +37,14 @@ La copia de trabajo añade un [modo RGB Uniforme](qmk/changes/uniform-mode.md),
 seleccionable con Fn + Tab y guardable en los mismos presets. En ese modo,
 Colemak ilumina también los bordes con el color base; los modos anteriores
 conservan el color inverso. Esta ampliación está compilada y cargada en ambas mitades,
-con lectura completa verificada. La prueba de uso está pendiente de confirmación. Añade 40/42 bytes de flash en izquierda/derecha, sin aumentar RAM estática
+con lectura completa verificada. El propietario confirmó Uniforme, los modos
+anteriores y la conservación de sus presets. Añade 40/42 bytes de flash en izquierda/derecha, sin aumentar RAM estática
 ni EEPROM.
+
+La rama `feature/rgb-presets` amplía ahora a [cinco presets](qmk/changes/five-rgb-presets.md):
+añade Fn + Y y Fn + Ñ en Colemak como ranuras 4 y 5 (O/P en QWERTY).
+Los tres guardados anteriores conservan sus direcciones y datos. Esta ampliación
+está pendiente de compilación y carga; añade 20 bytes de EEPROM, hasta 50 en total.
 
 ## Inalámbrico
 

@@ -95,7 +95,7 @@ static void preset_load(uint8_t slot) {
         rgb_matrix_disable();
     }
     // Keep the selected configuration across a power cycle, like normal RGB
-    // controls. Loading does not overwrite any of the three preset records.
+    // controls. Loading does not overwrite any of the preset records.
     eeconfig_update_rgb_matrix();
 }
 
@@ -127,7 +127,7 @@ bool crisboard_process_rgb_presets(uint16_t keycode, keyrecord_t *record) {
         pending_slot = NO_PRESET;
         return false;
     }
-    if (keycode < CB_RGB_PRESET_1 || keycode > CB_RGB_PRESET_3) {
+    if (keycode < CB_RGB_PRESET_1 || keycode > CB_RGB_PRESET_5) {
         return true;
     }
     if (record->event.pressed && pending_slot == NO_PRESET && layer_state_is(PRESET_LAYER)) {
