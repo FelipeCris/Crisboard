@@ -1,0 +1,16 @@
+{
+  "description": "Snapshot local de los fuentes hist?ricos; no equivale al firmware actualmente instalado.",
+  "captured": "2026-10-13",
+  "files_sha256": {
+    "config.h": "e19f7683bdbf258eb723d0fa2508c400c2380d8f313a62e148f90bc10bd25b52",
+    "crisboard.c": "fd7f8e471bf51d717198c35ef932a3b38f871d00096b2ae817da912709f78ceb",
+    "crisboard.h": "4150e67782f24918dd9baa4e007389610c2f3f5b235c7bc983361c976118d805",
+    "info.json": "21b6d5616f4b978b1f045134736c20e371e1bca64166203bca383c510dd52fce",
+    "Makefile": "c49190ef7724ae3f8f0ac6c9205d63086ccda309a4d818f40f0c7cfaf6f09abd",
+    "rules.mk": "dfb10290aea8566fdbe12ebb4782346ce57d41c327825e0ce50c4ece98dae988",
+    "lib/crislogo.c": "773e8a7c192bd77fc25f46d48d5ed4a67b2a60cf5c5c8f2138dc40e23e320a4d",
+    "keymaps/default/config.h": "ce468209ae239c6094c186b9b035384632375c11b55d1b832d91b7dfd466d519",
+    "keymaps/default/keymap.c": "9ed507ca4afdfa56c53e594aeb56afe9cc6c0ffc203205286a2404c4f445830c",
+    "keymaps/default/sdf.ino": "068b51c475c51352ed39bdd1912fdd3bb5791d191a55764edb6eaa4ec187fa58"
+  }
+}
