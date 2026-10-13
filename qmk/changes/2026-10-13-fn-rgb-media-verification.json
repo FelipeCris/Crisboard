@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-13",
+  "source_commit": "ecdcc049787e7795e112281a623402e573ebc633",
+  "qmk_commit": "0a3f7e48690bb2b7b008300a54554979a55be19a",
+  "avr_gcc": "8.5.0",
+  "workflow_url": "https://github.com/FelipeCris/Crisboard/actions/runs/38424635539",
+  "changed_fn_positions": 14,
+  "colemak_and_qwerty_unchanged": true,
+  "map_sha256": "2e8d3dd1da6b5334694b34d3549ca05451c8197838eb996b4757bfeee0f4125c",
+  "halves": {
+    "izquierda": {
+      "full_flash_verified": true,
+      "bootloader_unchanged": true,
+      "eeprom_unchanged_during_flash": true,
+      "only_keymap_bytes_changed": true,
+      "changed_bytes": 24,
+      "application_bytes": 25002,
+      "free_bytes": 3670
+    },
+    "derecha": {
+      "full_flash_verified": true,
+      "bootloader_unchanged": true,
+      "eeprom_unchanged_during_flash": true,
+      "only_keymap_bytes_changed": true,
+      "changed_bytes": 24,
+      "application_bytes": 25072,
+      "free_bytes": 3600
+    }
+  },
+  "owner_functional_verification": "passed: owner confirmed requested Fn RGB/media controls and unchanged Colemak/QWERTY"
+}

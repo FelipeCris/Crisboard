@@ -18,9 +18,11 @@ La versión con `CYCLE_SPIRAL` desactivado y LTO activado se cargó el
 el bootloader y los ajustes de cada mitad. El propietario confirmó que ambas
 mitades, Fn/play-pause, colores, brillo, modos RGB y perrito funcionan como antes. La primera reconstrucción se descartó.
 
-La copia de trabajo prepara ahora la [nueva distribución Fn](qmk/changes/2026-10-13-fn-rgb-media.md):
+La copia de trabajo contiene la [nueva distribución Fn](qmk/changes/2026-10-13-fn-rgb-media.md):
 controles RGB a la izquierda y multimedia a la derecha. Colemak y QWERTY
-se conservan íntegros. Esta revisión debe compilarse y cargarse por separado.
+se conservan íntegros. Esta revisión se compiló y cargó en ambas mitades;
+la lectura completa confirma que solo cambiaron 24 bytes del mapa por mitad.
+El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se conservaron.
 
 ## Inalámbrico
 

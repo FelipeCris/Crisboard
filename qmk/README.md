@@ -2,6 +2,14 @@
 
 ## Estado del teclado
 
+La nueva distribución Fn se cargó en ambas mitades el 13 de octubre de 2026.
+Se verificaron los 32768 bytes de cada flash y se conservaron EEPROM y bootloader.
+Solo cambian 24 bytes de las 14 posiciones Fn; Colemak y QWERTY y todos los bytes
+fuera de la tabla de teclas son idénticos a la versión anterior.
+El propietario confirmó que esta distribución Fn funciona como la solicitó.
+
+### Instalación previa de las dos opciones de tamaño
+
 El 13 de octubre de 2026 se cargaron las versiones que solo desactivan
 CYCLE_SPIRAL y activan LTO en ambas mitades. Antes de escribir se verificó
 el programa original de cada mitad y se respaldaron su flash y EEPROM.
@@ -100,10 +108,9 @@ y la EEPROM permanecen locales y no se suben al repositorio.
 
 ## Mapa instalado
 
-La [nueva distribución Fn](changes/2026-10-13-fn-rgb-media.md) está preparada
-en los fuentes de trabajo y pendiente de compilación e instalación. El estado
-verificado anteriormente corresponde al mapa original con las dos opciones
-de tamaño. Los mapas Colemak y QWERTY se conservan idénticos en esta revisión.
+La [nueva distribución Fn](changes/2026-10-13-fn-rgb-media.md) está compilada
+y cargada en ambas mitades, con lectura completa verificada. Colemak y QWERTY
+se conservan idénticos. El propietario confirmó que las nuevas funciones Fn y ambas capas base funcionan como pidió.
 
 Colemak (0), QWERTY (1) y Lower/Fn (2). Mantener Fn activa Lower. Las dos
 teclas interiores de la segunda fila seleccionan QWERTY (izquierda) y Colemak

@@ -28,6 +28,14 @@ La compilación compara los 420 bytes del mapa completo con el resultado
 esperado, incluidos Colemak y QWERTY sin cambios. Las bases originales siguen
 verificándose byte por byte contra sus respaldos antes de compilar cada mitad.
 
-Estado: código preparado; compilación e instalación de esta revisión pendientes.
-La versión previamente instalada conserva el mapa original y las dos opciones
-de tamaño. No se modifican los fuentes históricos ni los respaldos.
+Estado: compilación completada y ambas mitades cargadas el 13 de octubre de
+2026. La lectura completa confirma las imágenes previstas; EEPROM y bootloader
+se conservaron. En cada programa cambiaron únicamente 24 bytes de la tabla de
+teclas; todo el programa fuera de esa tabla es idéntico a la versión anterior.
+El propietario confirmó que los controles Fn funcionan como los solicitó
+y que Colemak y QWERTY se conservaron.
+
+[Verificación de compilación y carga](2026-10-13-fn-rgb-media-verification.json).
+[Compilación QMK USB](https://github.com/FelipeCris/Crisboard/actions/runs/38424635539),
+fuentes `ecdcc049787e7795e112281a623402e573ebc633`.
+Los fuentes históricos y respaldos se conservan.
