@@ -132,7 +132,7 @@ presets guardables desde el teclado. El indicador muestra siempre el perfil
 Bluetooth seleccionado y la preferencia USB/Bluetooth, diferenciándolos de
 la salida efectiva. Las cuatro compilaciones y las pruebas de presets, batería y
 mapa real pasaron para `b47294b`. Ambas mitades se cargaron y verificaron por
-lectura. El usuario confirmó escritura, controles Fn y cambio de base; falta confirmar los cinco presets.
+lectura. El usuario confirmó la prueba funcional.
 [Resultados](zmk/verification/qmk-fn.json). Esta fase conserva los cuatro
 efectos nativos ZMK; los efectos QMK, colores por tecla y perrito quedan para
 etapas posteriores.
