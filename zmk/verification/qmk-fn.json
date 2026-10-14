@@ -2,7 +2,7 @@
   "source_commit": "b47294b2579b5e3e2466426653e33704becf9723",
   "workflow_run": 38633460508,
   "hardware_installation": "both halves verified by readback",
-  "owner_functional_verification": "pending",
+  "owner_functional_verification": "partial; five presets pending",
   "halves": {
     "izquierda": {
       "compiled_config_identical": true,
@@ -101,5 +101,9 @@
         "all_readable_bytes_outside_target_pages_unchanged": true
       }
     }
-  }
+  },
+  "owner_confirmed_functions": [
+    "typing on both halves and Fn RGB/media controls",
+    "return to Colemak using the base selector"
+  ]
 }
