@@ -38,15 +38,20 @@ de voltaje verificados en las placas. No se genera ni carga settings_reset.
 Después de cargar y verificar por lectura:
 
 1. Probar escritura en ambas mitades y voltaje en las dos pantallas.
-2. Probar Fn + W/F/P y comprobar el perfil activo en el OLED. No requieren
-   borrar ni volver a vincular equipos ya guardados.
-3. Probar Fn + D: seleccionar Bluetooth para escribir en un equipo vinculado
-   con USB conectado; pulsar de nuevo para volver a USB.
+2. Pulsar Fn + D para seleccionar Bluetooth. El OLED muestra el número de
+   perfil únicamente en esta salida; en salida USB muestra el símbolo USB.
+3. Probar Fn + W/F/P y comprobar los perfiles 1/2/3 en el OLED. No requieren
+   borrar ni volver a vincular equipos ya guardados. Si hay un equipo vinculado,
+   probar escritura por Bluetooth con USB conectado. Pulsar Fn + D otra vez
+   para volver a USB antes de responder.
 4. Cambiar a QWERTY con el selector izquierdo y comprobar Fn en la misma
-   tecla física. Probar sus atajos W/E/R/T/G equivalentes. Volver a Colemak
-   con el selector derecho y comprobar que las letras se conservan.
-5. No pulsar Fn + G durante la prueba normal. Su función está comprobada
-   en el binding compilado; probarla borraría el perfil seleccionado.
+   tecla física. Seleccionar salida Bluetooth para ver sus tres perfiles con
+   W/E/R (posiciones físicas de W/F/P en Colemak). Volver a USB con Fn + G
+   en QWERTY (posición de D en Colemak). Volver a Colemak con el selector
+   derecho y comprobar que las letras se conservan.
+5. No pulsar Fn + G de Colemak (Fn + T en QWERTY) durante la prueba normal.
+   Su función está comprobada en el binding compilado; probarla borraría el
+   perfil seleccionado.
 
 La [compilación de a40b38d](https://github.com/FelipeCris/Crisboard/actions/runs/38625007608)
 pasó para ambas mitades, incluidas las cuatro compilaciones y la prueba del
@@ -61,4 +66,8 @@ cargar únicamente la izquierda. El UF2 nuevo de la izquierda tiene SHA-256
 `0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7b488ac`.
 [Resultados](../verification/wireless-shortcuts.json).
 
-Estado: compilado y verificado; instalación izquierda y prueba física pendientes.
+La izquierda se cargó el 14 de octubre de 2026. La lectura posterior verificó
+todos los bytes de la aplicación nueva y que las zonas legibles fuera de sus
+páginas de carga permanecen intactas. CURRENT.UF2 no expone ajustes ni bootloader.
+
+Estado: izquierda instalada y verificada; derecha conservada; prueba física pendiente.

@@ -1,7 +1,7 @@
 {
   "source_commit": "a40b38dea372152e02295b18c447960670c6fb7c",
   "workflow_run": 38625007608,
-  "hardware_installation": "pending",
+  "hardware_installation": "left installed and verified by readback; right application unchanged and already verified",
   "owner_functional_verification": "pending",
   "halves": {
     "izquierda": {
@@ -21,7 +21,13 @@
       "target_uf2_sha256": "0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7b488ac",
       "application_start": "0x26000",
       "application_end_exclusive": "0x69500",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "installed and verified by readback",
+        "read_sha256": "5cedb00b4d39550b4935e4e58c0e9ef7e61f80096c3d0e6c37a910310f516de1",
+        "all_target_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
     },
     "derecha": {
       "compiled_config_identical": true,
@@ -40,7 +46,12 @@
       "target_uf2_sha256": "703336391bd6215a804319a5ea15c2cddc3a7a8bc457341d6e517f2aee968e37",
       "application_start": "0x26000",
       "application_end_exclusive": "0x5ff00",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "application unchanged; no write required",
+        "previous_verified_read_sha256": "bb82b3304df8a01ad3806201d37633178519011a9ee5d93ff9cbacce47cbc9cf",
+        "compiled_target_is_byte_identical_to_installed_application": true
+      }
     }
   }
 }

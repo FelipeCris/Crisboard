@@ -123,7 +123,8 @@ posiciones acordadas de Fn. Corrige la prioridad de Fn en QWERTY y unifica
 su posición con Colemak/QMK. El resto de la migración se hará por etapas.
 La compilación y sus verificaciones pasaron para ambas mitades; la aplicación
 de la derecha es idéntica a la instalada y solo requiere cargar la izquierda.
-La prueba física sigue pendiente. Esta revisión conserva el voltaje.
+La izquierda ya está cargada y verificada por lectura. La prueba física sigue
+pendiente. Esta revisión conserva el voltaje.
 
 Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de
