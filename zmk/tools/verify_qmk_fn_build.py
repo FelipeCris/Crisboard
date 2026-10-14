@@ -98,12 +98,40 @@ for variant in ('baseline', 'qmk-fn'):
 
 installed = {'left': '0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7b488ac',
              'right': '703336391bd6215a804319a5ea15c2cddc3a7a8bc457341d6e517f2aee968e37'}
-assert hashlib.sha256((before / 'zmk.uf2').read_bytes()).hexdigest() == installed[side]
+baseline_data = (before / 'zmk.uf2').read_bytes()
+# The installed linker output contains one unordered two-handle set per side.
+# Allow only that set's order to differ. Restoring its installed order must
+# reproduce the entire original UF2 SHA, including every other payload/header.
+permutation = {'left': ('__devicehdl_DT_N_S_soc_S_gpio_50000000', 0x5e0c4, [24, 10]),
+               'right': ('__devicehdl_DT_N_S_kscan_0', 0x55e54, [2, 3])}[side]
+name, address, original_handles = permutation
+with (before / 'zmk.elf').open('rb') as stream:
+    elf = ELFFile(stream)
+    matches = [s for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name == name]
+    assert len(matches) == 1
+    assert matches[0]['st_value'] <= address and address + 4 <= matches[0]['st_value'] + matches[0]['st_size']
+restored = bytearray(baseline_data)
+found = False
+for offset in range(0, len(restored), 512):
+    magic1, magic2, flags, start, length = struct.unpack_from('<IIIII', restored, offset)
+    assert (magic1, magic2) == (0x0a324655, 0x9e5d5157) and length == 256
+    if start <= address and address + 4 <= start + length:
+        assert not found
+        found = True
+        index = offset + 32 + address - start
+        assert sorted(struct.unpack_from('<HH', restored, index)) == sorted(original_handles)
+        struct.pack_into('<HH', restored, index, *original_handles)
+assert found and hashlib.sha256(restored).hexdigest() == installed[side], 'Baseline changed beyond the proven handle permutation'
 report = {'side': side, 'compiled_config_identical': True,
           'hardware_and_remaining_native_behaviors_equivalent': True,
           'expected_behavior_enablement_changes': ['TRANS unreferenced; NONE referenced for QMK KC_NO', 'CB_RGB_PRESET added'],
           'new_behavior': 'central RGB presets; global absolute RGB state applied to both halves',
-          'installed_baseline_exact': True, 'linked_keymap': linked,
+          'installed_baseline_exact': hashlib.sha256(baseline_data).hexdigest() == installed[side],
+          'installed_baseline_equivalent_after_handle_order': True,
+          'baseline_handle_order': {'symbol': name, 'address': hex(address), 'bytes': 4,
+                                    'installed_handles': original_handles,
+                                    'restored_complete_uf2_sha256': installed[side]},
+          'linked_keymap': linked,
           'size': sizes, 'size_delta': {key: sizes['qmk-fn'][key] - sizes['baseline'][key] for key in sizes['baseline']},
           'artifact_sha256': {str(path.relative_to(root / 'results')): hashlib.sha256(path.read_bytes()).hexdigest()
                               for path in (root / 'results').rglob('*') if path.is_file()}}

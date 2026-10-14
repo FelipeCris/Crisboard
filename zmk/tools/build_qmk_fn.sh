@@ -10,6 +10,8 @@ git -C zmk apply --check "$repo/zmk/patches/battery-percentage.patch"
 git -C zmk apply "$repo/zmk/patches/battery-percentage.patch"
 git -C zmk apply --check "$repo/zmk/patches/battery-voltage.patch"
 git -C zmk apply "$repo/zmk/patches/battery-voltage.patch"
+python3 "$repo/zmk/tools/prepare_handle_generator.py" "$PWD/zephyr"
+git -C zephyr diff > results/handle-generator-order.patch
 python3 "$repo/zmk/tools/test_battery_voltage.py" "$PWD/zmk"
 west build -d build-baseline -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG="$baseline" -DSHIELD="crisboard_${side}"
 python3 "$repo/zmk/tools/stabilize_handles.py" build-baseline
