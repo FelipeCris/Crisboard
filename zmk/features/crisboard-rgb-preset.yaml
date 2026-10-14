@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+description: Crisboard RGB preset (tap to load, hold two seconds to save)
+compatible: "zmk,behavior-crisboard-rgb-preset"
+include: one_param.yaml

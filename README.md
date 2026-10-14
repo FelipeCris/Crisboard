@@ -126,6 +126,12 @@ de la derecha es idéntica a la instalada y solo requiere cargar la izquierda.
 La izquierda está cargada y verificada por lectura; el propietario confirmó
 la prueba funcional de esta etapa. Esta revisión conserva el voltaje.
 
+La [revisión que completa el mapa Fn de QMK](zmk/changes/2026-10-14-qmk-fn.md)
+añade las teclas multimedia, los controles RGB en sus posiciones QMK y cinco
+presets guardables desde el teclado. El indicador muestra siempre el perfil
+Bluetooth seleccionado y la preferencia USB/Bluetooth, diferenciándolos de
+la salida efectiva. Sus fuentes están preparados; compilación y carga pendientes.
+
 Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de
 QMK sería un trabajo posterior de soporte de hardware y revisión comunitaria;

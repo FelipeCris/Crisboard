@@ -1,0 +1,205 @@
+diff --git a/app/CMakeLists.txt b/app/CMakeLists.txt
+index 3da50b5..e48230a 100644
+--- a/app/CMakeLists.txt
++++ b/app/CMakeLists.txt
+@@ -45,6 +45,7 @@ if ((NOT CONFIG_ZMK_SPLIT) OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+   target_sources(app PRIVATE src/behaviors/behavior_key_repeat.c)
+   target_sources(app PRIVATE src/behaviors/behavior_macro.c)
+   target_sources(app PRIVATE src/behaviors/behavior_momentary_layer.c)
++  target_sources_ifdef(CONFIG_ZMK_RGB_UNDERGLOW app PRIVATE src/behaviors/behavior_crisboard_rgb_preset.c)
+   target_sources(app PRIVATE src/behaviors/behavior_mod_morph.c)
+   target_sources(app PRIVATE src/behaviors/behavior_outputs.c)
+   target_sources(app PRIVATE src/behaviors/behavior_toggle_layer.c)
+diff --git a/app/include/zmk/endpoints.h b/app/include/zmk/endpoints.h
+index c886053..1d3f68e 100644
+--- a/app/include/zmk/endpoints.h
++++ b/app/include/zmk/endpoints.h
+@@ -11,5 +11,6 @@
+ int zmk_endpoints_select(enum zmk_endpoint endpoint);
+ int zmk_endpoints_toggle();
+ enum zmk_endpoint zmk_endpoints_selected();
++enum zmk_endpoint zmk_endpoints_preferred();
+ 
+ int zmk_endpoints_send_report(uint16_t usage_page);
+diff --git a/app/include/zmk/rgb_underglow.h b/app/include/zmk/rgb_underglow.h
+index 797f0b1..3f4209a 100644
+--- a/app/include/zmk/rgb_underglow.h
++++ b/app/include/zmk/rgb_underglow.h
+@@ -5,6 +5,10 @@
+  */
+ 
+ #pragma once
++#include <stdint.h>
++
++int zmk_rgb_underglow_get_snapshot(uint32_t *snapshot);
++int zmk_rgb_underglow_apply_snapshot(uint32_t snapshot);
+ 
+ struct zmk_led_hsb {
+     uint16_t h;
+diff --git a/app/src/behaviors/behavior_rgb_underglow.c b/app/src/behaviors/behavior_rgb_underglow.c
+index 3459cd2..ba404da 100644
+--- a/app/src/behaviors/behavior_rgb_underglow.c
++++ b/app/src/behaviors/behavior_rgb_underglow.c
+@@ -12,6 +12,7 @@
+ 
+ #include <dt-bindings/zmk/rgb.h>
+ #include <zmk/rgb_underglow.h>
++#include <zmk/crisboard_rgb_presets.h>
+ #include <zmk/keymap.h>
+ 
+ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+@@ -99,6 +100,8 @@ on_keymap_binding_convert_central_state_dependent_params(struct zmk_behavior_bin
+ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
+                                      struct zmk_behavior_binding_event event) {
+     switch (binding->param1) {
++    case CRISBOARD_RGB_APPLY_CMD:
++        return zmk_rgb_underglow_apply_snapshot(binding->param2);
+     case RGB_TOG_CMD:
+         return zmk_rgb_underglow_toggle();
+     case RGB_ON_CMD:
+diff --git a/app/src/display/widgets/layer_status.c b/app/src/display/widgets/layer_status.c
+index a4a7be5..af72710 100644
+--- a/app/src/display/widgets/layer_status.c
++++ b/app/src/display/widgets/layer_status.c
+@@ -56,7 +56,7 @@ ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
+ int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget, lv_obj_t *parent) {
+     widget->obj = lv_label_create(parent, NULL);
+ 
+-    lv_obj_set_size(widget->obj, 40, 15);
++    lv_obj_set_size(widget->obj, 70, 15);
+ 
+     sys_slist_append(&widgets, &widget->node);
+ 
+diff --git a/app/src/display/widgets/output_status.c b/app/src/display/widgets/output_status.c
+index 8bbe1a7..955108f 100644
+--- a/app/src/display/widgets/output_status.c
++++ b/app/src/display/widgets/output_status.c
+@@ -24,6 +24,7 @@ static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
+ 
+ struct output_status_state {
+     enum zmk_endpoint selected_endpoint;
++    enum zmk_endpoint preferred_endpoint;
+     bool active_profile_connected;
+     bool active_profile_bonded;
+     uint8_t active_profile_index;
+@@ -31,6 +32,7 @@ struct output_status_state {
+ 
+ static struct output_status_state get_state(const zmk_event_t *_eh) {
+     return (struct output_status_state){.selected_endpoint = zmk_endpoints_selected(),
++                                        .preferred_endpoint = zmk_endpoints_preferred(),
+                                         .active_profile_connected =
+                                             zmk_ble_active_profile_is_connected(),
+                                         .active_profile_bonded = !zmk_ble_active_profile_is_open(),
+@@ -39,28 +41,13 @@ static struct output_status_state get_state(const zmk_event_t *_eh) {
+ }
+ 
+ static void set_status_symbol(lv_obj_t *label, struct output_status_state state) {
+-    char text[10] = {};
+-
+-    switch (state.selected_endpoint) {
+-    case ZMK_ENDPOINT_USB:
+-        strcat(text, LV_SYMBOL_USB);
+-        break;
+-    case ZMK_ENDPOINT_BLE:
+-        if (state.active_profile_bonded) {
+-            if (state.active_profile_connected) {
+-                snprintf(text, sizeof(text), LV_SYMBOL_WIFI " %i " LV_SYMBOL_OK,
+-                         state.active_profile_index + 1);
+-            } else {
+-                snprintf(text, sizeof(text), LV_SYMBOL_WIFI " %i " LV_SYMBOL_CLOSE,
+-                         state.active_profile_index + 1);
+-            }
+-        } else {
+-            snprintf(text, sizeof(text), LV_SYMBOL_WIFI " %i " LV_SYMBOL_SETTINGS,
+-                     state.active_profile_index + 1);
+-        }
+-        break;
+-    }
+-
++    char text[8];
++    // U/B identifies the preference; the number identifies the selected profile.
++    // The icon continues to identify the actual output, including USB fallback.
++    snprintf(text, sizeof(text), "%c%i%s",
++             state.preferred_endpoint == ZMK_ENDPOINT_BLE ? 'B' : 'U',
++             state.active_profile_index + 1,
++             state.selected_endpoint == ZMK_ENDPOINT_USB ? LV_SYMBOL_USB : LV_SYMBOL_WIFI);
+     lv_label_set_text(label, text);
+ }
+ 
+@@ -83,7 +70,7 @@ ZMK_SUBSCRIPTION(widget_output_status, zmk_ble_active_profile_changed);
+ int zmk_widget_output_status_init(struct zmk_widget_output_status *widget, lv_obj_t *parent) {
+     widget->obj = lv_label_create(parent, NULL);
+ 
+-    lv_obj_set_size(widget->obj, 40, 15);
++    lv_obj_set_size(widget->obj, 48, 15);
+ 
+     sys_slist_append(&widgets, &widget->node);
+ 
+diff --git a/app/src/endpoints.c b/app/src/endpoints.c
+index 3376001..53ea60c 100644
+--- a/app/src/endpoints.c
++++ b/app/src/endpoints.c
+@@ -57,12 +57,20 @@ int zmk_endpoints_select(enum zmk_endpoint endpoint) {
+ 
+     endpoints_save_preferred();
+ 
++    enum zmk_endpoint previous = current_endpoint;
+     update_current_endpoint();
++    // Also refresh the output widget when only the preference changes, e.g.
++    // BLE is preferred but disconnected and USB remains the effective output.
++    if (previous == current_endpoint) {
++        ZMK_EVENT_RAISE(new_zmk_endpoint_selection_changed(
++            (struct zmk_endpoint_selection_changed){.endpoint = current_endpoint}));
++    }
+ 
+     return 0;
+ }
+ 
+ enum zmk_endpoint zmk_endpoints_selected() { return current_endpoint; }
++enum zmk_endpoint zmk_endpoints_preferred() { return preferred_endpoint; }
+ 
+ int zmk_endpoints_toggle() {
+     enum zmk_endpoint new_endpoint =
+diff --git a/app/src/rgb_underglow.c b/app/src/rgb_underglow.c
+index 25d4466..8320607 100644
+--- a/app/src/rgb_underglow.c
++++ b/app/src/rgb_underglow.c
+@@ -18,6 +18,7 @@
+ #include <drivers/ext_power.h>
+ 
+ #include <zmk/rgb_underglow.h>
++#include <zmk/crisboard_rgb_presets.h>
+ 
+ #include <zmk/activity.h>
+ #include <zmk/usb.h>
+@@ -291,6 +292,30 @@ int zmk_rgb_underglow_save_state() {
+ #endif
+ }
+ 
++int zmk_rgb_underglow_get_snapshot(uint32_t *snapshot) {
++    if (!led_strip) {
++        return -ENODEV;
++    }
++    *snapshot = crisboard_rgb_pack(state.color.h, state.color.s, state.color.b,
++        state.animation_speed, state.current_effect, state.on);
++    return crisboard_rgb_valid(*snapshot, UNDERGLOW_EFFECT_NUMBER) ? 0 : -EINVAL;
++}
++
++int zmk_rgb_underglow_apply_snapshot(uint32_t snapshot) {
++    if (!led_strip) {
++        return -ENODEV;
++    }
++    if (!crisboard_rgb_valid(snapshot, UNDERGLOW_EFFECT_NUMBER)) {
++        return -EINVAL;
++    }
++    state.color = (struct zmk_led_hsb){.h = snapshot & 511,
++        .s = (snapshot >> 9) & 127, .b = (snapshot >> 16) & 127};
++    state.animation_speed = (snapshot >> 23) & 7;
++    state.current_effect = (snapshot >> 26) & 7;
++    state.animation_step = 0;
++    return (snapshot & BIT(29)) ? zmk_rgb_underglow_on() : zmk_rgb_underglow_off();
++}
++
+ int zmk_rgb_underglow_get_state(bool *on_off) {
+     if (!led_strip)
+         return -ENODEV;

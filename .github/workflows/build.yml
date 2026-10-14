@@ -1,4 +1,4 @@
-name: ZMK wireless shortcuts
+name: ZMK QMK Fn map
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
           path: config-repo
           persist-credentials: false
           fetch-depth: 0
-      - name: Verify the agreed wireless shortcuts and base layers
-        run: python3 config-repo/zmk/tools/verify_shortcuts_source.py
+      - name: Verify the complete QMK Fn map and wireless overrides
+        run: python3 config-repo/zmk/tools/verify_qmk_fn_source.py
       - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         id: westcache
         with:
@@ -60,14 +60,14 @@ jobs:
             tools/
             bootloader/
           key: zmk-zephyr3-2364960-3861c95-${{ runner.os }}
-      - name: Build installed voltage baseline and wireless shortcuts
-        run: bash config-repo/zmk/tools/build_wireless_shortcuts.sh '${{ matrix.side }}'
+      - name: Build installed baseline and complete QMK Fn map
+        run: bash config-repo/zmk/tools/build_qmk_fn.sh '${{ matrix.side }}'
       - name: Verify compiled configuration, matrix and actual keymap
-        run: python3 config-repo/zmk/tools/verify_shortcuts_build.py '${{ matrix.side }}'
+        run: python3 config-repo/zmk/tools/verify_qmk_fn_build.py '${{ matrix.side }}'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: zmk-wireless-shortcuts-${{ matrix.side }}
+          name: zmk-qmk-fn-${{ matrix.side }}
           path: results/
           if-no-files-found: error
           include-hidden-files: true
