@@ -63,7 +63,13 @@ la primera lectura válida aparece `--.-- V`; un fallo conserva la última
 lectura válida. El formato usa enteros y no requiere soporte printf de coma
 flotante. Las compilaciones comparan la versión de porcentaje instalada y
 la variante de voltaje, incluida configuración, devicetree y mapa real.
-La nueva variante aún está en preparación.
+Las cuatro compilaciones y las pruebas del código C pasaron para la fuente
+`f4965f2`. Las dos bases reproducen todos los bytes de las aplicaciones de
+porcentaje leídas después de su instalación. La única opción compilada
+distinta es `SHOW_VOLTAGE`; el devicetree y las 204 asignaciones del mapa
+central coinciden. El enlazador mide +124 bytes de flash en la izquierda,
++116 en la derecha y +16 bytes de RAM por mitad. Carga y prueba física de
+voltaje pendientes. [Resultados](zmk/verification/battery-voltage.json).
 
 nice!nano v2 mide su alimentación VDDH. Al usar batería sirve para observar
 la descarga; con USB, el circuito de carga puede elevar esa alimentación

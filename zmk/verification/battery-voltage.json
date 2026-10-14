@@ -1,0 +1,109 @@
+{
+  "source_commit": "f4965f2ee4eeaf725a224518da1d9f6fcb1a5680",
+  "workflow_run": 38573866368,
+  "hardware_installation": "pending",
+  "owner_functional_verification": "pending",
+  "display_format": "4.08 V",
+  "uses_cached_voltage_without_extra_adc_conversion": true,
+  "host_bluetooth_battery_unit": "percentage",
+  "halves": {
+    "izquierda": {
+      "baseline_compared_with_installed_percentage": true,
+      "different_baseline_bytes": 0,
+      "equivalent_dependency_lists": 0,
+      "map_verification": {
+        "percentage": "all 204 bindings match the installed map",
+        "voltage": "all 204 bindings match the installed map"
+      },
+      "only_compiled_config_change": {
+        "CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE": [
+          null,
+          "y"
+        ]
+      },
+      "hardware_devicetree_identical": true,
+      "battery_report_interval_seconds": 60,
+      "size": {
+        "percentage": {
+          "allocated_flash_bytes": 275536,
+          "allocated_ram_bytes": 56349
+        },
+        "voltage": {
+          "allocated_flash_bytes": 275664,
+          "allocated_ram_bytes": 56363
+        }
+      },
+      "size_delta": {
+        "allocated_flash_bytes": 128,
+        "allocated_ram_bytes": 14
+      },
+      "voltage_uf2_sha256": "06e0eb55284c9f45f21526b90c6163de335c3f596a055fc73068f3f3dcf23d22",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x69500",
+      "settings_and_bootloader_excluded_from_image": true,
+      "linker_memory": {
+        "percentage": {
+          "flash_used_bytes": 275552,
+          "ram_used_bytes": 56362
+        },
+        "voltage": {
+          "flash_used_bytes": 275676,
+          "ram_used_bytes": 56378
+        }
+      },
+      "linker_memory_delta": {
+        "flash_used_bytes": 124,
+        "ram_used_bytes": 16
+      }
+    },
+    "derecha": {
+      "baseline_compared_with_installed_percentage": true,
+      "different_baseline_bytes": 0,
+      "equivalent_dependency_lists": 0,
+      "map_verification": {
+        "percentage": "not linked on peripheral; unchanged devicetree verified",
+        "voltage": "not linked on peripheral; unchanged devicetree verified"
+      },
+      "only_compiled_config_change": {
+        "CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE": [
+          null,
+          "y"
+        ]
+      },
+      "hardware_devicetree_identical": true,
+      "battery_report_interval_seconds": 60,
+      "size": {
+        "percentage": {
+          "allocated_flash_bytes": 236941,
+          "allocated_ram_bytes": 40589
+        },
+        "voltage": {
+          "allocated_flash_bytes": 237053,
+          "allocated_ram_bytes": 40603
+        }
+      },
+      "size_delta": {
+        "allocated_flash_bytes": 112,
+        "allocated_ram_bytes": 14
+      },
+      "voltage_uf2_sha256": "703336391bd6215a804319a5ea15c2cddc3a7a8bc457341d6e517f2aee968e37",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x5ff00",
+      "settings_and_bootloader_excluded_from_image": true,
+      "linker_memory": {
+        "percentage": {
+          "flash_used_bytes": 236953,
+          "ram_used_bytes": 40602
+        },
+        "voltage": {
+          "flash_used_bytes": 237069,
+          "ram_used_bytes": 40618
+        }
+      },
+      "linker_memory_delta": {
+        "flash_used_bytes": 116,
+        "ram_used_bytes": 16
+      }
+    }
+  }
+}
