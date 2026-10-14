@@ -41,7 +41,7 @@ El mapa central leído de la placa coincide con las 204 asignaciones del
 repositorio. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
 carece de las correcciones USB/HID identificadas en lo instalado.
 
-Esta rama prepara el porcentaje de batería local en ambas pantallas,
+La primera revisión muestra el porcentaje de batería local en ambas pantallas,
 conservando el símbolo USB, mapas, RGB, Bluetooth y reposo. La compilación
 compatible aplica únicamente la mejora oficial del widget de porcentaje.
 Las cuatro compilaciones y verificaciones pasaron: la base derecha coincide
@@ -54,9 +54,27 @@ de carga. Los archivos excluyen ajustes y bootloader; estas zonas no
 son legibles mediante CURRENT.UF2. La prueba funcional del propietario
 sigue pendiente. [Resultados](zmk/verification/battery-percentage.json).
 
+El cambio solicitado después prepara voltaje en ambas pantallas, por ejemplo
+`4.08 V`, manteniendo el porcentaje del servicio Bluetooth. Se obtiene el
+voltaje ya guardado por el sensor durante la lectura existente; no se añade
+otra conversión ADC ni cambia su intervalo. El texto se actualiza también
+cuando cambia el voltaje y el porcentaje estimado permanece igual. Antes de
+la primera lectura válida aparece `--.-- V`; un fallo conserva la última
+lectura válida. El formato usa enteros y no requiere soporte printf de coma
+flotante. Las compilaciones comparan la versión de porcentaje instalada y
+la variante de voltaje, incluida configuración, devicetree y mapa real.
+La nueva variante aún está en preparación.
+
+nice!nano v2 mide su alimentación VDDH. Al usar batería sirve para observar
+la descarga; con USB, el circuito de carga puede elevar esa alimentación
+respecto a los bornes de batería. Se conserva el símbolo de alimentación
+USB y no se aplica una compensación supuesta. Véanse el
+[esquema oficial](https://nicekeyboards.com/docs/nice-nano/pinout-schematic/)
+y el [sensor de esta revisión ZMK](https://github.com/zmkfirmware/zmk/blob/c7fdce863ac2f03bc70495f9904b127f2d99d85c/app/drivers/sensor/battery/battery_nrf_vddh.c).
+
 `Kconfig.defconfig` conserva su segundo bloque que repite
 `if SHIELD_CRISBOARD_LEFT`; ese detalle histórico no se modifica como parte
-del cambio de porcentaje.
+de los cambios de visualización de batería.
 
 ## Organización recomendada
 

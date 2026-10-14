@@ -1,0 +1,150 @@
+--- a/app/include/zmk/battery.h
++++ b/app/include/zmk/battery.h
+@@ -6,5 +6,10 @@
+ 
+ #pragma once
+ 
++#include <stdint.h>
++
+ uint8_t zmk_battery_state_of_charge();
+ 
++
++/* Millivolts from the last successful sample; -1 until available. */
++int32_t zmk_battery_voltage_mv(void);
+--- a/app/src/battery.c
++++ b/app/src/battery.c
+@@ -20,6 +20,10 @@
+ #include <zmk/events/battery_state_changed.h>
+ 
+ static uint8_t last_state_of_charge = 0;
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++static int32_t last_voltage_mv = -1;
++int32_t zmk_battery_voltage_mv(void) { return last_voltage_mv; }
++#endif
+ 
+ uint8_t zmk_battery_state_of_charge() { return last_state_of_charge; }
+ 
+@@ -48,7 +52,22 @@
+         return rc;
+     }
+ 
+-    if (last_state_of_charge != state_of_charge.val1) {
++    bool voltage_changed = false;
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++    /* The sensor already cached voltage during the existing ADC sample. */
++    struct sensor_value voltage;
++    int voltage_rc = sensor_channel_get(battery, SENSOR_CHAN_GAUGE_VOLTAGE, &voltage);
++    if (voltage_rc == 0) {
++        int32_t mv = voltage.val1 * 1000 + voltage.val2 / 1000;
++        voltage_changed = last_voltage_mv != mv;
++        last_voltage_mv = mv;
++    } else {
++        LOG_DBG("Failed to get cached battery voltage: %d", voltage_rc);
++    }
++#endif
++
++    bool level_changed = last_state_of_charge != state_of_charge.val1;
++    if (level_changed) {
+         last_state_of_charge = state_of_charge.val1;
+ 
+         LOG_DBG("Setting BAS GATT battery level to %d.", last_state_of_charge);
+@@ -60,6 +79,10 @@
+             return rc;
+         }
+ 
++    }
++
++    /* Voltage can change while the estimated percentage stays the same. */
++    if (level_changed || voltage_changed) {
+         rc = ZMK_EVENT_RAISE(new_zmk_battery_state_changed(
+             (struct zmk_battery_state_changed){.state_of_charge = last_state_of_charge}));
+     }
+--- a/app/src/display/widgets/Kconfig
++++ b/app/src/display/widgets/Kconfig
+@@ -19,6 +19,10 @@
+ 
+ config ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE
+     bool "Show battery level percentage in text"
++
++config ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE
++    bool "Show local measured voltage instead of percentage"
++    depends on ZMK_BATTERY_REPORTING
+ 
+ endif
+ 
+--- a/app/src/display/widgets/battery_status.c
++++ b/app/src/display/widgets/battery_status.c
+@@ -11,6 +11,7 @@
+ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+ 
+ #include <zmk/display.h>
++#include <zmk/battery.h>
+ #include <zmk/display/widgets/battery_status.h>
+ #include <zmk/usb.h>
+ #include <zmk/events/usb_conn_state_changed.h>
+@@ -21,15 +22,16 @@
+ 
+ struct battery_status_state {
+     uint8_t level;
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++    int32_t voltage_mv;
++#endif
+ #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+     bool usb_present;
+ #endif
+ };
+ 
+ static void set_battery_symbol(lv_obj_t *label, struct battery_status_state state) {
+-    char text[9] = {};
+-
+-    uint8_t level = state.level;
++    char text[16] = {};
+ 
+ #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+     if (state.usb_present) {
+@@ -37,11 +39,22 @@
+     }
+ #endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
+ 
+-#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE)
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++    size_t used = strlen(text);
++    if (state.voltage_mv < 0) {
++        snprintf(text + used, sizeof(text) - used, "--.-- V");
++    } else {
++        /* Round millivolts to centivolts using integers, without float printf. */
++        unsigned int cv = (state.voltage_mv + 5) / 10;
++        snprintf(text + used, sizeof(text) - used, "%u.%02u V", cv / 100, cv % 100);
++    }
++#elif IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE)
++    uint8_t level = state.level;
+     char perc[5] = {};
+     snprintf(perc, sizeof(perc), "%3u%%", level);
+     strcat(text, perc);
+ #else
++    uint8_t level = state.level;
+     if (level > 95) {
+         strcat(text, LV_SYMBOL_BATTERY_FULL);
+     } else if (level > 65) {
+@@ -66,6 +79,9 @@
+ static struct battery_status_state battery_status_get_state(const zmk_event_t *eh) {
+     return (struct battery_status_state) {
+         .level = bt_bas_get_battery_level(),
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++        .voltage_mv = zmk_battery_voltage_mv(),
++#endif
+ #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+         .usb_present = zmk_usb_is_powered(),
+ #endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
+@@ -83,7 +99,11 @@
+ int zmk_widget_battery_status_init(struct zmk_widget_battery_status *widget, lv_obj_t *parent) {
+     widget->obj = lv_label_create(parent, NULL);
+ 
++#if IS_ENABLED(CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE)
++    lv_obj_set_size(widget->obj, 70, 15);
++#else
+     lv_obj_set_size(widget->obj, 43, 15);
++#endif
+ 
+     sys_slist_append(&widgets, &widget->node);
+ 

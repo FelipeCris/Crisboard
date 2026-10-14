@@ -1,4 +1,4 @@
-name: ZMK battery percentage
+name: ZMK battery display
 
 on:
   push:
@@ -60,12 +60,13 @@ jobs:
             tools/
             bootloader/
           key: zmk-zephyr3-2364960-3861c95-${{ runner.os }}
-      - name: Build icon baseline and percentage firmware
-        run: bash config-repo/zmk/tools/build_battery_percentage.sh '${{ matrix.side }}'
+      - name: Build installed percentage baseline and voltage firmware
+        run: bash config-repo/zmk/tools/build_battery_display.sh '${{ matrix.side }}'
       - name: Verify compiled configuration, matrix and actual keymap
-        run: python3 config-repo/zmk/tools/verify_build.py '${{ matrix.side }}'
+        run: python3 config-repo/zmk/tools/verify_voltage_build.py '${{ matrix.side }}'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: zmk-battery-percentage-${{ matrix.side }}
+          name: zmk-battery-voltage-${{ matrix.side }}
           path: results/
           if-no-files-found: error
+          include-hidden-files: true
