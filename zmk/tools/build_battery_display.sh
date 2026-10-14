@@ -15,11 +15,14 @@ for path in Path(sys.argv[1]).rglob('crisboard_*.conf'):
 PY
 git -C zmk apply --check "$repo/zmk/patches/battery-percentage.patch"
 git -C zmk apply "$repo/zmk/patches/battery-percentage.patch"
+git -C zmk apply --check "$repo/zmk/patches/battery-voltage.patch"
+git -C zmk apply "$repo/zmk/patches/battery-voltage.patch"
+python3 "$repo/zmk/tools/test_battery_voltage.py" "$PWD/zmk"
+git -C zmk apply -R "$repo/zmk/patches/battery-voltage.patch"
 west build -d build-percentage -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG="$baseline" -DSHIELD="crisboard_${side}"
 python3 "$repo/zmk/tools/stabilize_handles.py" build-percentage
 git -C zmk apply --check "$repo/zmk/patches/battery-voltage.patch"
 git -C zmk apply "$repo/zmk/patches/battery-voltage.patch"
-python3 "$repo/zmk/tools/test_battery_voltage.py" "$PWD/zmk"
 west build -d build-voltage -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG="$repo/config" -DSHIELD="crisboard_${side}"
 python3 "$repo/zmk/tools/stabilize_handles.py" build-voltage
 for variant in percentage voltage; do

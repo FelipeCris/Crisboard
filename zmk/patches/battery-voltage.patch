@@ -1,13 +1,12 @@
 --- a/app/include/zmk/battery.h
 +++ b/app/include/zmk/battery.h
-@@ -6,5 +6,10 @@
+@@ -6,4 +6,9 @@
  
  #pragma once
  
 +#include <stdint.h>
 +
  uint8_t zmk_battery_state_of_charge();
- 
 +
 +/* Millivolts from the last successful sample; -1 until available. */
 +int32_t zmk_battery_voltage_mv(void);
@@ -61,17 +60,17 @@
      }
 --- a/app/src/display/widgets/Kconfig
 +++ b/app/src/display/widgets/Kconfig
-@@ -19,6 +19,10 @@
- 
+@@ -20,6 +20,10 @@
  config ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE
      bool "Show battery level percentage in text"
-+
+ 
 +config ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE
 +    bool "Show local measured voltage instead of percentage"
 +    depends on ZMK_BATTERY_REPORTING
- 
++
  endif
  
+ config ZMK_WIDGET_OUTPUT_STATUS
 --- a/app/src/display/widgets/battery_status.c
 +++ b/app/src/display/widgets/battery_status.c
 @@ -11,6 +11,7 @@
