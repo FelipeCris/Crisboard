@@ -72,8 +72,9 @@ central coinciden. El enlazador mide +124 bytes de flash en la izquierda,
 se cargaron ambas mitades. Una lectura posterior a RESET verificó
 todos los bytes del programa nuevo y las zonas legibles fuera de las
 páginas de carga. Los UF2 excluyen ajustes y bootloader; CURRENT.UF2
-no expone esas zonas. La prueba funcional del propietario sigue
-pendiente. [Resultados](zmk/verification/battery-voltage.json).
+no expone esas zonas. El propietario indica que ambas mitades
+parecen funcionar; la lectura de voltaje en las pantallas sigue pendiente
+de confirmación. [Resultados](zmk/verification/battery-voltage.json).
 
 nice!nano v2 mide su alimentación VDDH. Al usar batería sirve para observar
 la descarga; con USB, el circuito de carga puede elevar esa alimentación

@@ -2,7 +2,7 @@
   "source_commit": "f4965f2ee4eeaf725a224518da1d9f6fcb1a5680",
   "workflow_run": 38573866368,
   "hardware_installation": "both halves installed and verified by readback",
-  "owner_functional_verification": "pending",
+  "owner_functional_verification": "partial: general operation reported; voltage display confirmation pending",
   "display_format": "4.08 V",
   "uses_cached_voltage_without_extra_adc_conversion": true,
   "host_bluetooth_battery_unit": "percentage",
@@ -121,5 +121,9 @@
         "settings_and_bootloader_not_exposed_by_current_uf2": true
       }
     }
+  },
+  "owner_observations": {
+    "both_halves": "owner reports that both halves appear to work",
+    "oled_voltage": "pending confirmation"
   }
 }
