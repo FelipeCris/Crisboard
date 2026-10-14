@@ -65,6 +65,7 @@ jobs:
       - name: Verify compiled configuration, matrix and actual keymap
         run: python3 config-repo/zmk/tools/verify_shortcuts_build.py '${{ matrix.side }}'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
         with:
           name: zmk-wireless-shortcuts-${{ matrix.side }}
           path: results/

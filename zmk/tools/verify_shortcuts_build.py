@@ -1,5 +1,6 @@
 """Check the actual linked keymap and preserve hardware and compiled options."""
 from pathlib import Path
+import difflib
 import hashlib
 import json
 import re
@@ -33,7 +34,19 @@ after_config = (after_dir / '.config').read_bytes()
 assert before_config == after_config, 'Compiled options changed'
 assert b'CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE=y' in after_config
 assert b'CONFIG_ZMK_SETTINGS_RESET_ON_START=y' not in after_config
-assert without_keymap((before_dir / 'zephyr.dts').read_text()) == without_keymap((after_dir / 'zephyr.dts').read_text()), 'Hardware or behavior definitions changed'
+before_tree = without_keymap((before_dir / 'zephyr.dts').read_text())
+after_tree = without_keymap((after_dir / 'zephyr.dts').read_text())
+tree_diff = ''.join(difflib.unified_diff(before_tree.splitlines(True), after_tree.splitlines(True), fromfile='baseline', tofile='shortcuts'))
+(root / 'results/generated-phandle-ids.diff').write_text(tree_diff)
+# Zephyr assigns phandle IDs by first reference, including references in keymap.
+# Its exported DTS retains symbolic references (&label), so removing only the
+# generated per-node IDs preserves all relationship/property checks.
+def without_generated_ids(text):
+    return re.sub(r'\n\s*phandle = < 0x[0-9a-f]+ >;', '', text)
+
+if without_generated_ids(before_tree) != without_generated_ids(after_tree):
+    print(tree_diff)
+    raise AssertionError('Hardware or behavior definitions changed beyond generated phandle IDs')
 sizes, linked = {}, {}
 for variant in ('baseline', 'shortcuts'):
     with (root / f'build-{variant}/zephyr/zmk.elf').open('rb') as stream:
@@ -75,7 +88,8 @@ installed_hashes = {'left': '06e0eb55284c9f45f21526b90c6163de335c3f596a055fc7306
 assert baseline_hash == installed_hashes[side], 'Baseline does not reproduce the installed voltage application'
 report = {
     'side': side, 'compiled_config_identical': True,
-    'hardware_and_behavior_devicetree_identical': True,
+    'hardware_and_behavior_devicetree_equivalent': True,
+    'only_ignored_tree_metadata': 'generated per-node phandle IDs; all symbolic references and other properties checked',
     'installed_voltage_baseline_exact': True,
     'linked_keymap': linked, 'size': sizes,
     'size_delta': {key: sizes['shortcuts'][key] - sizes['baseline'][key] for key in sizes['baseline']},
