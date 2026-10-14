@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "rgb_presets.h"
 //#include <led_matrix.h>
 
 //uint8_t  arst=   led_matrix_get_val(void);
@@ -89,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_LOWER] = LAYOUT(
   RGB_TOG,    KC_F1,               KC_F2,   KC_F3,    KC_F4,   KC_F5,                                                KC_F6,    KC_F7,   KC_F8,   KC_F9,     KC_F10,             KC_F11,
-  RGB_VAD,    RGB_VAI,                KC_W,    KC_E,     KC_R,    KC_T,      DF(_QWERTY),                 DF(_COLEMAK), KC_NO,     KC_TRNS,    KC_TRNS,    KC_O,      KC_P,         KC_F12,
+  RGB_VAD,    RGB_VAI,                KC_W,    KC_E,     KC_R,    KC_T,      DF(_QWERTY),                 DF(_COLEMAK), CB_RGB_PRESET_1,     CB_RGB_PRESET_2,    CB_RGB_PRESET_3,    CB_RGB_PRESET_4,      CB_RGB_PRESET_5,         KC_F12,
   RGB_MODE_FORWARD,     RGB_HUI,                KC_S,    KC_D,     KC_F,    KC_G,      KC_NO,                        XXXXXXX,     KC_H,     KC_J,    KC_K,    KC_L,      KC_SCLN,            KC_DOT,
   RGB_SAD,    RGB_SAI,  KC_Z,    KC_X,     KC_C,    KC_V,      KC_PSCR,                      KC_MUTE,      KC_B,     KC_N,    KC_NO,    RGB_SPD,   KC_VOLU,   RGB_SPI,
   KC_LCTRL,   KC_LGUI,             KC_NO,   KC_LALT,  KC_LBRC, KC_COMM,    KC_HOME,                      KC_END,      KC_MPLY,   KC_QUOT, KC_BSLS, KC_MPRV,   KC_VOLD,            KC_MNXT 
@@ -382,6 +383,9 @@ bool oled_task_user(void) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!crisboard_process_rgb_presets(keycode, record)) {
+        return false;
+    }
     switch (keycode) {
         case KC_QWERTY:
             if (record->event.pressed) {
@@ -456,6 +460,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+
+void matrix_scan_user(void) {
+    crisboard_rgb_presets_scan();
+}
 
 void set_color_split(uint8_t key_code, uint8_t r, uint8_t g, uint8_t b) {
     // When using defines for MASTER_LEFT and MASTER_RIGHT, is_keyboard_left()
@@ -549,6 +557,11 @@ void rgb_matrix_indicators_user(void) {
         case _QWERTY:
             break;
         case _COLEMAK:
+
+            // Uniform is a separate selectable mode; other modes keep their borders.
+            if (rgb_matrix_get_mode() == RGB_MATRIX_CUSTOM_CRISBOARD_UNIFORM) {
+                break;
+            }
 
             hsv2 = rgb_matrix_get_hsv();
             hsv2.h = (hsv2.h+coloroffset2)%255;

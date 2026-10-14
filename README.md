@@ -24,6 +24,34 @@ se conservan íntegros. Esta revisión se compiló y cargó en ambas mitades;
 la lectura completa confirma que solo cambiaron 24 bytes del mapa por mitad.
 El propietario confirmó que Fn funciona como pidió y que Colemak/QWERTY se conservaron.
 
+La versión instalada contiene [tres presets RGB guardables](qmk/changes/rgb-presets.md)
+con Fn + J/L/U en Colemak. Guardan la configuración base, sin capturar las
+indicaciones temporales de Fn. La compilación y las pruebas del módulo C pasaron;
+ambas mitades están cargadas y verificadas por lectura completa.
+El propietario confirmó que los tres presets funcionan, se conservan al
+reconectar y el resto del teclado sigue funcionando como antes. Añade 542 bytes de flash y 6 bytes
+de RAM estática por mitad, con 30 bytes de EEPROM para los tres presets.
+Colemak y QWERTY se conservan intactos.
+
+La copia de trabajo añade un [modo RGB Uniforme](qmk/changes/uniform-mode.md),
+seleccionable con Fn + Tab y guardable en los mismos presets. En ese modo,
+Colemak ilumina también los bordes con el color base; los modos anteriores
+conservan el color inverso. Esta ampliación está compilada y cargada en ambas mitades,
+con lectura completa verificada. El propietario confirmó Uniforme, los modos
+anteriores y la conservación de sus presets. Añade 40/42 bytes de flash en izquierda/derecha, sin aumentar RAM estática
+ni EEPROM.
+
+La rama `feature/rgb-presets` amplía ahora a [cinco presets](qmk/changes/five-rgb-presets.md):
+añade Fn + Y y Fn + Ñ en Colemak como ranuras 4 y 5 (O/P en QWERTY).
+Los tres guardados anteriores conservan sus direcciones y datos. Esta ampliación
+está cargada en ambas mitades, con lectura completa verificada y EEPROM y
+bootloader conservados. El propietario confirmó que Y y Ñ ya guardan, sin
+otra carga ni cambios de firmware durante el diagnóstico. La persistencia de
+las dos ranuras nuevas tras reconectar queda pendiente de confirmación.
+Añade 20 bytes de EEPROM,
+hasta 50 en total, sin aumentar flash ni RAM estática. Solo cambian cinco bytes
+del programa por mitad: las dos teclas Fn y el límite de ranuras.
+
 ## Inalámbrico
 
 La configuración ya existente utiliza ZMK:

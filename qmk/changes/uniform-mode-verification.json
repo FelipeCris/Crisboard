@@ -1,0 +1,72 @@
+{
+  "source_commit": "fe546ad12c69cca40d2e1faefa4f2fa32b84b69e",
+  "workflow_run": 38438373255,
+  "hardware_installation": "both halves flashed and independently readback verified on 2026-10-13",
+  "native_actual_preset_and_rgb_callback_tests": "passed in source workflow",
+  "all_210_keymap_positions_unchanged": true,
+  "existing_preset_modules_unchanged": true,
+  "existing_effect_ids": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "uniform_effect_id": 6,
+  "preset_eeprom_bytes": 30,
+  "halves": {
+    "izquierda": {
+      "original_application_reproduced_exactly": true,
+      "all_keymap_bytes_unchanged": true,
+      "map_sha256": "7ee69c4a49f7903c54c3c314fc96b368a3944caf78a503aaf0da3f57e07ad1ee",
+      "font_bytes_unchanged": 1344,
+      "puppy_bytes_unchanged": 864,
+      "application_bytes": 25584,
+      "free_flash_bytes": 3088,
+      "added_flash_bytes_from_installed": 40,
+      "static_sram_bytes": 1752,
+      "sram_remaining_before_stack": 808,
+      "added_static_sram_bytes_from_installed": 0,
+      "previous_flash_sha256": "93a356f286e25a77ded3833256a6eb95e9c53a566550fba875e8abe09fea036f",
+      "application_sha256": "e7b51f6657aac8a08dc5da43c8519b9ac33531e9f38eb386c7f64384324364cb",
+      "expected_flash_sha256": "590dad815c8cda69ef7fcd995d911da17fe0f3e38d1f84341270d2f8334c7231",
+      "hex_sha256": "0d72019a67b234a4b2abfde2627d8a144f83374469f1124790d3574534494bcb",
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "all_1024_eeprom_bytes_unchanged": true,
+        "valid_preexisting_presets_preserved": 3
+      }
+    },
+    "derecha": {
+      "original_application_reproduced_exactly": true,
+      "all_keymap_bytes_unchanged": true,
+      "map_sha256": "7ee69c4a49f7903c54c3c314fc96b368a3944caf78a503aaf0da3f57e07ad1ee",
+      "font_bytes_unchanged": 1344,
+      "puppy_bytes_unchanged": 864,
+      "application_bytes": 25656,
+      "free_flash_bytes": 3016,
+      "added_flash_bytes_from_installed": 42,
+      "static_sram_bytes": 1756,
+      "sram_remaining_before_stack": 804,
+      "added_static_sram_bytes_from_installed": 0,
+      "previous_flash_sha256": "761e21eb2bd9fa2b535936d225561de7bf7ffaa9f0d204ece46f4887219d2b1a",
+      "application_sha256": "31e7453584bba2a3e56fe273784996cc9b99ade4d33f08b021c57857c478367a",
+      "expected_flash_sha256": "7e8b20647a3fe36562360c131e55ed0447bf36578f1560b4b6a97b79ffa269ae",
+      "hex_sha256": "40dcb5ddbb11f4741ecd562f329ef3d4682e0ea4482ff1c8347ceb8aaf9b9d43",
+      "bootloader_sha256": "612479750610c977055cef15d0a8688bf212d46ecfd40ba4dac11158eb9f86f6",
+      "installation": {
+        "full_flash_readback_verified": true,
+        "bootloader_unchanged": true,
+        "all_1024_eeprom_bytes_unchanged": true,
+        "valid_preexisting_presets_preserved": 0
+      }
+    }
+  },
+  "artifact_zip_sha256": "7bcabdce37bcf82fdfabd2f49f46123f92a253d45fa17c3b02f3d5becc504bd9",
+  "qmk_commit": "0a3f7e48690bb2b7b008300a54554979a55be19a",
+  "avr_gcc": "8.5.0",
+  "owner_functional_verification": "passed: owner confirmed Uniform and previous modes work; existing presets preserved",
+  "owner_functional_verification_date": "2026-10-13"
+}

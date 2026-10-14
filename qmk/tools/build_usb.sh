@@ -7,7 +7,7 @@ output="${2:?Output directory required}"
 python3 "$repo_root/qmk/tools/verify_two_options.py"
 test "$(git -C "$qmk_root" rev-parse HEAD)" = 0a3f7e48690bb2b7b008300a54554979a55be19a
 mkdir -p "$output"
-python3 "$repo_root/qmk/tools/fn_mapping.py" "$output/expected-keymap.json"
+python3 "$repo_root/qmk/tools/preset_mapping.py" "$output/expected-keymap.json"
 git -C "$qmk_root" submodule update --init --depth 1 lib/lufa lib/printf
 cd "$qmk_root"
 {
@@ -39,6 +39,8 @@ for variant in baseline optimized; do
     python3 "$repo_root/qmk/tools/verify_usb_build.py" "$output/$name.hex" "$output/$name-symbols.txt" "$expected_map" > "$output/$name-verification.json"
     if [ "$variant" = baseline ]; then
         python3 "$repo_root/qmk/tools/reconstruct_baseline.py" --baseline-hex "$output/$name.hex" --side "$side"
+    else
+        python3 "$repo_root/qmk/tools/verify_graphics.py" "$output/$side-baseline.hex" "$output/$side-baseline-symbols.txt" "$output/$name.hex" "$output/$name-symbols.txt" > "$output/$name-graphics.json"
     fi
 done
 done

@@ -2,6 +2,37 @@
 
 ## Estado del teclado
 
+La copia de trabajo amplía a [cinco presets](changes/five-rgb-presets.md),
+añadiendo Fn + Y/Ñ en Colemak (O/P en QWERTY) como ranuras 4/5. Los tres
+guardados anteriores conservan formato y direcciones. Esta ampliación está
+compilada y cargada en ambas mitades, con lectura completa verificada y EEPROM
+y bootloader conservados; solo reasigna esas dos posiciones de Fn. El propietario
+confirmó que Y y Ñ ya guardan, sin otra carga ni cambios durante el diagnóstico.
+Falta confirmar la persistencia de esas dos ranuras nuevas tras reconectar.
+Cambian cinco bytes del programa por mitad, sin aumentar flash ni RAM estática.
+Los cinco presets ocupan 50 bytes de EEPROM, 20 más que los tres anteriores.
+
+La copia de trabajo añade el [modo RGB Uniforme](changes/uniform-mode.md),
+seleccionable con Fn + Tab y guardable en los tres presets existentes. Solo
+ese modo omite la inversión de los bordes en Colemak; los modos anteriores y
+los indicadores temporales de Fn se conservan. Compilación y verificaciones
+completas; ambas mitades cargadas y verificadas por lectura completa.
+EEPROM, presets y bootloader se conservaron. El propietario confirmó Uniforme,
+los modos anteriores y la conservación de sus presets. Añade 40/42 bytes de flash en
+izquierda/derecha, sin aumentar RAM estática ni EEPROM.
+
+La rama `feature/rgb-presets` contiene [tres presets guardables desde el teclado](changes/rgb-presets.md),
+compilados y cargados en ambas mitades, con lectura completa verificada.
+EEPROM y bootloader se conservaron. El propietario confirmó los tres
+presets, su persistencia al reconectar y el funcionamiento del resto del teclado. Solo añade tres teclas Fn y el módulo
+aislado de persistencia; los indicadores Fn, bordes inversos, OLED, perrito
+y las tablas Colemak/QWERTY se conservan.
+
+Esta función añade 542 bytes de flash y 6 bytes de RAM estática por mitad,
+además de 30 bytes de EEPROM para las tres ranuras. Quedan 3128/3058 bytes
+de flash libres en izquierda/derecha. Las pruebas nativas del módulo C y las
+verificaciones AVR pasaron en la [compilación de presets](https://github.com/FelipeCris/Crisboard/actions/runs/38433183294).
+
 La nueva distribución Fn se cargó en ambas mitades el 13 de octubre de 2026.
 Se verificaron los 32768 bytes de cada flash y se conservaron EEPROM y bootloader.
 Solo cambian 24 bytes de las 14 posiciones Fn; Colemak y QWERTY y todos los bytes
@@ -36,7 +67,9 @@ ajustes; el propietario confirmó bordes inversos, play/pause y brillo.
   `Crisboard 2023 jun.rar`; el manifiesto conserva el SHA256 del RAR y de cada
   archivo extraído. No contiene binarios ni la versión de QMK del propietario.
 - `keyboards/crisboard/`: copia de ese RAR con CYCLE_SPIRAL desactivado,
-  `LTO_ENABLE = yes` y las 14 posiciones Fn solicitadas posteriormente.
+  `LTO_ENABLE = yes`, la distribución Fn aprobada y el módulo de presets
+  (dos archivos adicionales). Cinco posiciones Fn seleccionan presets.
+  Un tercer archivo añade el modo RGB Uniforme reutilizando el renderer sólido.
 - `recovered/keymap-only.c` y `keymap.json`: tabla leída de los dos programas
   originales, con códigos numéricos y posiciones físicas.
 - `recovered/june-2023-comparison.json`: evidencia y límites de la comparación.
@@ -63,11 +96,13 @@ compilador y registra herramientas/dependencias en el artefacto. La referencia
 para AVR GCC 8.5 es el
 [paquete histórico de MSYS2 mantenido por fauxpark](https://github.com/msys2/MINGW-packages/blob/6561e2269487ec2f86935be588af48275b4c215e/mingw-w64-avr-gcc/PKGBUILD).
 
-`tools/verify_two_options.py` exige que la copia de trabajo conserve los diez
-archivos y solo contenga las dos opciones de tamaño y las 14 posiciones Fn
-solicitadas. Rechaza cambios en Colemak/QWERTY, otras teclas Fn, indicadores
-RGB, brillo, fuente OLED y animación del perrito. `tools/fn_mapping.py`
-genera la tabla esperada completa para verificar el binario compilado.
+`tools/verify_two_options.py` exige los diez archivos originales, los dos
+del módulo de presets y el archivo del modo Uniforme, con las opciones de tamaño
+y la integración aprobada. Rechaza cambios en todas las teclas, indicadores RGB
+de los modos anteriores, brillo, fuente OLED y animación del perrito.
+`tools/preset_mapping.py` extiende la
+distribución anterior de `tools/fn_mapping.py` con las cinco posiciones
+elegidas y genera la tabla completa para verificar el binario compilado.
 
 `tools/reconstruct_baseline.py` recupera la diferencia OLED del izquierdo y
 exige SHA256 idéntico del área completa de aplicación original (28672 bytes,
