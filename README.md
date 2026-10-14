@@ -117,6 +117,12 @@ de los cambios de visualización de batería.
 
 ## Organización recomendada
 
+La [primera etapa de migración del mapa inalámbrico](zmk/changes/2026-10-14-wireless-shortcuts.md)
+reubica los tres perfiles Bluetooth, borrar perfil y USB/Bluetooth en las
+posiciones acordadas de Fn. Corrige la prioridad de Fn en QWERTY y unifica
+su posición con Colemak/QMK. El resto de la migración se hará por etapas.
+Esta revisión conserva el voltaje y requiere su propia compilación y prueba.
+
 Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de
 QMK sería un trabajo posterior de soporte de hardware y revisión comunitaria;
