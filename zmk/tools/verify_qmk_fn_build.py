@@ -14,7 +14,7 @@ root = Path.cwd()
 reference = json.loads((root / 'config-repo/zmk/qmk-fn-keymap.json').read_text())
 
 
-def remove_node(text, pattern):
+def remove_node(text, pattern, expected_properties=None):
     match = re.search(pattern, text)
     assert match, pattern
     opening = text.index('{', match.start())
@@ -23,6 +23,11 @@ def remove_node(text, pattern):
         depth += (text[end] == '{') - (text[end] == '}')
         end += 1
     assert text[end] == ';'
+    if expected_properties:
+        node = text[opening + 1:end - 1]
+        node = re.sub(r'\s*phandle = < 0x[0-9a-f]+ >;', '', node)
+        properties = [re.sub(r'\s+', ' ', part.strip()) for part in node.split(';') if part.strip()]
+        assert properties == expected_properties, properties
     return text[:match.start()] + text[end + 1:]
 
 
@@ -30,6 +35,11 @@ def hardware(text, target):
     text = remove_node(text, r'\n\s*keymap\s*\{')
     if target:
         text = remove_node(text, r'\n\s*(?:cb_preset:\s*)?crisboard_rgb_preset\s*\{')
+        text = remove_node(text, r'\n\s*none:\s*behavior_none\s*\{',
+            ['compatible = "zmk,behavior-none"', 'label = "NONE"', '#binding-cells = < 0x0 >'])
+    else:
+        text = remove_node(text, r'\n\s*trans:\s*behavior_transparent\s*\{',
+            ['compatible = "zmk,behavior-transparent"', 'label = "TRANS"', '#binding-cells = < 0x0 >'])
     text = re.sub(r'\n\s*phandle = < 0x[0-9a-f]+ >;', '', text)
     return '\n'.join(line for line in text.splitlines() if line.strip())
 
@@ -90,7 +100,8 @@ installed = {'left': '0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7
              'right': '703336391bd6215a804319a5ea15c2cddc3a7a8bc457341d6e517f2aee968e37'}
 assert hashlib.sha256((before / 'zmk.uf2').read_bytes()).hexdigest() == installed[side]
 report = {'side': side, 'compiled_config_identical': True,
-          'hardware_and_native_behaviors_equivalent': True,
+          'hardware_and_remaining_native_behaviors_equivalent': True,
+          'expected_behavior_enablement_changes': ['TRANS unreferenced; NONE referenced for QMK KC_NO', 'CB_RGB_PRESET added'],
           'new_behavior': 'central RGB presets; global absolute RGB state applied to both halves',
           'installed_baseline_exact': True, 'linked_keymap': linked,
           'size': sizes, 'size_delta': {key: sizes['qmk-fn'][key] - sizes['baseline'][key] for key in sizes['baseline']},
