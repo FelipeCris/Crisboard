@@ -54,7 +54,7 @@ de carga. Los archivos excluyen ajustes y bootloader; estas zonas no
 son legibles mediante CURRENT.UF2. La prueba funcional del propietario
 sigue pendiente. [Resultados](zmk/verification/battery-percentage.json).
 
-El cambio solicitado después prepara voltaje en ambas pantallas, por ejemplo
+La revisión actual muestra voltaje en ambas pantallas, por ejemplo
 `4.08 V`, manteniendo el porcentaje del servicio Bluetooth. Se obtiene el
 voltaje ya guardado por el sensor durante la lectura existente; no se añade
 otra conversión ADC ni cambia su intervalo. El texto se actualiza también
@@ -68,8 +68,12 @@ Las cuatro compilaciones y las pruebas del código C pasaron para la fuente
 porcentaje leídas después de su instalación. La única opción compilada
 distinta es `SHOW_VOLTAGE`; el devicetree y las 204 asignaciones del mapa
 central coinciden. El enlazador mide +124 bytes de flash en la izquierda,
-+116 en la derecha y +16 bytes de RAM por mitad. Carga y prueba física de
-voltaje pendientes. [Resultados](zmk/verification/battery-voltage.json).
++116 en la derecha y +16 bytes de RAM por mitad. El 14 de octubre de 2026
+se cargaron ambas mitades. Una lectura posterior a RESET verificó
+todos los bytes del programa nuevo y las zonas legibles fuera de las
+páginas de carga. Los UF2 excluyen ajustes y bootloader; CURRENT.UF2
+no expone esas zonas. La prueba funcional del propietario sigue
+pendiente. [Resultados](zmk/verification/battery-voltage.json).
 
 nice!nano v2 mide su alimentación VDDH. Al usar batería sirve para observar
 la descarga; con USB, el circuito de carga puede elevar esa alimentación
