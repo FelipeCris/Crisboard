@@ -65,8 +65,8 @@ La configuración ya existente utiliza ZMK:
 - `Firmware Oled 34rgb stable.zip` conserva tres imágenes `.uf2`: izquierda,
   derecha y reinicio de ajustes.
 
-El mapa central leído de la placa coincide con las 204 asignaciones del
-repositorio. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
+El mapa original leído de la placa coincide con las 204 asignaciones guardadas
+en `zmk/verified-keymap.json`. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
 carece de las correcciones USB/HID identificadas en lo instalado.
 
 La primera revisión muestra el porcentaje de batería local en ambas pantallas,
@@ -121,7 +121,9 @@ La [primera etapa de migración del mapa inalámbrico](zmk/changes/2026-10-14-wi
 reubica los tres perfiles Bluetooth, borrar perfil y USB/Bluetooth en las
 posiciones acordadas de Fn. Corrige la prioridad de Fn en QWERTY y unifica
 su posición con Colemak/QMK. El resto de la migración se hará por etapas.
-Esta revisión conserva el voltaje y requiere su propia compilación y prueba.
+La compilación y sus verificaciones pasaron para ambas mitades; la aplicación
+de la derecha es idéntica a la instalada y solo requiere cargar la izquierda.
+La prueba física sigue pendiente. Esta revisión conserva el voltaje.
 
 Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de

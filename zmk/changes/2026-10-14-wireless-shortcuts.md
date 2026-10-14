@@ -48,4 +48,17 @@ Después de cargar y verificar por lectura:
 5. No pulsar Fn + G durante la prueba normal. Su función está comprobada
    en el binding compilado; probarla borraría el perfil seleccionado.
 
-Estado inicial: preparado para compilación; instalación y prueba física pendientes.
+La [compilación de a40b38d](https://github.com/FelipeCris/Crisboard/actions/runs/38625007608)
+pasó para ambas mitades, incluidas las cuatro compilaciones y la prueba del
+código de batería. Las bases reproducen exactamente los UF2 de voltaje
+instalados y la central contiene las 204 asignaciones esperadas. Las opciones
+compiladas son idénticas y, fuera del mapa, solo se intercambian los dos IDs
+de phandle generados de Bluetooth y salida. Todas las propiedades y referencias
+de hardware se conservan. El tamaño asignado de flash y RAM no aumenta.
+
+La aplicación de la derecha es idéntica a la instalada: esta etapa requiere
+cargar únicamente la izquierda. El UF2 nuevo de la izquierda tiene SHA-256
+`0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7b488ac`.
+[Resultados](../verification/wireless-shortcuts.json).
+
+Estado: compilado y verificado; instalación izquierda y prueba física pendientes.

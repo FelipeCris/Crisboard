@@ -1,0 +1,46 @@
+{
+  "source_commit": "a40b38dea372152e02295b18c447960670c6fb7c",
+  "workflow_run": 38625007608,
+  "hardware_installation": "pending",
+  "owner_functional_verification": "pending",
+  "halves": {
+    "izquierda": {
+      "compiled_config_identical": true,
+      "hardware_and_behavior_devicetree_equivalent": true,
+      "installed_voltage_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "linked_keymap": {
+        "baseline": "all 204 linked bindings match the verified reference",
+        "shortcuts": "all 204 linked bindings match the verified reference"
+      },
+      "size_delta": {
+        "allocated_flash_bytes": 0,
+        "allocated_ram_bytes": 0
+      },
+      "application_unchanged": false,
+      "target_uf2_sha256": "0228fb6268c8f7b17a6d5e0874c5ae38118020509b115b9cf00fe0c7c7b488ac",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x69500",
+      "settings_and_bootloader_excluded_from_image": true
+    },
+    "derecha": {
+      "compiled_config_identical": true,
+      "hardware_and_behavior_devicetree_equivalent": true,
+      "installed_voltage_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "linked_keymap": {
+        "baseline": "peripheral: keymap not linked; hardware and source verified",
+        "shortcuts": "peripheral: keymap not linked; hardware and source verified"
+      },
+      "size_delta": {
+        "allocated_flash_bytes": 0,
+        "allocated_ram_bytes": 0
+      },
+      "application_unchanged": true,
+      "target_uf2_sha256": "703336391bd6215a804319a5ea15c2cddc3a7a8bc457341d6e517f2aee968e37",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x5ff00",
+      "settings_and_bootloader_excluded_from_image": true
+    }
+  }
+}
