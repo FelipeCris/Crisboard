@@ -1,0 +1,110 @@
+{
+  "source_commit": "b47294b2579b5e3e2466426653e33704becf9723",
+  "workflow_run": 38633460508,
+  "hardware_installation": "both halves verified by readback",
+  "owner_functional_verification": "confirmed",
+  "halves": {
+    "izquierda": {
+      "compiled_config_identical": true,
+      "hardware_and_remaining_native_behaviors_equivalent": true,
+      "baseline_rebuild_handle_orders": [
+        {
+          "symbol": "__devicehdl_DT_N_S_soc_S_gpio_50000000",
+          "address": "0x5e0c4",
+          "bytes": 4,
+          "installed_handles": [
+            24,
+            10
+          ]
+        },
+        {
+          "symbol": "__devicehdl_DT_N_S_kscan_0",
+          "address": "0x5e02c",
+          "bytes": 4,
+          "installed_handles": [
+            3,
+            2
+          ]
+        }
+      ],
+      "rollback_matches_all_installed_application_bytes": true,
+      "linked_keymap": {
+        "baseline": "all 204 linked bindings match the verified map",
+        "qmk-fn": "all 204 linked bindings match the verified map"
+      },
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 275676,
+          "ram_used_bytes": 56378
+        },
+        "qmk-fn": {
+          "flash_used_bytes": 277536,
+          "ram_used_bytes": 56746
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 1860,
+        "ram_used_bytes": 368
+      },
+      "target_uf2_sha256": "f3bf92a833a7d9f2b49433cefa74c80dfac9bda1f683667b55eed6664aef2d10",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x69d00",
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "976485f1be5d7569849d8ac5854cb675bf52f33f91f698ab7d1efd2832e21274",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
+    },
+    "derecha": {
+      "compiled_config_identical": true,
+      "hardware_and_remaining_native_behaviors_equivalent": true,
+      "baseline_rebuild_handle_orders": [
+        {
+          "symbol": "__devicehdl_DT_N_S_kscan_0",
+          "address": "0x55e54",
+          "bytes": 4,
+          "installed_handles": [
+            2,
+            3
+          ]
+        }
+      ],
+      "rollback_matches_all_installed_application_bytes": true,
+      "linked_keymap": {
+        "baseline": "peripheral: source/devicetree verified; no linked keymap",
+        "qmk-fn": "peripheral: source/devicetree verified; no linked keymap"
+      },
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 237069,
+          "ram_used_bytes": 40618
+        },
+        "qmk-fn": {
+          "flash_used_bytes": 237245,
+          "ram_used_bytes": 40618
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 176,
+        "ram_used_bytes": 0
+      },
+      "target_uf2_sha256": "87e50d83d0716eb4bb77184028135738e93bb3c1cd0f80aa35d02ae4ec1dacd8",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x5ff00",
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "331047d514302c1903f67b74216a8431fe6a82eb3574f50a2ed1c2687cc15e08",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
+    }
+  },
+  "owner_confirmed_functions": [
+    "typing on both halves and Fn RGB/media controls",
+    "return to Colemak using the base selector",
+    "five presets restore both halves and persist after a reset"
+  ]
+}

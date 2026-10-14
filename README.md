@@ -65,8 +65,8 @@ La configuración ya existente utiliza ZMK:
 - `Firmware Oled 34rgb stable.zip` conserva tres imágenes `.uf2`: izquierda,
   derecha y reinicio de ajustes.
 
-El mapa central leído de la placa coincide con las 204 asignaciones del
-repositorio. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
+El mapa original leído de la placa coincide con las 204 asignaciones guardadas
+en `zmk/verified-keymap.json`. El ZIP antiguo tiene dos teclas de puntuación intercambiadas y
 carece de las correcciones USB/HID identificadas en lo instalado.
 
 La primera revisión muestra el porcentaje de batería local en ambas pantallas,
@@ -116,6 +116,26 @@ y el [sensor de esta revisión ZMK](https://github.com/zmkfirmware/zmk/blob/c7fd
 de los cambios de visualización de batería.
 
 ## Organización recomendada
+
+La [primera etapa de migración del mapa inalámbrico](zmk/changes/2026-10-14-wireless-shortcuts.md)
+reubica los tres perfiles Bluetooth, borrar perfil y USB/Bluetooth en las
+posiciones acordadas de Fn. Corrige la prioridad de Fn en QWERTY y unifica
+su posición con Colemak/QMK. El resto de la migración se hará por etapas.
+La compilación y sus verificaciones pasaron para ambas mitades; la aplicación
+de la derecha era idéntica a la instalada y en esa etapa solo se cargó la izquierda.
+La izquierda está cargada y verificada por lectura; el propietario confirmó
+la prueba funcional de esta etapa. Esta revisión conserva el voltaje.
+
+La [revisión que completa el mapa Fn de QMK](zmk/changes/2026-10-14-qmk-fn.md)
+añade las teclas multimedia, los controles RGB en sus posiciones QMK y cinco
+presets guardables desde el teclado. El indicador muestra siempre el perfil
+Bluetooth seleccionado y la preferencia USB/Bluetooth, diferenciándolos de
+la salida efectiva. Las cuatro compilaciones y las pruebas de presets, batería y
+mapa real pasaron para `b47294b`. Ambas mitades se cargaron y verificaron por
+lectura. El usuario confirmó la prueba funcional.
+[Resultados](zmk/verification/qmk-fn.json). Esta fase conserva los cuatro
+efectos nativos ZMK; los efectos QMK, colores por tecla y perrito quedan para
+etapas posteriores.
 
 Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de
