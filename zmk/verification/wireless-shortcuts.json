@@ -2,7 +2,7 @@
   "source_commit": "a40b38dea372152e02295b18c447960670c6fb7c",
   "workflow_run": 38625007608,
   "hardware_installation": "left installed and verified by readback; right application unchanged and already verified",
-  "owner_functional_verification": "pending",
+  "owner_functional_verification": "confirmed",
   "halves": {
     "izquierda": {
       "compiled_config_identical": true,
@@ -53,5 +53,13 @@
         "compiled_target_is_byte_identical_to_installed_application": true
       }
     }
-  }
+  },
+  "owner_confirmed_checks": [
+    "profile selection",
+    "USB/Bluetooth toggle",
+    "Fn access and selectors in Colemak/QWERTY",
+    "typing both halves",
+    "voltage and existing RGB controls"
+  ],
+  "clear_profile_check": "compiled binding verified; not exercised to preserve pairings"
 }

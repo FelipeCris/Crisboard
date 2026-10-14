@@ -70,4 +70,7 @@ La izquierda se cargó el 14 de octubre de 2026. La lectura posterior verificó
 todos los bytes de la aplicación nueva y que las zonas legibles fuera de sus
 páginas de carga permanecen intactas. CURRENT.UF2 no expone ajustes ni bootloader.
 
-Estado: izquierda instalada y verificada; derecha conservada; prueba física pendiente.
+El propietario confirmó perfiles, alternancia USB/Bluetooth, Fn y selectores
+desde ambas bases, escritura en ambas mitades, voltaje y RGB actuales.
+Fn + G no se ejercitó para conservar los emparejamientos; su binding fue
+comprobado en el ELF. Estado: instalado, verificado y probado por el propietario.
