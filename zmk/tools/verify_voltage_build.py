@@ -21,7 +21,8 @@ changes = {key: [before.get(key), after.get(key)] for key in before.keys() | aft
 assert changes == {'CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_VOLTAGE': [None, 'y']}, changes
 assert after['CONFIG_ZMK_WIDGET_BATTERY_STATUS'] == 'y'
 assert after['CONFIG_ZMK_WIDGET_BATTERY_STATUS_SHOW_PERCENTAGE'] == 'y'
-assert after['CONFIG_ZMK_BATTERY_REPORTING'] == 'y'
+assert after['CONFIG_ZMK_BLE'] == 'y'
+assert after['CONFIG_BT_BAS'] == 'y'
 assert after['CONFIG_ZMK_BATTERY_REPORT_INTERVAL'] == before['CONFIG_ZMK_BATTERY_REPORT_INTERVAL']
 assert after.get('CONFIG_ZMK_SETTINGS_RESET_ON_START') != 'y'
 first = (root / 'build-percentage/zephyr/zephyr.dts').read_bytes()
