@@ -1,0 +1,149 @@
+diff --git a/app/CMakeLists.txt b/app/CMakeLists.txt
+--- a/app/CMakeLists.txt
++++ b/app/CMakeLists.txt
+@@ -46,6 +46,7 @@
+   target_sources(app PRIVATE src/behaviors/behavior_macro.c)
+   target_sources(app PRIVATE src/behaviors/behavior_momentary_layer.c)
+   target_sources_ifdef(CONFIG_ZMK_RGB_UNDERGLOW app PRIVATE src/behaviors/behavior_crisboard_rgb_preset.c)
++  target_sources_ifdef(CONFIG_ZMK_RGB_UNDERGLOW app PRIVATE src/crisboard_rgb_base_sync.c)
+   target_sources(app PRIVATE src/behaviors/behavior_mod_morph.c)
+   target_sources(app PRIVATE src/behaviors/behavior_outputs.c)
+   target_sources(app PRIVATE src/behaviors/behavior_toggle_layer.c)
+diff --git a/app/include/zmk/rgb_underglow.h b/app/include/zmk/rgb_underglow.h
+--- a/app/include/zmk/rgb_underglow.h
++++ b/app/include/zmk/rgb_underglow.h
+@@ -9,6 +9,8 @@
+ 
+ int zmk_rgb_underglow_get_snapshot(uint32_t *snapshot);
+ int zmk_rgb_underglow_apply_snapshot(uint32_t snapshot);
++int zmk_rgb_underglow_set_base_context(uint32_t base);
++void zmk_crisboard_rgb_sync_base(void);
+ 
+ struct zmk_led_hsb {
+     uint16_t h;
+@@ -30,4 +32,4 @@
+ int zmk_rgb_underglow_change_sat(int direction);
+ int zmk_rgb_underglow_change_brt(int direction);
+ int zmk_rgb_underglow_change_spd(int direction);
+-int zmk_rgb_underglow_set_hsb(struct zmk_led_hsb color);
+\ No newline at end of file
++int zmk_rgb_underglow_set_hsb(struct zmk_led_hsb color);
+diff --git a/app/src/rgb_underglow.c b/app/src/rgb_underglow.c
+--- a/app/src/rgb_underglow.c
++++ b/app/src/rgb_underglow.c
+@@ -19,6 +19,7 @@
+ 
+ #include <zmk/rgb_underglow.h>
+ #include <zmk/crisboard_rgb_presets.h>
++#include <zmk/crisboard_rgb_borders.h>
+ 
+ #include <zmk/activity.h>
+ #include <zmk/usb.h>
+@@ -43,6 +44,7 @@
+     UNDERGLOW_EFFECT_BREATHE,
+     UNDERGLOW_EFFECT_SPECTRUM,
+     UNDERGLOW_EFFECT_SWIRL,
++    UNDERGLOW_EFFECT_BORDERS,
+     UNDERGLOW_EFFECT_NUMBER // Used to track number of underglow effects
+ };
+ 
+@@ -54,11 +56,17 @@
+     bool on;
+ };
+ 
++BUILD_ASSERT(STRIP_NUM_PIXELS == 34, "Crisboard borders require 34 LEDs per half");
++BUILD_ASSERT(UNDERGLOW_EFFECT_NUMBER == CRISBOARD_RGB_EFFECT_COUNT,
++             "RGB effects and preset decoder must agree");
++
+ static const struct device *led_strip;
+ 
+ static struct led_rgb pixels[STRIP_NUM_PIXELS];
+ 
+ static struct rgb_underglow_state state;
++// Session base context, synchronized from the central; never saved in presets.
++static bool crisboard_colemak_base = true;
+ 
+ #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_EXT_POWER)
+ static const struct device *ext_power;
+@@ -169,6 +177,16 @@
+     state.animation_step = state.animation_step % HUE_MAX;
+ }
+ 
++static void zmk_rgb_underglow_effect_borders() {
++    struct zmk_led_hsb inverse = state.color;
++    inverse.h = (inverse.h + HUE_MAX / 2) % HUE_MAX;
++    const struct led_rgb base_rgb = hsb_to_rgb(hsb_scale_min_max(state.color));
++    const struct led_rgb border_rgb = hsb_to_rgb(hsb_scale_min_max(inverse));
++    for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
++        pixels[i] = crisboard_colemak_base && crisboard_rgb_is_border(i) ? border_rgb : base_rgb;
++    }
++}
++
+ static void zmk_rgb_underglow_tick(struct k_work *work) {
+     switch (state.current_effect) {
+     case UNDERGLOW_EFFECT_SOLID:
+@@ -182,6 +200,9 @@
+         break;
+     case UNDERGLOW_EFFECT_SWIRL:
+         zmk_rgb_underglow_effect_swirl();
++        break;
++    case UNDERGLOW_EFFECT_BORDERS:
++        zmk_rgb_underglow_effect_borders();
+         break;
+     }
+ 
+@@ -292,6 +313,14 @@
+ #endif
+ }
+ 
++int zmk_rgb_underglow_set_base_context(uint32_t base) {
++    if (base > 1) {
++        return -EINVAL;
++    }
++    crisboard_colemak_base = base == 0;
++    return 0;
++}
++
+ int zmk_rgb_underglow_get_snapshot(uint32_t *snapshot) {
+     if (!led_strip) {
+         return -ENODEV;
+diff --git a/app/src/behaviors/behavior_rgb_underglow.c b/app/src/behaviors/behavior_rgb_underglow.c
+--- a/app/src/behaviors/behavior_rgb_underglow.c
++++ b/app/src/behaviors/behavior_rgb_underglow.c
+@@ -102,6 +102,8 @@
+     switch (binding->param1) {
+     case CRISBOARD_RGB_APPLY_CMD:
+         return zmk_rgb_underglow_apply_snapshot(binding->param2);
++    case CRISBOARD_RGB_BASE_CMD:
++        return zmk_rgb_underglow_set_base_context(binding->param2);
+     case RGB_TOG_CMD:
+         return zmk_rgb_underglow_toggle();
+     case RGB_ON_CMD:
+diff --git a/app/src/split/bluetooth/central.c b/app/src/split/bluetooth/central.c
+--- a/app/src/split/bluetooth/central.c
++++ b/app/src/split/bluetooth/central.c
+@@ -20,6 +20,9 @@
+ #include <zmk/stdlib.h>
+ #include <zmk/ble.h>
+ #include <zmk/behavior.h>
++#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW)
++#include <zmk/rgb_underglow.h>
++#endif
+ #include <zmk/split/bluetooth/uuid.h>
+ #include <zmk/split/bluetooth/service.h>
+ #include <zmk/event_manager.h>
+@@ -268,6 +271,14 @@
+     }
+ 
+     bool subscribed = (slot->run_behavior_handle && slot->subscribe_params.value_handle);
++
++#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW)
++    // Replay the current base only after the behavior characteristic is ready.
++    // This also covers a peripheral that reconnects after an independent reset.
++    if (subscribed) {
++        zmk_crisboard_rgb_sync_base();
++    }
++#endif
+ 
+     return subscribed ? BT_GATT_ITER_STOP : BT_GATT_ITER_CONTINUE;
+ }

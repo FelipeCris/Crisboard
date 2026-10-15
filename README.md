@@ -141,3 +141,13 @@ Mantener aquí las configuraciones personales y fijar las revisiones de QMK/ZMK
 al preparar compilaciones reproducibles. Contribuir al repositorio oficial de
 QMK sería un trabajo posterior de soporte de hardware y revisión comunitaria;
 no hace falta para conservar o programar este teclado.
+
+## Modo Bordes inversos en ZMK
+
+La [fase de bordes inversos](zmk/changes/2026-10-14-inverse-borders.md) añade un
+quinto modo en Fn + Tab, con las mismas 17 posiciones LED de borde por mitad
+que QMK. En Colemak desplaza el tono del borde 180° y conserva saturación y
+brillo; en QWERTY se muestra uniforme. Los cuatro modos anteriores y sus
+presets conservan sus identificadores. El nuevo modo también se guarda y
+recupera desde los cinco presets. No cambia el mapa, Bluetooth ni voltaje.
+Estado: implementación preparada; compilación y carga pendientes.

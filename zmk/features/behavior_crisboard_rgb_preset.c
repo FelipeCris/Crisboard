@@ -43,7 +43,7 @@ static int preset_settings_set(const char *name, size_t length,
     if (ret < 0) {
         return ret;
     }
-    if (ret != sizeof(record) || !crisboard_preset_decode(slot, record, 4, &presets[slot])) {
+    if (ret != sizeof(record) || !crisboard_preset_decode(slot, record, CRISBOARD_RGB_EFFECT_COUNT, &presets[slot])) {
         return -EINVAL;
     }
     valid_slots |= BIT(slot);
