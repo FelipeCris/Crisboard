@@ -1,0 +1,93 @@
+diff --git a/app/src/rgb_underglow.c b/app/src/rgb_underglow.c
+--- a/app/src/rgb_underglow.c
++++ b/app/src/rgb_underglow.c
+@@ -66,6 +66,8 @@
+ static struct led_rgb pixels[STRIP_NUM_PIXELS];
+ 
+ static struct rgb_underglow_state state;
++// Temporary inactivity suspension must never replace the saved user on/off choice.
++static bool rgb_suspended;
+ // Session base context, synchronized from the central; never saved in presets.
+ static bool crisboard_colemak_base = true;
+ 
+@@ -205,6 +207,9 @@
+ }
+ 
+ static void zmk_rgb_underglow_tick(struct k_work *work) {
++    if (!state.on || rgb_suspended) {
++        return;
++    }
+     switch (state.current_effect) {
+     case UNDERGLOW_EFFECT_SOLID:
+         zmk_rgb_underglow_effect_solid();
+@@ -232,7 +237,7 @@
+ K_WORK_DEFINE(underglow_work, zmk_rgb_underglow_tick);
+ 
+ static void zmk_rgb_underglow_tick_handler(struct k_timer *timer) {
+-    if (!state.on) {
++    if (!state.on || rgb_suspended) {
+         return;
+     }
+ 
+@@ -387,6 +392,7 @@
+ #endif
+ 
+     state.on = true;
++    rgb_suspended = false;
+     state.animation_step = 0;
+     k_timer_start(&underglow_tick, K_NO_WAIT, K_MSEC(50));
+ 
+@@ -532,35 +538,37 @@
+ 
+ #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE) ||                                          \
+     IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_USB)
+-static int rgb_underglow_auto_state(bool *prev_state, bool new_state) {
+-    if (state.on == new_state) {
++static int rgb_underglow_auto_state(bool new_state) {
++    bool suspended = !new_state;
++    if (rgb_suspended == suspended) {
+         return 0;
+     }
+-    if (new_state) {
+-        state.on = *prev_state;
+-        *prev_state = false;
+-        return zmk_rgb_underglow_on();
+-    } else {
+-        state.on = false;
+-        *prev_state = true;
+-        return zmk_rgb_underglow_off();
+-    }
++    rgb_suspended = suspended;
++    if (suspended) {
++        k_timer_stop(&underglow_tick);
++        for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
++            pixels[i] = (struct led_rgb){r : 0, g : 0, b : 0};
++        }
++        return led_strip_update_rgb(led_strip, pixels, STRIP_NUM_PIXELS);
++    }
++    if (state.on) {
++        state.animation_step = 0;
++        k_timer_start(&underglow_tick, K_NO_WAIT, K_MSEC(50));
++    }
++    return 0;
+ }
+ 
+ static int rgb_underglow_event_listener(const zmk_event_t *eh) {
+ 
+ #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE)
+     if (as_zmk_activity_state_changed(eh)) {
+-        static bool prev_state = false;
+-        return rgb_underglow_auto_state(&prev_state,
+-                                        zmk_activity_get_state() == ZMK_ACTIVITY_ACTIVE);
++        return rgb_underglow_auto_state(zmk_activity_get_state() == ZMK_ACTIVITY_ACTIVE);
+     }
+ #endif
+ 
+ #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_USB)
+     if (as_zmk_usb_conn_state_changed(eh)) {
+-        static bool prev_state = false;
+-        return rgb_underglow_auto_state(&prev_state, zmk_usb_is_powered());
++        return rgb_underglow_auto_state(zmk_usb_is_powered());
+     }
+ #endif
+ 

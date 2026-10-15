@@ -1,0 +1,44 @@
+diff --git a/app/src/rgb_underglow.c b/app/src/rgb_underglow.c
+--- a/app/src/rgb_underglow.c
++++ b/app/src/rgb_underglow.c
+@@ -45,6 +45,7 @@
+     UNDERGLOW_EFFECT_SPECTRUM,
+     UNDERGLOW_EFFECT_SWIRL,
+     UNDERGLOW_EFFECT_BORDERS,
++    UNDERGLOW_EFFECT_BORDERS_BREATHE,
+     UNDERGLOW_EFFECT_NUMBER // Used to track number of underglow effects
+ };
+ 
+@@ -187,6 +188,22 @@
+     }
+ }
+ 
++static void zmk_rgb_underglow_effect_borders_breathe() {
++    struct zmk_led_hsb inverse = state.color;
++    inverse.h = (inverse.h + HUE_MAX / 2) % HUE_MAX;
++    const struct led_rgb border_rgb = hsb_to_rgb(hsb_scale_min_max(inverse));
++    struct zmk_led_hsb center = state.color;
++    center.b = state.color.b * abs(state.animation_step - 1200) / 1200;
++    const struct led_rgb center_rgb = hsb_to_rgb(hsb_scale_zero_max(center));
++    for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
++        pixels[i] = crisboard_colemak_base && crisboard_rgb_is_border(i) ? border_rgb : center_rgb;
++    }
++    state.animation_step += state.animation_speed * 10;
++    if (state.animation_step > 2400) {
++        state.animation_step = 0;
++    }
++}
++
+ static void zmk_rgb_underglow_tick(struct k_work *work) {
+     switch (state.current_effect) {
+     case UNDERGLOW_EFFECT_SOLID:
+@@ -203,6 +220,9 @@
+         break;
+     case UNDERGLOW_EFFECT_BORDERS:
+         zmk_rgb_underglow_effect_borders();
++        break;
++    case UNDERGLOW_EFFECT_BORDERS_BREATHE:
++        zmk_rgb_underglow_effect_borders_breathe();
+         break;
+     }
+ 

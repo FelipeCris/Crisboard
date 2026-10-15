@@ -85,7 +85,7 @@ static int settings_save_one(const char *name, const void *value, size_t length)
 static int zmk_rgb_underglow_get_snapshot(uint32_t *value) { *value = rgb_snapshot; return 0; }
 static int behavior_keymap_binding_pressed(struct zmk_behavior_binding *b, struct zmk_behavior_binding_event e) {
     assert(!strcmp(b->behavior_dev,"RGB_UG") && b->param1 == CRISBOARD_RGB_APPLY_CMD);
-    assert(crisboard_rgb_valid(b->param2, 4)); rgb_snapshot = b->param2; local_loads++; return 0;
+    assert(crisboard_rgb_valid(b->param2, CRISBOARD_RGB_EFFECT_COUNT)); rgb_snapshot = b->param2; local_loads++; return 0;
 }
 static int zmk_split_bt_invoke_behavior(uint8_t side, struct zmk_behavior_binding *b, struct zmk_behavior_binding_event e, bool pressed) {
     assert(side == 0 && pressed && b->param1 == CRISBOARD_RGB_APPLY_CMD);
@@ -121,19 +121,19 @@ int main(void) {
     for (unsigned slot=0; slot<5; slot++) {
         uint32_t value=crisboard_rgb_pack(360,100,0,5,3,false), decoded=0;
         uint8_t record[8]; crisboard_preset_encode(slot,value,record);
-        assert(crisboard_preset_decode(slot,record,4,&decoded) && decoded==value);
+        assert(crisboard_preset_decode(slot,record,CRISBOARD_RGB_EFFECT_COUNT,&decoded) && decoded==value);
         for (unsigned bit=0; bit<64; bit++) {
             record[bit/8] ^= 1u << (bit%8);
-            assert(!crisboard_preset_decode(slot,record,4,&decoded));
+            assert(!crisboard_preset_decode(slot,record,CRISBOARD_RGB_EFFECT_COUNT,&decoded));
             record[bit/8] ^= 1u << (bit%8);
         }
     }
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(361,100,100,1,0,true),4));
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,101,100,1,0,true),4));
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,101,1,0,true),4));
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,0,0,true),4));
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,6,0,true),4));
-    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,1,4,true),4));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(361,100,100,1,0,true),CRISBOARD_RGB_EFFECT_COUNT));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,101,100,1,0,true),CRISBOARD_RGB_EFFECT_COUNT));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,101,1,0,true),CRISBOARD_RGB_EFFECT_COUNT));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,0,0,true),CRISBOARD_RGB_EFFECT_COUNT));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,6,0,true),CRISBOARD_RGB_EFFECT_COUNT));
+    assert(!crisboard_rgb_valid(crisboard_rgb_pack(0,100,100,1,CRISBOARD_RGB_EFFECT_COUNT,true),CRISBOARD_RGB_EFFECT_COUNT));
     fn_active=true; now=1000;
     // An empty slot has no effect.
     press(0,20); now+=50; release(0,20); assert(writes==0 && local_loads==0);
@@ -159,7 +159,7 @@ int main(void) {
     // All five records survive reload; saving one leaves the others intact.
     fn_active=true;
     for (unsigned slot=2;slot<5;slot++) {
-        now+=3000; rgb_snapshot=crisboard_rgb_pack(slot*20,50,slot*10,slot,slot%4,true);
+        now+=3000; rgb_snapshot=crisboard_rgb_pack(slot*20,50,slot*10,slot,slot==4?CRISBOARD_RGB_EFFECT_COUNT-1:slot,true);
         press(slot,20+slot); now+=2000; tick(); release(slot,20+slot);
     }
     assert(writes==5 && valid_slots==31);
@@ -171,6 +171,13 @@ int main(void) {
         assert(presets[slot]==expected[slot]);
     }
     assert(valid_slots==31);
+    // Each restored slot loads the same absolute state into both halves,
+    // including the newly appended effect in slot 5.
+    for (unsigned slot=0;slot<5;slot++) {
+        now+=100; press(slot,20+slot); now+=50; release(slot,20+slot);
+        assert(rgb_snapshot==expected[slot] && peripheral_snapshot==expected[slot]);
+    }
+    assert(writes==5 && local_loads==peripheral_loads);
     uint8_t corrupt[8]; memcpy(corrupt,saved_records[0],8); corrupt[7]^=1;
     assert(preset_settings_set("p0",8,read_record,corrupt)==-EINVAL);
     assert(preset_settings_set("p0",7,read_record,saved_records[0])==-EINVAL);

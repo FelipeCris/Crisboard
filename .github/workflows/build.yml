@@ -1,4 +1,4 @@
-name: ZMK QMK Fn map
+name: ZMK RGB borders and startup
 
 on:
   push:
@@ -27,8 +27,10 @@ jobs:
           path: config-repo
           persist-credentials: false
           fetch-depth: 0
-      - name: Verify the complete QMK Fn map and wireless overrides
-        run: python3 config-repo/zmk/tools/verify_qmk_fn_source.py
+      - name: Verify unchanged mapping, hardware, presets and QMK borders
+        run: |
+          python3 config-repo/zmk/tools/verify_qmk_fn_source.py
+          python3 config-repo/zmk/tools/verify_inverse_borders_source.py
       - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         id: westcache
         with:
@@ -60,14 +62,14 @@ jobs:
             tools/
             bootloader/
           key: zmk-zephyr3-2364960-3861c95-${{ runner.os }}
-      - name: Build installed baseline and complete QMK Fn map
-        run: bash config-repo/zmk/tools/build_qmk_fn.sh '${{ matrix.side }}'
-      - name: Verify compiled configuration, matrix and actual keymap
-        run: python3 config-repo/zmk/tools/verify_qmk_fn_build.py '${{ matrix.side }}'
+      - name: Build installed five-mode baseline and sixth mode with startup fix
+        run: bash config-repo/zmk/tools/build_inverse_borders.sh '${{ matrix.side }}'
+      - name: Verify exact baseline, unchanged hardware and actual keymap
+        run: python3 config-repo/zmk/tools/verify_inverse_borders_build.py '${{ matrix.side }}'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: zmk-qmk-fn-${{ matrix.side }}
+          name: zmk-inverse-borders-${{ matrix.side }}
           path: results/
           if-no-files-found: error
           include-hidden-files: true
