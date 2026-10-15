@@ -1,0 +1,59 @@
+{
+  "source_commit": "33dfebf65ee3ffa68ee063685bca3a2b4473ced9",
+  "workflow_run": 38683595731,
+  "hardware_installation": "pending",
+  "owner_functional_verification": "pending",
+  "mode": "inverse borders in Colemak; uniform in QWERTY",
+  "halves": {
+    "izquierda": {
+      "installed_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "compiled_config_identical": true,
+      "devicetree_identical": true,
+      "keymap_identical": true,
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 277536,
+          "ram_used_bytes": 56746
+        },
+        "inverse-borders": {
+          "flash_used_bytes": 277900,
+          "ram_used_bytes": 56762
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 364,
+        "ram_used_bytes": 16
+      },
+      "target_uf2_sha256": "76ede9606719ebaf703d1f619a7a60f2c2b063c9fad292daedf27e6fabb0a1bd",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x69e00",
+      "settings_and_bootloader_excluded_from_image": true
+    },
+    "derecha": {
+      "installed_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "compiled_config_identical": true,
+      "devicetree_identical": true,
+      "keymap_identical": true,
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 237245,
+          "ram_used_bytes": 40618
+        },
+        "inverse-borders": {
+          "flash_used_bytes": 237421,
+          "ram_used_bytes": 40618
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 176,
+        "ram_used_bytes": 0
+      },
+      "target_uf2_sha256": "5808f157431c3cde2b7a1840643a3becc9134c3c1e8d15e1953a69b9273cf6de",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x60000",
+      "settings_and_bootloader_excluded_from_image": true
+    }
+  }
+}

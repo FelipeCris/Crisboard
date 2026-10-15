@@ -40,9 +40,12 @@ También prueban el módulo real de sincronización de base, su aislamiento de
 Fn y la repetición al reconectar después del descubrimiento de características.
 Se mantienen las pruebas de batería, presets, persistencia y entrega a ambas mitades.
 
-Estado: implementación preparada; compilación y carga pendientes.
+Estado: [compilación y verificaciones aprobadas](https://github.com/FelipeCris/Crisboard/actions/runs/38683595731), fuente `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Carga y prueba física pendientes.
 
 ## Prueba física
+
+El enlazador mide +364 bytes de flash y +16 bytes de RAM en la central;
+en la derecha, +176 bytes de flash y la misma RAM que antes.
 
 1. Con Colemak activo, recorrer Fn + Tab. Los cuatro modos anteriores deben
    mantenerse y el quinto debe mostrar bordes opuestos en ambas mitades.

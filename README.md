@@ -150,4 +150,5 @@ que QMK. En Colemak desplaza el tono del borde 180° y conserva saturación y
 brillo; en QWERTY se muestra uniforme. Los cuatro modos anteriores y sus
 presets conservan sus identificadores. El nuevo modo también se guarda y
 recupera desde los cinco presets. No cambia el mapa, Bluetooth ni voltaje.
-Estado: implementación preparada; compilación y carga pendientes.
+Estado: cuatro compilaciones y verificaciones aprobadas; carga y prueba física pendientes.
+[Resultados](zmk/verification/inverse-borders.json).
