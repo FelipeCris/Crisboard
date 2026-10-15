@@ -1,7 +1,7 @@
 {
   "source_commit": "f05d90d66fd797d286f306a4b9bbb2fffb7f984e",
   "workflow_run": 38686721021,
-  "hardware_installation": "pending",
+  "hardware_installation": "both halves verified by readback",
   "owner_functional_verification": "pending",
   "mode": "fixed inverse borders and breathing center in Colemak; uniform breathing in QWERTY",
   "installed_effect_ids_preserved": [
@@ -37,7 +37,13 @@
       "target_uf2_sha256": "79e26caf1b101a84f6489ec08f33232673a89d19ec2c990e39e8fb4e4237ce14",
       "application_start": "0x26000",
       "application_end_exclusive": "0x69f00",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "906fdf4a9e174a5ec0682c151eb8cef88f05a789dd9136ed561e5bcaf68a2f35",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
     },
     "derecha": {
       "installed_baseline_exact": true,
@@ -62,7 +68,13 @@
       "target_uf2_sha256": "75efe37340935fd73ffd70907aa14f87af6759a2dca85a414d4abfdd7ea2c9d4",
       "application_start": "0x26000",
       "application_end_exclusive": "0x60100",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "273ccbb1fc709b26afad7ba79a62bf06a58352341f596b2369cd89b106338d42",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
     }
   }
 }

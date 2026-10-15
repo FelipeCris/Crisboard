@@ -55,7 +55,7 @@ por byte y el sexto se contrasta con un cálculo HSV independiente.
 
 La base de compilación debe reproducir exactamente ambos UF2 instalados
 de `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Se comparan configuración,
-devicetree y las 204 asignaciones enlazadas. Carga del sexto modo pendiente.
+devicetree y las 204 asignaciones enlazadas. Ambas mitades cargadas y verificadas por lectura; prueba funcional pendiente.
 
 El incremento medido es de 224 bytes de flash por mitad, sin aumento de RAM
 estática respecto a los cinco modos instalados. Las imágenes solo incluyen

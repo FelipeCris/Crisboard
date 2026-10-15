@@ -153,4 +153,4 @@ recupera desde los cinco presets. No cambia el mapa, Bluetooth ni voltaje.
 Estado: cuatro compilaciones aprobadas; ambas mitades cargadas y verificadas por lectura; el usuario recuperó el funcionamiento cargando presets; regresión completa pendiente.
 [Resultados](zmk/verification/inverse-borders.json).
 
-La [siguiente revisión](zmk/changes/2026-10-15-breathing-borders.md) añade un sexto modo con bordes inversos fijos y respiración central, y separa el reposo temporal del encendido RGB guardado. Cuatro compilaciones y pruebas aprobadas; carga y prueba funcional pendientes. [Resultados](zmk/verification/breathing-borders.json).
+La [siguiente revisión](zmk/changes/2026-10-15-breathing-borders.md) añade un sexto modo con bordes inversos fijos y respiración central, y separa el reposo temporal del encendido RGB guardado. Cuatro compilaciones y pruebas aprobadas; ambas mitades cargadas y verificadas por lectura; prueba funcional pendiente. [Resultados](zmk/verification/breathing-borders.json).
