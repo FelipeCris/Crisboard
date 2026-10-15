@@ -41,9 +41,13 @@ despertar se respeta el apagado explícito. Una tarea RGB ya encolada no
 puede volver a encender los LED mientras están suspendidos. Cargar un
 preset encendido sigue despertando el RGB.
 
+La corrección respeta un `on=false` que ya estuviera guardado. Si arranca
+apagado al actualizar, Fn + Esc o un preset encendido permite activarlo
+una vez; los reposos siguientes ya no persistirán ese apagado temporal.
+
 ## Validación
 
-Pendiente de compilación y pruebas. El ensayo de arranque ejecuta las
+[Compilación y pruebas aprobadas](https://github.com/FelipeCris/Crisboard/actions/runs/38686721021), fuente `f05d90d66fd797d286f306a4b9bbb2fffb7f984e`. La prueba del código C real reproduce la ruta de apagado persistido de la base y verifica su corrección. El ensayo de arranque ejecuta las
 funciones C reales de la base instalada y de la corrección: reposo,
 guardado diferido, reinicio, cambio de modo, carga de preset y apagado
 explícito. El renderizado de los cinco modos instalados se compara byte
@@ -52,3 +56,7 @@ por byte y el sexto se contrasta con un cálculo HSV independiente.
 La base de compilación debe reproducir exactamente ambos UF2 instalados
 de `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Se comparan configuración,
 devicetree y las 204 asignaciones enlazadas. Carga del sexto modo pendiente.
+
+El incremento medido es de 224 bytes de flash por mitad, sin aumento de RAM
+estática respecto a los cinco modos instalados. Las imágenes solo incluyen
+aplicación; no se cargan ajustes ni bootloader.

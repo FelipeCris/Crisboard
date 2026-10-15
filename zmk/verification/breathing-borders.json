@@ -1,0 +1,68 @@
+{
+  "source_commit": "f05d90d66fd797d286f306a4b9bbb2fffb7f984e",
+  "workflow_run": 38686721021,
+  "hardware_installation": "pending",
+  "owner_functional_verification": "pending",
+  "mode": "fixed inverse borders and breathing center in Colemak; uniform breathing in QWERTY",
+  "installed_effect_ids_preserved": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "additional_effect_id": 5,
+  "idle_suspension_separate_from_saved_on_off": true,
+  "halves": {
+    "izquierda": {
+      "installed_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "compiled_config_identical": true,
+      "devicetree_identical": true,
+      "keymap_identical": true,
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 277900,
+          "ram_used_bytes": 56762
+        },
+        "inverse-borders": {
+          "flash_used_bytes": 278124,
+          "ram_used_bytes": 56762
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 224,
+        "ram_used_bytes": 0
+      },
+      "target_uf2_sha256": "79e26caf1b101a84f6489ec08f33232673a89d19ec2c990e39e8fb4e4237ce14",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x69f00",
+      "settings_and_bootloader_excluded_from_image": true
+    },
+    "derecha": {
+      "installed_baseline_exact": true,
+      "baseline_matches_all_installed_application_bytes": true,
+      "compiled_config_identical": true,
+      "devicetree_identical": true,
+      "keymap_identical": true,
+      "size": {
+        "baseline": {
+          "flash_used_bytes": 237421,
+          "ram_used_bytes": 40618
+        },
+        "inverse-borders": {
+          "flash_used_bytes": 237645,
+          "ram_used_bytes": 40618
+        }
+      },
+      "size_delta": {
+        "flash_used_bytes": 224,
+        "ram_used_bytes": 0
+      },
+      "target_uf2_sha256": "75efe37340935fd73ffd70907aa14f87af6759a2dca85a414d4abfdd7ea2c9d4",
+      "application_start": "0x26000",
+      "application_end_exclusive": "0x60100",
+      "settings_and_bootloader_excluded_from_image": true
+    }
+  }
+}
