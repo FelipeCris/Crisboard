@@ -1,8 +1,8 @@
 {
   "source_commit": "33dfebf65ee3ffa68ee063685bca3a2b4473ced9",
   "workflow_run": 38683595731,
-  "hardware_installation": "pending",
-  "owner_functional_verification": "pending",
+  "hardware_installation": "both halves verified by readback",
+  "owner_functional_verification": "reported working after loading existing presets; full regression not confirmed",
   "mode": "inverse borders in Colemak; uniform in QWERTY",
   "halves": {
     "izquierda": {
@@ -28,7 +28,13 @@
       "target_uf2_sha256": "76ede9606719ebaf703d1f619a7a60f2c2b063c9fad292daedf27e6fabb0a1bd",
       "application_start": "0x26000",
       "application_end_exclusive": "0x69e00",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "06f6b4e83839945be1eacf7bceebb5baef93ac469ef481e5d35e29558449794c",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
     },
     "derecha": {
       "installed_baseline_exact": true,
@@ -53,7 +59,19 @@
       "target_uf2_sha256": "5808f157431c3cde2b7a1840643a3becc9134c3c1e8d15e1953a69b9273cf6de",
       "application_start": "0x26000",
       "application_end_exclusive": "0x60000",
-      "settings_and_bootloader_excluded_from_image": true
+      "settings_and_bootloader_excluded_from_image": true,
+      "installation": {
+        "status": "verified_by_readback",
+        "read_sha256": "ebd878e2721c7c4286e10851f799862468d8d450c4481fdb2552bf3766905ad4",
+        "all_new_application_bytes_match": true,
+        "all_readable_bytes_outside_target_pages_unchanged": true
+      }
     }
+  },
+  "startup_observation": {
+    "initial_symptom": "Only X and K LEDs lit; effects appeared blocked",
+    "recovery": "Loading existing presets restored operation without another firmware write",
+    "rollback": "Not performed: wait ended without finding bootloader",
+    "root_cause_status": "idle/off persistence identified in source; hardware cause not conclusively established"
   }
 }

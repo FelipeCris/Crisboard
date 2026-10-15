@@ -16,12 +16,10 @@ paths=subprocess.check_output(['git','-C',str(repo),'ls-tree','-r','--name-only'
 for path in paths:
     assert original(path)==(repo/path).read_bytes().replace(b'\r\n',b'\n'),path
 header='zmk/features/crisboard_rgb_presets.h'
-expected=original(header).replace(b'#define CRISBOARD_RGB_APPLY_CMD 128\n',
-    b'#define CRISBOARD_RGB_APPLY_CMD 128\n#define CRISBOARD_RGB_BASE_CMD 129\n#define CRISBOARD_RGB_EFFECT_COUNT 5\n')
+expected=original(header).replace(b'#define CRISBOARD_RGB_EFFECT_COUNT 5', b'#define CRISBOARD_RGB_EFFECT_COUNT 6')
 assert expected==(repo/header).read_bytes().replace(b'\r\n',b'\n'), 'Preset wire/settings format changed'
 driver='zmk/features/behavior_crisboard_rgb_preset.c'
-expected=original(driver).replace(b'crisboard_preset_decode(slot, record, 4, &presets[slot])',
-    b'crisboard_preset_decode(slot, record, CRISBOARD_RGB_EFFECT_COUNT, &presets[slot])')
+expected=original(driver)
 assert expected==(repo/driver).read_bytes().replace(b'\r\n',b'\n'), 'Existing preset logic changed'
 qmk=(repo/'qmk/keyboards/crisboard/keymaps/default/keymap.c').read_bytes().replace(b'\r\n',b'\n')
 assert hashlib.sha256(qmk).hexdigest()==ref['qmk_source_sha256']
@@ -31,5 +29,6 @@ leds=[i for start,end in zip(ranges[::2],ranges[1::2]) for i in range(start,end+
 assert [i for i in leds if i<34]==[i-34 for i in leds if i>=34]==ref['border_leds_per_half']
 assert len(ref['border_leds_per_half'])==17
 assert ref['old_effect_ids']=={'solid':0,'breathe':1,'spectrum':2,'swirl':3}
+assert ref['additional_effect_id']==5
 assert ref['new_effect_id']==4 and ref['hue_offset_degrees']==180 and ref['colemak_only']
 print('PASS: full keymap/hardware unchanged, exact QMK borders, stable preset format and four legacy effect IDs.')

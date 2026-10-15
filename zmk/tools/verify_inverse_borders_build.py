@@ -55,7 +55,7 @@ for variant in ('baseline','inverse-borders'):
 report={'side':side,'installed_baseline_exact':True,'compiled_config_identical':True,
     'devicetree_identical':True,'all_204_central_bindings_identical':side=='left',
     'peripheral_has_no_linked_keymap':side=='right','old_effect_ids_preserved':True,
-    'new_effect_id':4,'preset_format_unchanged':True,'colemak_context_synced_on_layer_change_and_reconnect':True,
+    'new_effect_ids':[4,5], 'idle_suspension_not_persisted':True,'preset_format_unchanged':True,'colemak_context_synced_on_layer_change_and_reconnect':True,
     'size':sizes,'size_delta':{k:sizes['inverse-borders'][k]-sizes['baseline'][k] for k in sizes['baseline']},
     'artifact_sha256':{str(p.relative_to(root/'results')):hashlib.sha256(p.read_bytes()).hexdigest()
         for p in (root/'results').rglob('*') if p.is_file()}}

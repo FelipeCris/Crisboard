@@ -40,7 +40,7 @@ También prueban el módulo real de sincronización de base, su aislamiento de
 Fn y la repetición al reconectar después del descubrimiento de características.
 Se mantienen las pruebas de batería, presets, persistencia y entrega a ambas mitades.
 
-Estado: [compilación y verificaciones aprobadas](https://github.com/FelipeCris/Crisboard/actions/runs/38683595731), fuente `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Carga y prueba física pendientes.
+Estado: [compilación y verificaciones aprobadas](https://github.com/FelipeCris/Crisboard/actions/runs/38683595731), fuente `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Ambas mitades cargadas y verificadas por lectura. El usuario indicó que el modo funciona después de recuperar presets existentes; la regresión completa sigue pendiente. Véase la [investigación del arranque RGB](2026-10-15-breathing-borders.md).
 
 ## Prueba física
 

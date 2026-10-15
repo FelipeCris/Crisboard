@@ -27,7 +27,8 @@ def function(text, name):
 
 palette_functions = ['hsb_scale_min_max', 'hsb_scale_zero_max', 'hsb_to_rgb',
     'zmk_rgb_underglow_effect_solid', 'zmk_rgb_underglow_effect_breathe',
-    'zmk_rgb_underglow_effect_spectrum', 'zmk_rgb_underglow_effect_swirl']
+    'zmk_rgb_underglow_effect_spectrum', 'zmk_rgb_underglow_effect_swirl',
+    'zmk_rgb_underglow_effect_borders']
 for name in palette_functions:
     assert function(baseline_rgb, name) == function(target_rgb, name), name
 
@@ -51,6 +52,7 @@ struct k_work { int unused; };
 static struct led_rgb pixels[34];
 static void *led_strip = (void *)1;
 static bool crisboard_colemak_base = true;
+static bool rgb_suspended;
 static unsigned output_calls;
 static int led_strip_update_rgb(void *strip, struct led_rgb *p, size_t n) {
     assert(strip == led_strip && p == pixels && n == 34); output_calls++; return 0;
@@ -61,7 +63,7 @@ main = r'''
 int main(int argc, char **argv) {
     assert(argc == 2);
     if (!strcmp(argv[1], "legacy")) {
-        for (unsigned mode=0;mode<4;mode++)
+        for (unsigned mode=0;mode<5;mode++)
         for (unsigned h=0;h<=360;h+=30)
         for (unsigned s=0;s<=100;s+=50)
         for (unsigned b=0;b<=100;b+=50)
@@ -73,26 +75,44 @@ int main(int argc, char **argv) {
             assert(fwrite(pixels,sizeof(pixels),1,stdout)==1);
             assert(fwrite(&state.animation_step,sizeof(state.animation_step),1,stdout)==1);
         }
-        assert(output_calls==4*13*3*3*2*5);
+        assert(output_calls==5*13*3*3*2*5);
         return 0;
     }
 #if TARGET_NEW
     assert(UNDERGLOW_EFFECT_SOLID==0 && UNDERGLOW_EFFECT_BREATHE==1 &&
         UNDERGLOW_EFFECT_SPECTRUM==2 && UNDERGLOW_EFFECT_SWIRL==3 &&
-        UNDERGLOW_EFFECT_BORDERS==4 && UNDERGLOW_EFFECT_NUMBER==5);
+        UNDERGLOW_EFFECT_BORDERS==4 && UNDERGLOW_EFFECT_BORDERS_BREATHE==5 && UNDERGLOW_EFFECT_NUMBER==6);
+    if (!strcmp(argv[1], "breathing")) {
+        static const unsigned hues[]={0,59,60,120,179,180,240,300,359,360};
+        static const unsigned brights[]={0,1,40,100};
+        for (unsigned base=0;base<2;base++)
+        for (unsigned hi=0;hi<10;hi++)
+        for (unsigned s=0;s<=100;s+=50)
+        for (unsigned bi=0;bi<4;bi++)
+        for (unsigned step=0;step<=2400;step+=600) {
+            state=(struct rgb_underglow_state){.color={hues[hi],s,brights[bi]},.animation_speed=5,
+                .current_effect=UNDERGLOW_EFFECT_BORDERS_BREATHE,.animation_step=step,.on=true};
+            assert(zmk_rgb_underglow_set_base_context(base)==0);
+            zmk_rgb_underglow_tick(NULL);
+            assert(state.animation_step==(step+50>2400?0:step+50));
+            if (base==1) for(unsigned i=1;i<34;i++) assert(!memcmp(&pixels[0],&pixels[i],sizeof(pixels[0])));
+            assert(fwrite(pixels,sizeof(pixels),1,stdout)==1);
+        }
+        return 0;
+    }
     for (unsigned led=0;led<256;led++) {
         static const unsigned expected[]={ BORDER_LEDS };
         bool border=false;
         for (unsigned i=0;i<sizeof(expected)/sizeof(expected[0]);i++) border|=led==expected[i];
         assert(crisboard_rgb_is_border(led)==border);
     }
-    for (unsigned mode=0;mode<5;mode++) {
+    for (unsigned mode=0;mode<6;mode++) {
         state.current_effect=mode;
-        assert(zmk_rgb_underglow_calc_effect(1)==(mode+1)%5);
-        assert(zmk_rgb_underglow_calc_effect(-1)==(mode+4)%5);
+        assert(zmk_rgb_underglow_calc_effect(1)==(mode+1)%6);
+        assert(zmk_rgb_underglow_calc_effect(-1)==(mode+5)%6);
         assert(zmk_rgb_underglow_select_effect(mode)==0);
     }
-    assert(zmk_rgb_underglow_select_effect(5)==-EINVAL && state.current_effect==4);
+    assert(zmk_rgb_underglow_select_effect(6)==-EINVAL && state.current_effect==5);
     assert(zmk_rgb_underglow_set_base_context(2)==-EINVAL);
     static const unsigned hues[]={0,59,60,120,179,180,240,300,359,360};
     static const unsigned brights[]={0,1,40,100};
@@ -112,6 +132,11 @@ int main(int argc, char **argv) {
         }
         assert(fwrite(pixels,sizeof(pixels),1,stdout)==1);
     }
+    unsigned before=output_calls;
+    rgb_suspended=true; state.on=true; zmk_rgb_underglow_tick(NULL);
+    assert(output_calls==before);
+    rgb_suspended=false; state.on=false; zmk_rgb_underglow_tick(NULL);
+    assert(output_calls==before);
     return 0;
 #else
     abort();
@@ -185,7 +210,9 @@ with tempfile.TemporaryDirectory(prefix='crisboard-border-tests-') as directory:
         for variant,text in [('baseline',baseline_rgb),('target',target_rgb)]:
             enum=re.search(r'enum rgb_underglow_effect \{.*?\n\};',text,re.S)[0]
             state_struct=re.search(r'struct rgb_underglow_state \{.*?\n\};',text,re.S)[0]
-            functions=palette_functions+(['zmk_rgb_underglow_effect_borders','zmk_rgb_underglow_set_base_context'] if variant=='target' else [])
+            functions=palette_functions+['zmk_rgb_underglow_set_base_context']
+            if variant=='target':
+                functions+=['zmk_rgb_underglow_effect_borders_breathe']
             functions+=['zmk_rgb_underglow_tick','zmk_rgb_underglow_calc_effect','zmk_rgb_underglow_select_effect']
             program=prefix+'\n'+enum+'\n'+state_struct+'\nstatic struct rgb_underglow_state state;\n'
             program+='\n'.join(function(text,n) for n in functions)+'\n'+main
@@ -206,7 +233,24 @@ with tempfile.TemporaryDirectory(prefix='crisboard-border-tests-') as directory:
                             actual=list(borders[cursor:cursor+3]); cursor+=3
                             assert len(actual)==3 and all(abs(a-b)<=1 for a,b in zip(actual,expected)), (base,hue,saturation,brightness,led,actual,expected)
         assert cursor==len(borders)
-    print('PASS: four actual legacy RGB effects byte-identical, all 34 LEDs, hue +180, QWERTY uniform, mode cycling and unchanged brightness limits.')
+        breathing=subprocess.check_output([str(temp/'target'),'breathing'])
+        cursor=0
+        for base in range(2):
+            for hue in [0,59,60,120,179,180,240,300,359,360]:
+                for saturation in [0,50,100]:
+                    for brightness in [0,1,40,100]:
+                        for step in range(0,2401,600):
+                            center=(brightness*abs(step-1200)//1200)*maximum//100
+                            border=minimum+(maximum-minimum)*brightness//100
+                            for led in range(34):
+                                inverse=base==0 and led in reference['border_leds_per_half']
+                                expected_hue=(hue+180)%360 if inverse else hue%360
+                                value=border if inverse else center
+                                expected=[int(v*255) for v in colorsys.hsv_to_rgb(expected_hue/360,saturation/100,value/100)]
+                                actual=list(breathing[cursor:cursor+3]); cursor+=3
+                                assert len(actual)==3 and all(abs(a-b)<=1 for a,b in zip(actual,expected)), (base,hue,saturation,brightness,step,led,actual,expected)
+        assert cursor==len(breathing)
+    print('PASS: five installed RGB modes byte-identical; sixth mode keeps inverse borders fixed and breathes the center; QWERTY uniform, chosen brightness, cycle and timing.')
 
     (temp/'sync_stubs.h').write_text(sync_stubs)
     for name in ['drivers/behavior.h','kernel.h','zmk/ble.h','zmk/event_manager.h',

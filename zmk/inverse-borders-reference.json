@@ -1,6 +1,6 @@
 {
-  "installed_source_commit": "c435403a172cf1de0f30c5070bae26066fbd4caf",
-  "compiled_baseline_commit": "b47294b2579b5e3e2466426653e33704becf9723",
+  "installed_source_commit": "33dfebf65ee3ffa68ee063685bca3a2b4473ced9",
+  "compiled_baseline_commit": "33dfebf65ee3ffa68ee063685bca3a2b4473ced9",
   "qmk_source_sha256": "04f8ecb491bdad0df497647302b542a187813a76b617e8a4adf9ffd79f8f077c",
   "qmk_global_border_ranges": [
     0,
@@ -53,7 +53,8 @@
   "hue_offset_degrees": 180,
   "colemak_only": true,
   "baseline_uf2_sha256": {
-    "left": "f3bf92a833a7d9f2b49433cefa74c80dfac9bda1f683667b55eed6664aef2d10",
-    "right": "87e50d83d0716eb4bb77184028135738e93bb3c1cd0f80aa35d02ae4ec1dacd8"
-  }
+    "left": "76ede9606719ebaf703d1f619a7a60f2c2b063c9fad292daedf27e6fabb0a1bd",
+    "right": "5808f157431c3cde2b7a1840643a3becc9134c3c1e8d15e1953a69b9273cf6de"
+  },
+  "additional_effect_id": 5
 }

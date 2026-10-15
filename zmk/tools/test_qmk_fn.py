@@ -159,7 +159,7 @@ int main(void) {
     // All five records survive reload; saving one leaves the others intact.
     fn_active=true;
     for (unsigned slot=2;slot<5;slot++) {
-        now+=3000; rgb_snapshot=crisboard_rgb_pack(slot*20,50,slot*10,slot,slot%CRISBOARD_RGB_EFFECT_COUNT,true);
+        now+=3000; rgb_snapshot=crisboard_rgb_pack(slot*20,50,slot*10,slot,slot==4?CRISBOARD_RGB_EFFECT_COUNT-1:slot,true);
         press(slot,20+slot); now+=2000; tick(); release(slot,20+slot);
     }
     assert(writes==5 && valid_slots==31);
