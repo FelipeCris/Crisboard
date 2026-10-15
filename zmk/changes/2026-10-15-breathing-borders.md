@@ -55,8 +55,14 @@ por byte y el sexto se contrasta con un cálculo HSV independiente.
 
 La base de compilación debe reproducir exactamente ambos UF2 instalados
 de `33dfebf65ee3ffa68ee063685bca3a2b4473ced9`. Se comparan configuración,
-devicetree y las 204 asignaciones enlazadas. Ambas mitades cargadas y verificadas por lectura; prueba funcional pendiente.
+devicetree y las 204 asignaciones enlazadas. Ambas mitades cargadas y verificadas por lectura; prueba funcional confirmada por el usuario.
 
 El incremento medido es de 224 bytes de flash por mitad, sin aumento de RAM
 estática respecto a los cinco modos instalados. Las imágenes solo incluyen
 aplicación; no se cargan ajustes ni bootloader.
+
+El usuario confirmó los seis modos, su comportamiento en Colemak/QWERTY,
+la conservación de presets anteriores y la recuperación del nuevo preset
+en ambas mitades después de RESET en la izquierda. También confirmó
+escritura, multimedia, controles RGB y voltaje. Esta prueba no establece
+la causa exacta del episodio inicial ni reproduce físicamente el reposo.

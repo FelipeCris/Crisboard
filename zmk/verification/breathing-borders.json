@@ -2,7 +2,14 @@
   "source_commit": "f05d90d66fd797d286f306a4b9bbb2fffb7f984e",
   "workflow_run": 38686721021,
   "hardware_installation": "both halves verified by readback",
-  "owner_functional_verification": "pending",
+  "owner_functional_verification": "confirmed",
+  "owner_confirmed_cases": [
+    "sixth mode and all five previous modes work on both halves",
+    "Colemak fixed inverse borders and breathing center; QWERTY uniform breathing",
+    "existing presets preserved",
+    "new mode preset restores both halves and survives left RESET",
+    "typing, media, RGB controls and displayed voltage work"
+  ],
   "mode": "fixed inverse borders and breathing center in Colemak; uniform breathing in QWERTY",
   "installed_effect_ids_preserved": [
     0,
